@@ -31,6 +31,7 @@ interface NavbarProps {
   syncStatus?: 'idle' | 'syncing' | 'saved' | 'error';
   onOpenAuthModal?: () => void;
   onSignOut?: () => void;
+  onOpenFirebaseModal?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -41,7 +42,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   user,
   syncStatus = 'idle',
   onOpenAuthModal,
-  onSignOut
+  onSignOut,
+  onOpenFirebaseModal
 }) => {
   const rank = getPlayerRank(userProgress.xp || userProgress.score);
   const streakInfo = getStreakMultiplier(userProgress.streak);
@@ -132,6 +134,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <LogIn className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Acceso Alumno UGR</span>
+              </button>
+            )}
+
+            {/* Firebase Hub Button */}
+            {onOpenFirebaseModal && (
+              <button
+                onClick={onOpenFirebaseModal}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-950/80 hover:bg-amber-900/90 border border-amber-600/70 text-amber-200 hover:text-white text-xs font-semibold transition-all shadow-2xs cursor-pointer"
+                title="Configuración de Firebase Firestore & Hosting UGR"
+              >
+                <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                <span className="hidden sm:inline">Firebase Hub</span>
               </button>
             )}
 

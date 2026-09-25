@@ -36,6 +36,7 @@ import { CourseHome } from './components/Portal/CourseHome';
 import { BiomedicalCity } from './components/City/BiomedicalCity';
 import { InteractiveLabsContainer } from './components/InteractiveLabs/InteractiveLabsContainer';
 import { TeachingMaterialView } from './components/TeachingMaterial/TeachingMaterialView';
+import { FirebaseHubModal } from './components/Firebase/FirebaseHubModal';
 import { useSupabaseAuth } from './hooks/useSupabaseAuth';
 import { X } from 'lucide-react';
 
@@ -121,6 +122,7 @@ export default function App() {
   // Supabase Auth & Cloud Sync
   const { user, syncStatus, loadCloudProgress, saveCloudProgress, signOut } = useSupabaseAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [firebaseModalOpen, setFirebaseModalOpen] = useState(false);
 
   // User Progress with localStorage & Supabase persistence
   const [userProgress, setUserProgress] = useState<UserProgress>(() => {
@@ -587,6 +589,7 @@ export default function App() {
         syncStatus={syncStatus}
         onOpenAuthModal={() => setAuthModalOpen(true)}
         onSignOut={signOut}
+        onOpenFirebaseModal={() => setFirebaseModalOpen(true)}
       />
 
       {/* Main Container */}
@@ -797,6 +800,12 @@ export default function App() {
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
+      />
+
+      {/* Firebase Hub Modal (Firestore Database & Hosting Management) */}
+      <FirebaseHubModal
+        isOpen={firebaseModalOpen}
+        onClose={() => setFirebaseModalOpen(false)}
       />
     </div>
   );
