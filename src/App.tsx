@@ -756,7 +756,7 @@ export default function App() {
           <span>Facultad de Medicina • Universidad de Granada (PTS)</span>
         </div>
         <div className="flex items-center gap-4 text-[10px] text-slate-500">
-          <span>Departamento de Bioquímica y Biología Molecular I</span>
+          <span>Departamento de Bioquímica y Biología Molecular III e Inmunología</span>
           <span>•</span>
           <span>Curso 2025/2026</span>
         </div>

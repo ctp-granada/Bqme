@@ -62,8 +62,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
-      {/* 1. TOP HEADER: Deep Navy Institutional Bar with UGR Medical Identity */}
-      <div className="bg-slate-950 text-white px-4 py-2.5 sm:py-3 border-b border-slate-800">
+      {/* 1. TOP HEADER: Medical Gold Institutional Bar (Facultad de Medicina UGR) */}
+      <div className="bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white px-4 py-2.5 sm:py-3 border-b border-amber-800 shadow-xs">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
           
           {/* Main Brand Identifier: Bioquímica Médica UGR */}
@@ -72,25 +72,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center justify-center gap-3 cursor-pointer group"
             onClick={() => setActiveModule('inicio')}
           >
-            {/* Logo Badge: Deep Slate & Emerald Accent with UGR insignia */}
-            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold text-xs sm:text-sm tracking-tight shadow-xs border border-slate-700 group-hover:border-emerald-500/60 transition-all shrink-0 relative">
-              <span className="text-slate-100 font-extrabold">U</span>
-              <span className="text-emerald-400 font-black">·</span>
-              <span className="text-slate-300 font-extrabold">GR</span>
-              <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-950" />
+            {/* Official Subject Logo: Caduceo + ADN + Granada UGR */}
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white p-1 shadow-xs border border-amber-300/90 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden">
+              <img
+                src="/course_logo.jpg"
+                alt="Logo Bioquímica Médica UGR"
+                className="w-full h-full object-contain"
+              />
             </div>
 
             <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
               <div className="flex items-center justify-center gap-2 flex-wrap">
                 <h1 className="text-base sm:text-lg font-bold tracking-tight text-white leading-none">
-                  BIOQUÍMICA<span className="text-emerald-400 font-extrabold"> MÉDICA</span>
+                  BIOQUÍMICA<span className="text-amber-200 font-extrabold"> MÉDICA</span>
                 </h1>
-                <span className="bg-slate-900 border border-slate-700 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                <span className="bg-amber-900/60 border border-amber-400/50 text-amber-100 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
                   Facultad de Medicina UGR
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs font-normal text-slate-300 tracking-normal mt-0.5 max-w-xl">
-                Cátedra de Bioquímica y Biología Molecular • Simulador Clínico & Laboratorios
+              <p className="text-[11px] sm:text-xs font-normal text-amber-100/90 tracking-normal mt-0.5 max-w-xl">
+                Departamento de Bioquímica y Biología Molecular III e Inmunología • Simulador Clínico & Laboratorios
               </p>
             </div>
           </div>
@@ -100,7 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Cloud Sync Status Indicator */}
             {user && (
               <div 
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-300"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-900/60 border border-amber-500/40 text-[11px] text-amber-100"
                 title={
                   syncStatus === 'syncing'
                     ? 'Sincronizando con Supabase...'
@@ -111,13 +112,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 {syncStatus === 'syncing' ? (
                   <>
-                    <RefreshCw className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
-                    <span className="text-emerald-200 hidden sm:inline">Sincronizando...</span>
+                    <RefreshCw className="w-3.5 h-3.5 text-amber-300 animate-spin" />
+                    <span className="text-amber-100 hidden sm:inline">Sincronizando...</span>
                   </>
                 ) : (
                   <>
-                    <Cloud className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-300 font-medium hidden sm:inline">Nube Activa</span>
+                    <Cloud className="w-3.5 h-3.5 text-amber-300" />
+                    <span className="text-amber-100 font-medium hidden sm:inline">Nube Activa</span>
                   </>
                 )}
               </div>
@@ -125,15 +126,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Auth Button: Login / User Profile */}
             {user ? (
-              <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white">
-                <div className="w-5 h-5 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-[10px] uppercase">
+              <div className="flex items-center gap-1.5 bg-amber-900/60 border border-amber-500/40 rounded-lg px-2.5 py-1 text-xs text-white">
+                <div className="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-[10px] uppercase">
                   {userName.charAt(0)}
                 </div>
-                <span className="font-semibold max-w-[100px] truncate hidden sm:inline text-slate-200">{userName}</span>
+                <span className="font-semibold max-w-[100px] truncate hidden sm:inline text-amber-100">{userName}</span>
                 <button
                   onClick={onSignOut}
                   title="Cerrar sesión de alumno"
-                  className="p-1 text-slate-400 hover:text-red-300 transition-colors ml-1 cursor-pointer"
+                  className="p-1 text-amber-200 hover:text-white transition-colors ml-1 cursor-pointer"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
@@ -141,9 +142,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <button
                 onClick={onOpenAuthModal}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-all shadow-2xs border border-slate-700 cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-900/70 hover:bg-amber-900 text-white text-xs font-semibold transition-all shadow-2xs border border-amber-400/50 cursor-pointer"
               >
-                <LogIn className="w-3.5 h-3.5 text-emerald-400" />
+                <LogIn className="w-3.5 h-3.5 text-amber-300" />
                 <span>Acceso Alumno UGR</span>
               </button>
             )}
@@ -152,10 +153,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {onOpenFirebaseModal && (
               <button
                 onClick={onOpenFirebaseModal}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-950/80 hover:bg-amber-900/90 border border-amber-600/70 text-amber-200 hover:text-white text-xs font-semibold transition-all shadow-2xs cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900 border border-amber-400/50 text-amber-100 hover:text-white text-xs font-semibold transition-all shadow-2xs cursor-pointer"
                 title="Configuración de Firebase Firestore & Hosting UGR"
               >
-                <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                <Flame className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
                 <span className="hidden sm:inline">Firebase Hub</span>
               </button>
             )}
@@ -164,10 +165,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {onStartTour && (
               <button
                 onClick={onStartTour}
-                className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all cursor-pointer"
+                className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-900/50 hover:bg-amber-900/80 border border-amber-500/40 text-amber-100 hover:text-white text-xs font-medium transition-all cursor-pointer"
                 title="Iniciar Tour Guiado de Bienvenida"
               >
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                 <span className="hidden lg:inline">Guía Rápida</span>
               </button>
             )}
@@ -186,10 +187,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* Back to Landing Page / City Entrance Button */}
               <button
                 onClick={() => setActiveModule('inicio')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer group"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-800 hover:bg-amber-700 text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer group"
                 title="Volver a la Pantalla Principal (Hospital, Biblioteca, Parque)"
               >
-                <ArrowLeft className="w-3.5 h-3.5 text-emerald-400 group-hover:-translate-x-0.5 transition-transform" />
+                <ArrowLeft className="w-3.5 h-3.5 text-amber-200 group-hover:-translate-x-0.5 transition-transform" />
                 <span>Volver al Inicio</span>
               </button>
 
@@ -411,10 +412,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Sub-Navigation Bar for Small Screens: Only visible inside places */}
       {isInsideKeyPlace && (
-        <div className="md:hidden flex items-center justify-around bg-slate-950 px-2 py-2 text-xs font-medium fixed bottom-0 left-0 right-0 z-50 border-t border-slate-800 text-white">
+        <div className="md:hidden flex items-center justify-around bg-amber-950 px-2 py-2 text-xs font-medium fixed bottom-0 left-0 right-0 z-50 border-t border-amber-800 text-amber-100">
           <button
             onClick={() => setActiveModule('inicio')}
-            className="px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 text-emerald-400 font-bold"
+            className="px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 text-amber-300 font-bold"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-[9px]">Plano Ciudad</span>
