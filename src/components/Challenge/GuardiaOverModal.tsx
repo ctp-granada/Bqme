@@ -1,13 +1,18 @@
 import React from 'react';
-import { RefreshCw, Heart, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { RefreshCw, Heart, AlertTriangle, ShieldAlert, Gamepad2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface GuardiaOverModalProps {
   isOpen: boolean;
   onRestartGuardia: () => void;
+  onGoToGames?: () => void;
 }
 
-export const GuardiaOverModal: React.FC<GuardiaOverModalProps> = ({ isOpen, onRestartGuardia }) => {
+export const GuardiaOverModal: React.FC<GuardiaOverModalProps> = ({
+  isOpen,
+  onRestartGuardia,
+  onGoToGames
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -32,20 +37,32 @@ export const GuardiaOverModal: React.FC<GuardiaOverModalProps> = ({ isOpen, onRe
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-left">
           <div className="flex items-center gap-2 text-red-800 font-bold text-xs uppercase mb-2">
             <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
-            <span>Protocolo de Reinicio Clínico</span>
+            <span>Recuperación o Reinicio Clínico</span>
           </div>
           <p className="text-xs text-red-700 leading-normal">
-            Al reiniciar la guardia médica, restablecerás tus <strong className="font-semibold">3 Vidas ❤️❤️❤️</strong> y el <strong className="font-semibold">100% del Presupuesto Sanitario</strong> sin perder tu XP ni tu progreso acumulado.
+            Puedes <strong className="font-semibold">recargar vidas jugando</strong> en el Parque Biomédico (+1 Vida ❤️ por minijuego) o reiniciar directamente la guardia restableciendo tus 3 vidas.
           </p>
         </div>
 
-        <button
-          onClick={onRestartGuardia}
-          className="w-full py-3.5 px-6 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-bold rounded-xl shadow-lg shadow-red-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm"
-        >
-          <RefreshCw className="w-4 h-4 text-white" />
-          <span>Reiniciar Guardia Médica (Restablecer Vidas)</span>
-        </button>
+        <div className="space-y-2.5">
+          {onGoToGames && (
+            <button
+              onClick={onGoToGames}
+              className="w-full py-3.5 px-6 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold rounded-xl shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm"
+            >
+              <Gamepad2 className="w-4 h-4 text-white" />
+              <span>Recargar Vidas en el Parque (Minijuegos)</span>
+            </button>
+          )}
+
+          <button
+            onClick={onRestartGuardia}
+            className="w-full py-3 px-6 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-xs"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-slate-600" />
+            <span>Reiniciar Guardia Inmediatamente (3 Vidas)</span>
+          </button>
+        </div>
       </motion.div>
     </div>
   );

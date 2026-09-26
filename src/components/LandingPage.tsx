@@ -25,12 +25,15 @@ import {
   X,
   Maximize2,
   Building2,
-  GraduationCap
+  GraduationCap,
+  Gamepad2,
+  Heart,
+  Trophy
 } from 'lucide-react';
 
 interface LandingPageProps {
   onNavigate: (module: ActiveModule) => void;
-  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia') => void;
+  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia' | 'juegos') => void;
   userXP?: number;
   completedCasesCount?: number;
 }
@@ -53,7 +56,7 @@ interface DistrictInfo {
     label: string;
     sublabel: string;
     target: ActiveModule;
-    labType?: 'randle' | 'ictericias' | 'hemostasia';
+    labType?: 'randle' | 'ictericias' | 'hemostasia' | 'juegos';
     icon: typeof Stethoscope;
   }>;
   facilities: string[];
@@ -99,6 +102,12 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
         sublabel: 'Auditoría de diagnósticos, costes y medallas',
         target: 'estadisticas',
         icon: Activity
+      },
+      {
+        label: 'Ranking Global · Top 10 Alumnos',
+        sublabel: 'Escalafón de puntos, precisión y méritos clínicos',
+        target: 'ranking',
+        icon: Trophy
       }
     ],
     facilities: ['Urgencias & Triaje General', 'Unidad Coronaria', 'Planta de Medicina Interna', 'Laboratorio Central 24h'],
@@ -157,17 +166,24 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
   parque: {
     id: 'parque',
     name: 'Parque Biomédico & Laboratorios Virtuales',
-    tagline: 'Espacio lúdico de gamificación, simuladores metabólicos interactivos y retos contrarreloj',
-    badge: 'ZONA LÚDICA • SIMULADORES',
+    tagline: 'Espacio lúdico de gamificación, simuladores metabólicos y minijuegos para recargar vidas',
+    badge: 'ZONA LÚDICA • JUEGOS Y SIMULADORES',
     image: '/park_section.jpg',
     description:
-      'Área verde interactiva orientada al aprendizaje dinámico. Experimenta directamente con sliders de modulación metabólica en los simuladores del Ciclo de Randle (competencia sustratos), Ictericias (cinética de bilirrubina) y Hemostasia (vías de coagulación). Participa también en el Reto Diario con bonificadores de XP.',
+      'Área lúdica interactiva orientada al aprendizaje dinámico. Juega a minijuegos clínicos (Reanimador Bioquímico, Clasificador Flash 30s y Parejas Diagnósticas) para recuperar vidas perdidas en guardia médica (+1 Vida ❤️) y conseguir puntos extra (+50 a +120 XP). Experimenta además con los simuladores del Ciclo de Randle, Ictericias y Hemostasia, o compite en el Reto Diario con bonificador 2.0x XP.',
     primaryAction: {
       label: 'Entrar al Parque (Ir a Actividades y Juegos)',
       target: 'laboratorios',
       icon: FlaskConical
     },
     secondaryActions: [
+      {
+        label: 'Minijuegos & Recarga de Vidas (+1 ❤️ / Extra XP)',
+        sublabel: 'Supera retos rápidos para reabastecer tus vidas y sumar puntos extra',
+        target: 'laboratorios',
+        labType: 'juegos',
+        icon: Gamepad2
+      },
       {
         label: 'Ciclo de Randle (Glucosa vs Ácidos Grasos)',
         sublabel: 'Inhibición de CPT-1 por Malonil-CoA y balance energético',
@@ -189,8 +205,8 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
         icon: Zap
       }
     ],
-    facilities: ['Pabellón de Laboratorios Virtuales', 'Glorieta del Reto Diario', 'Simulador Fisiopatológico', 'Área de Trivia Flash'],
-    stats: '3 Simuladores Cinéticos • 2.0x XP Reto',
+    facilities: ['Kiosco de Minijuegos & Vidas', 'Pabellón de Laboratorios Virtuales', 'Glorieta del Reto Diario', 'Simulador Fisiopatológico'],
+    stats: 'Minijuegos de Recarga (+1 ❤️) • 3 Labs • 2.0x XP',
     themeColor: {
       accent: 'emerald-500',
       border: 'border-emerald-500/50',
@@ -547,7 +563,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
                 <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/90 text-white text-xs font-black shadow-lg border border-emerald-500/60 backdrop-blur-md">
                   <span className="text-emerald-400 font-extrabold">PARQUE</span>
-                  <span className="text-[10px] text-slate-300 font-medium">(Juegos & Labs)</span>
+                  <span className="text-[10px] text-slate-300 font-medium">(Juegos, Vidas & Labs)</span>
                 </span>
               </div>
 
@@ -566,7 +582,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     />
                     <div className="truncate">
                       <div className="font-bold text-emerald-300 truncate">Parque Lúdico</div>
-                      <div className="text-[10px] text-slate-300">Simuladores Randle & Reto</div>
+                      <div className="text-[10px] text-slate-300">Minijuegos (+1 ❤️), Labs y Reto</div>
                     </div>
                   </div>
                   <span className="text-[10px] bg-emerald-600 px-2.5 py-1 rounded-lg font-black text-white shrink-0 flex items-center gap-1">
@@ -697,10 +713,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
-                  Parque Lúdico
+                  Zona de Juegos & Vidas
                 </span>
-                <span className="absolute bottom-2 left-2.5 text-white text-xs font-bold">
-                  Laboratorios & Reto Diario
+                <span className="absolute bottom-2 left-2.5 text-white text-xs font-bold flex items-center gap-1">
+                  <span>Minijuegos (+1 ❤️) • Labs • Reto Diario</span>
                 </span>
               </div>
 
@@ -709,7 +725,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   3. El Parque Biomédico
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                  Simuladores cinéticos del Ciclo de Randle, Ictericias y hemostasia, más reto diario 2x XP.
+                  Minijuegos para recargar vidas (+1 ❤️) y ganar XP, simuladores cinéticos y reto contrarreloj.
                 </p>
               </div>
             </div>

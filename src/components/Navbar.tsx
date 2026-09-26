@@ -21,7 +21,9 @@ import {
   Cloud,
   RefreshCw,
   ArrowLeft,
-  Trees
+  Trees,
+  Gamepad2,
+  Trophy
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -54,8 +56,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   // Check if user has entered one of the 3 key districts or stats
   const isHospital = activeModule === 'casos' || activeModule === 'desafio';
   const isLibrary = activeModule === 'docencia' || activeModule === 'biblioteca';
-  const isPark = activeModule === 'laboratorios' || activeModule === 'reto-diario';
-  const isStats = activeModule === 'estadisticas';
+  const isPark = activeModule === 'laboratorios' || activeModule === 'reto-diario' || activeModule === 'juegos';
+  const isStats = activeModule === 'estadisticas' || activeModule === 'ranking';
   const isInsideKeyPlace = isHospital || isLibrary || isPark || isStats;
 
   return (
@@ -270,6 +272,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </span>
 
                   <button
+                    onClick={() => setActiveModule('juegos')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'juegos'
+                        ? 'bg-emerald-600 text-white font-bold shadow-xs'
+                        : 'bg-emerald-50/70 border border-emerald-200 text-emerald-800 hover:bg-emerald-100'
+                    }`}
+                  >
+                    <Gamepad2 className="w-3.5 h-3.5" />
+                    <span>Minijuegos & Vidas</span>
+                    <span className="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-white text-emerald-700 border border-emerald-300">
+                      +1 ❤️
+                    </span>
+                  </button>
+
+                  <button
                     onClick={() => setActiveModule('laboratorios')}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                       activeModule === 'laboratorios'
@@ -295,20 +312,36 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </div>
               )}
 
-              {/* STATS TABS */}
+              {/* STATS & RANKING TABS */}
               {isStats && (
                 <div className="flex items-center gap-1.5 shrink-0">
                   <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold">
                     <BarChart3 className="w-3.5 h-3.5 text-slate-600" />
-                    <span>EXPEDIENTE ACADÉMICO</span>
+                    <span>EXPEDIENTE & RANKING</span>
                   </span>
 
                   <button
                     onClick={() => setActiveModule('estadisticas')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white shadow-xs"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'estadisticas'
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
                   >
                     <BarChart3 className="w-3.5 h-3.5" />
                     <span>Progreso & Insignias</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveModule('ranking')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'ranking'
+                        ? 'bg-amber-600 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Ranking Top 10</span>
                   </button>
                 </div>
               )}
@@ -351,17 +384,25 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </>
               )}
 
-              {/* Rank Badge */}
-              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-xl border text-xs font-semibold shadow-2xs ${rank.badgeBg} ${rank.badgeTextColor} ${rank.badgeBorder}`}>
+              {/* Rank Badge - Clickable to open Ranking / Escalafón */}
+              <button
+                onClick={() => setActiveModule('ranking')}
+                title="Ver Escalafón y Ranking Top 10"
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-xl border text-xs font-semibold shadow-2xs hover:scale-105 transition-all cursor-pointer ${rank.badgeBg} ${rank.badgeTextColor} ${rank.badgeBorder}`}
+              >
                 <span>{rank.icon}</span>
                 <span className="truncate max-w-[110px] sm:max-w-[130px]">{rank.shortTitle}</span>
-              </div>
+              </button>
 
-              {/* XP Score Badge */}
-              <div className="bg-slate-900 text-white px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs font-bold font-mono shadow-2xs border border-slate-800">
+              {/* XP Score Badge - Clickable to open Ranking */}
+              <button
+                onClick={() => setActiveModule('ranking')}
+                title="Ver Ranking Global de Puntos"
+                className="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs font-bold font-mono shadow-2xs border border-slate-800 hover:border-emerald-500/50 transition-all cursor-pointer"
+              >
                 <span className="text-emerald-400">XP</span>
                 <span>{userProgress.xp || userProgress.score}</span>
-              </div>
+              </button>
             </div>
 
           </div>
@@ -425,6 +466,15 @@ export const Navbar: React.FC<NavbarProps> = ({
           {isPark && (
             <>
               <button
+                onClick={() => setActiveModule('juegos')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'juegos' ? 'text-emerald-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <Gamepad2 className="w-4 h-4" />
+                <span className="text-[9px]">Juegos & ❤️</span>
+              </button>
+              <button
                 onClick={() => setActiveModule('laboratorios')}
                 className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
                   activeModule === 'laboratorios' ? 'text-emerald-400 font-bold' : 'text-slate-400'
@@ -440,7 +490,29 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }`}
               >
                 <Zap className="w-4 h-4" />
-                <span className="text-[9px]">Reto Diario</span>
+                <span className="text-[9px]">Reto</span>
+              </button>
+            </>
+          )}
+          {isStats && (
+            <>
+              <button
+                onClick={() => setActiveModule('estadisticas')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'estadisticas' ? 'text-white font-bold' : 'text-slate-400'
+                }`}
+              >
+                <BarChart3 className="w-4 h-4" />
+                <span className="text-[9px]">Insignias</span>
+              </button>
+              <button
+                onClick={() => setActiveModule('ranking')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'ranking' ? 'text-amber-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <Trophy className="w-4 h-4" />
+                <span className="text-[9px]">Top 10</span>
               </button>
             </>
           )}

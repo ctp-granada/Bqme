@@ -28,6 +28,7 @@ import { GuardiaOverModal } from './components/Challenge/GuardiaOverModal';
 import { BadgeUnlockModal } from './components/Stats/BadgeUnlockModal';
 import { BiomarkerLibrary } from './components/Library/BiomarkerLibrary';
 import { UserStatsView } from './components/Stats/UserStatsView';
+import { Leaderboard } from './components/Leaderboard';
 import { AICaseGeneratorModal } from './components/AICaseGeneratorModal';
 import { DailyChallengeView } from './components/DailyChallenge/DailyChallengeView';
 import { OnboardingTour } from './components/Onboarding/OnboardingTour';
@@ -68,7 +69,7 @@ const DAILY_CHALLENGE_MULTIPLIER = 2.0;    // 2.0x XP
 
 export default function App() {
   const [activeModule, setActiveModule] = useState<ActiveModule>('inicio');
-  const [selectedInitialLab, setSelectedInitialLab] = useState<'randle' | 'ictericias' | 'hemostasia'>('randle');
+  const [selectedInitialLab, setSelectedInitialLab] = useState<'randle' | 'ictericias' | 'hemostasia' | 'juegos'>('randle');
   const [cases, setCases] = useState<ClinicalCase[]>(CLINICAL_CASES_DATABASE);
   const [activeCase, setActiveCase] = useState<ClinicalCase>(CLINICAL_CASES_DATABASE[0]);
 
@@ -240,6 +241,27 @@ export default function App() {
       streak: 0
     }));
     setIsGuardiaOver(false);
+  };
+
+  // Recharge lives through park minigames
+  const handleRechargeLife = (amount: number = 1) => {
+    setUserProgress((prev) => {
+      const maxL = prev.maxLives || 3;
+      return {
+        ...prev,
+        lives: Math.min(maxL, prev.lives + amount)
+      };
+    });
+    setIsGuardiaOver(false);
+  };
+
+  // Add bonus XP from park minigames and extra activities
+  const handleAddBonusXP = (amount: number) => {
+    setUserProgress((prev) => ({
+      ...prev,
+      xp: (prev.xp || prev.score) + amount,
+      score: prev.score + amount
+    }));
   };
 
   // Open library during challenge (costs 10% budget)
@@ -602,6 +624,11 @@ export default function App() {
               userProgress={userProgress}
               onResetGuardia={handleResetGuardia}
               onOpenStats={() => setActiveModule('estadisticas')}
+              onOpenRanking={() => setActiveModule('ranking')}
+              onGoToGames={() => {
+                setSelectedInitialLab('juegos');
+                setActiveModule('laboratorios');
+              }}
             />
             <AdaptiveProgressBanner userProgress={userProgress} />
           </>
@@ -632,13 +659,8 @@ export default function App() {
             onStartDailyChallenge={() => handleStartDailyChallenge(dailyCase)}
             userProgress={userProgress}
             cases={cases}
-            onAddXP={(amount) => {
-              setUserProgress((prev) => ({
-                ...prev,
-                xp: (prev.xp || 0) + amount,
-                score: (prev.score || 0) + amount
-              }));
-            }}
+            onAddXP={handleAddBonusXP}
+            onRechargeLife={handleRechargeLife}
           />
         )}
 
@@ -680,10 +702,14 @@ export default function App() {
           />
         )}
 
-        {/* Module 4: Interactive Virtual Labs (Randle, Ictericias, Hemostasia) */}
-        {activeModule === 'laboratorios' && (
+        {/* Module 4: Interactive Virtual Labs & Minigames Hub */}
+        {(activeModule === 'laboratorios' || activeModule === 'juegos') && (
           <InteractiveLabsContainer
-            initialLab={selectedInitialLab}
+            initialLab={activeModule === 'juegos' ? 'juegos' : selectedInitialLab}
+            userProgress={userProgress}
+            onRechargeLife={handleRechargeLife}
+            onAddBonusXP={handleAddBonusXP}
+            onNavigate={(mod) => setActiveModule(mod)}
             onBackToPortal={() => setActiveModule('inicio')}
           />
         )}
@@ -706,6 +732,18 @@ export default function App() {
           <UserStatsView
             userProgress={userProgress}
             onResetProgress={handleResetProgress}
+          />
+        )}
+
+        {/* Module 8: Global Student Leaderboard (Top 10 & Clinical Escalafón) */}
+        {activeModule === 'ranking' && (
+          <Leaderboard
+            userProgress={userProgress}
+            onNavigateToCases={() => setActiveModule('casos')}
+            onNavigateToGames={() => {
+              setSelectedInitialLab('juegos');
+              setActiveModule('laboratorios');
+            }}
           />
         )}
       </main>
@@ -789,6 +827,11 @@ export default function App() {
       <GuardiaOverModal
         isOpen={isGuardiaOver}
         onRestartGuardia={handleResetGuardia}
+        onGoToGames={() => {
+          setIsGuardiaOver(false);
+          setSelectedInitialLab('juegos');
+          setActiveModule('laboratorios');
+        }}
       />
 
       {/* Guided Onboarding Tour with react-joyride */}

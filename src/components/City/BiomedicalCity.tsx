@@ -27,17 +27,19 @@ import {
   MapPin,
   ChevronRight,
   ExternalLink,
-  Play
+  Play,
+  Gamepad2
 } from 'lucide-react';
 
 interface BiomedicalCityProps {
   onNavigate: (module: ActiveModule) => void;
-  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia') => void;
+  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia' | 'juegos') => void;
   onStartChallenge?: (caseData: ClinicalCase) => void;
   onStartDailyChallenge?: () => void;
   userProgress: UserProgress;
   cases: ClinicalCase[];
   onAddXP?: (amount: number) => void;
+  onRechargeLife?: (amount?: number) => void;
 }
 
 type DistrictId = 'hospital' | 'biblioteca' | 'parque' | null;
@@ -88,7 +90,8 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
   onStartDailyChallenge,
   userProgress,
   cases,
-  onAddXP
+  onAddXP,
+  onRechargeLife
 }) => {
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictId>(null);
   const [isNightMode, setIsNightMode] = useState<boolean>(false);
@@ -132,6 +135,9 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
       setTriviaCompleted(true);
       if (onAddXP) {
         onAddXP(25); // Bonus for completion
+      }
+      if (onRechargeLife) {
+        onRechargeLife(1); // Recharge life on completing park activities
       }
     }
   };
@@ -1039,8 +1045,38 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                 </div>
               </div>
 
-              {/* Park Gamification: Daily Challenge & Trivia Flash Game */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {/* Park Gamification: Daily Challenge, Minijuegos & Trivia Flash Game */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                {/* Activity 0: Kiosco de Minijuegos & Recarga de Vidas */}
+                <div 
+                  onClick={() => {
+                    if (onOpenLab) onOpenLab('juegos');
+                    onNavigate('laboratorios');
+                  }}
+                  className="bg-gradient-to-r from-emerald-900/60 to-slate-950 p-5 rounded-2xl border border-emerald-500/40 hover:border-emerald-400 transition-all cursor-pointer flex flex-col justify-between group shadow-sm"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1">
+                        <Heart className="w-3 h-3 text-rose-400 fill-rose-400 animate-pulse" />
+                        Recarga Vidas ❤️
+                      </span>
+                      <span className="text-xs text-emerald-400 font-mono font-bold">+100 XP Extra</span>
+                    </div>
+                    <h4 className="text-base font-bold text-white group-hover:text-emerald-300 flex items-center gap-1.5">
+                      <Gamepad2 className="w-4 h-4 text-emerald-400" />
+                      <span>Minijuegos & Vidas</span>
+                    </h4>
+                    <p className="text-xs text-slate-300">
+                      Supera retos rápidos (Reanimador, Clasificador 30s, Parejas) para recuperar corazones de guardia y sumar puntos extra.
+                    </p>
+                  </div>
+                  <div className="pt-4 flex items-center justify-between text-xs font-bold text-emerald-400">
+                    <span>Abrir Minijuegos</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+
                 {/* Activity 1: Reto Diario */}
                 <div 
                   onClick={() => onNavigate('reto-diario')}

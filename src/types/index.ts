@@ -9,6 +9,7 @@ export type ActiveModule =
   | 'desafio' 
   | 'reto-diario' 
   | 'laboratorios' 
+  | 'juegos'
   | 'docencia'
   | 'biblioteca' 
   | 'estadisticas' 

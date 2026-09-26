@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { UserProgress, OrganSystem, SystemBadge } from '../../types';
 import { getPlayerRank, getPatientHealth, getBudgetInfo } from '../../utils/gamification';
 import { evaluateUserBadges } from '../../data/badges';
-import { MOCK_LEADERBOARD_PEERS } from '../../data/leaderboardData';
+import { Leaderboard } from './Leaderboard';
 import { motion } from 'framer-motion';
 import {
   ResponsiveContainer,
@@ -76,31 +76,6 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
     renal: '🫘 Renal / Urea / Uricemia',
     pancreatic: '🔬 Pancreático-Digestivo'
   };
-
-  // Build combined Leaderboard list with user dynamically inserted
-  const userEntry = {
-    id: 'current-user-entry',
-    name: 'Tú (Médico en Guardia)',
-    avatar: '🧑‍⚕️',
-    institution: 'Tu Facultad / Hospital de Guardia',
-    xp: userXp,
-    accuracyPct: accuracy,
-    streak: userProgress.streak,
-    badgeTitle: `${rank.icon} ${rank.shortTitle}`,
-    specialty: 'Simulación Clínica',
-    isCurrentUser: true
-  };
-
-  const allLeaderboardEntries = [...MOCK_LEADERBOARD_PEERS, userEntry]
-    .sort((a, b) => b.xp - a.xp)
-    .map((entry, idx) => ({
-      ...entry,
-      position: idx + 1
-    }));
-
-  const userLeaderboardPos = allLeaderboardEntries.find((e) => e.isCurrentUser)?.position || 1;
-  const nextAboveUser = allLeaderboardEntries.find((e) => e.position === userLeaderboardPos - 1);
-  const xpNeededForNextPos = nextAboveUser ? nextAboveUser.xp - userXp + 10 : 0;
 
   const filteredBadges = allBadges.filter((b) => {
     if (badgeFilter === 'unlocked') return b.isUnlocked;
@@ -215,7 +190,7 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
           <Trophy className="w-4 h-4 text-amber-400" />
           <span>Ranking de Cátedra</span>
           <span className="bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full text-[10px] font-bold font-mono">
-            #{userLeaderboardPos}
+            Top 10
           </span>
         </button>
       </div>
@@ -782,200 +757,7 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
 
       {/* TAB 3: SIMULATED GLOBAL LEADERBOARD */}
       {activeTab === 'leaderboard' && (
-        <div className="space-y-6">
-          {/* Top Banner: League & Competitive Context */}
-          <div className="bg-slate-950 text-white rounded-2xl p-6 shadow-xs border border-slate-800 relative overflow-hidden">
-            <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="bg-slate-900 border border-slate-800 text-emerald-400 font-semibold text-[10px] px-2.5 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-emerald-400" />
-                    Liga Formativa Hospitalaria - Convocatoria 2026
-                  </span>
-                  <span className="text-slate-400 text-xs font-medium">Cierre de Ronda: En 3 días</span>
-                </div>
-                <h2 className="text-xl font-bold text-white tracking-tight">
-                  Clasificación de Residentes y Estudiantes Clínicos
-                </h2>
-                <p className="text-xs text-slate-400 max-w-xl leading-relaxed">
-                  Compara tu peritaje con otros médicos en formación. Los puntos de experiencia (XP) premian diagnósticos analíticos certeros sin sobrecoste analítico.
-                </p>
-              </div>
-
-              {/* User Position Highlight Box */}
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center shrink-0 w-full md:w-auto min-w-[200px]">
-                <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider block">Tu Clasificación Actual</span>
-                <div className="text-2xl font-bold font-mono text-emerald-400 my-1 flex items-center justify-center gap-2">
-                  <Trophy className="w-6 h-6 text-amber-400" />
-                  <span>#{userLeaderboardPos}</span>
-                </div>
-                <p className="text-[11px] text-slate-400 font-mono">
-                  {userXp} XP Acumulados
-                </p>
-                {xpNeededForNextPos > 0 && (
-                  <div className="mt-2 pt-2 border-t border-slate-800 text-[10px] text-slate-400">
-                    A <span className="font-semibold text-slate-200">{xpNeededForNextPos} XP</span> de subir al puesto #{userLeaderboardPos - 1}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Leaderboard Table Container */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-            <div className="p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50">
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-purple-600" />
-                <h3 className="font-bold text-sm text-slate-900 uppercase tracking-wider">
-                  Top 10 Estudiantes & Residentes Nacionales
-                </h3>
-              </div>
-              <span className="text-xs text-slate-500 font-medium">
-                Actualizado en tiempo real | {allLeaderboardEntries.length} Participantes
-              </span>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100 text-slate-600 font-bold uppercase tracking-wider border-b border-slate-200">
-                  <tr>
-                    <th className="p-3.5 text-center w-16">Puesto</th>
-                    <th className="p-3.5">Estudiante / Médico</th>
-                    <th className="p-3.5">Institución / Hospital</th>
-                    <th className="p-3.5 text-center">Precisión</th>
-                    <th className="p-3.5 text-center">Racha</th>
-                    <th className="p-3.5 text-right font-mono">Experiencia (XP)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
-                  {allLeaderboardEntries.map((entry) => {
-                    const isTop1 = entry.position === 1;
-                    const isTop2 = entry.position === 2;
-                    const isTop3 = entry.position === 3;
-                    const isUser = entry.isCurrentUser;
-
-                    return (
-                      <tr
-                        key={entry.id}
-                        className={`transition-colors ${
-                          isUser
-                            ? 'bg-blue-50/90 border-l-4 border-l-blue-600 font-bold'
-                            : isTop1
-                            ? 'bg-amber-50/50 hover:bg-amber-50'
-                            : 'hover:bg-slate-50'
-                        }`}
-                      >
-                        {/* Rank Position */}
-                        <td className="p-3.5 text-center">
-                          {isTop1 ? (
-                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-400 text-amber-950 font-black text-sm shadow-xs">
-                              🥇 1
-                            </span>
-                          ) : isTop2 ? (
-                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-300 text-slate-900 font-black text-sm shadow-xs">
-                              🥈 2
-                            </span>
-                          ) : isTop3 ? (
-                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-700 text-amber-50 font-black text-sm shadow-xs">
-                              🥉 3
-                            </span>
-                          ) : (
-                            <span className="font-mono text-slate-500 font-bold text-sm">
-                              #{entry.position}
-                            </span>
-                          )}
-                        </td>
-
-                        {/* Name & Avatar */}
-                        <td className="p-3.5">
-                          <div className="flex items-center gap-3">
-                            <span className="text-xl shrink-0">{entry.avatar}</span>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className={`text-xs font-bold ${isUser ? 'text-blue-900' : 'text-slate-900'}`}>
-                                  {entry.name}
-                                </span>
-                                {isUser && (
-                                  <span className="bg-blue-600 text-white font-extrabold text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wider">
-                                    TÚ
-                                  </span>
-                                )}
-                              </div>
-                              <span className="text-[10px] text-slate-500 block font-normal">
-                                {entry.badgeTitle} • {entry.specialty}
-                              </span>
-                            </div>
-                          </div>
-                        </td>
-
-                        {/* Institution */}
-                        <td className="p-3.5 text-slate-600">
-                          {entry.institution}
-                        </td>
-
-                        {/* Accuracy */}
-                        <td className="p-3.5 text-center">
-                          <span
-                            className={`px-2 py-1 rounded text-[11px] font-bold font-mono ${
-                              entry.accuracyPct >= 85
-                                ? 'bg-emerald-100 text-emerald-800'
-                                : entry.accuracyPct >= 70
-                                ? 'bg-amber-100 text-amber-800'
-                                : 'bg-slate-100 text-slate-700'
-                            }`}
-                          >
-                            {entry.accuracyPct}%
-                          </span>
-                        </td>
-
-                        {/* Streak */}
-                        <td className="p-3.5 text-center font-mono">
-                          {entry.streak > 0 ? (
-                            <span className="inline-flex items-center gap-1 text-orange-600 font-bold">
-                              <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500" />
-                              <span>{entry.streak}</span>
-                            </span>
-                          ) : (
-                            <span className="text-slate-400">-</span>
-                          )}
-                        </td>
-
-                        {/* XP */}
-                        <td className="p-3.5 text-right font-mono font-bold text-sm text-slate-900">
-                          <span className={`${isUser ? 'text-blue-700' : isTop1 ? 'text-amber-600' : ''}`}>
-                            {entry.xp} XP
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Motivational Advice Banner */}
-          <div className="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400 shrink-0">
-                <Zap className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider">¿Cómo conseguir más insignias y subir en el ranking?</h4>
-                <p className="text-xs text-slate-300 mt-0.5">
-                  Resuelve casos del sistema orgánico objetivo. Si alcanzas al menos 3 casos con una precisión del 90% o superior, desbloquearás la insignia de experto de esa especialidad.
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setActiveTab('insignias')}
-              className="px-4 py-2 bg-amber-400 text-slate-950 hover:bg-amber-300 font-bold text-xs rounded-lg transition-colors shrink-0 cursor-pointer"
-            >
-              Ver Insignias
-            </button>
-          </div>
-        </div>
+        <Leaderboard userProgress={userProgress} />
       )}
     </div>
   );

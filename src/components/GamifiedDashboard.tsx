@@ -7,19 +7,23 @@ import {
   getStreakMultiplier
 } from '../utils/gamification';
 import { evaluateUserBadges } from '../data/badges';
-import { Heart, Flame, Wallet, RefreshCw, Trophy, AlertTriangle, Award, Crown, Sparkles, HelpCircle, Info, TrendingUp, TrendingDown } from 'lucide-react';
+import { Heart, Flame, Wallet, RefreshCw, Trophy, AlertTriangle, Award, Crown, Sparkles, HelpCircle, Info, TrendingUp, TrendingDown, Gamepad2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface GamifiedDashboardProps {
   userProgress: UserProgress;
   onResetGuardia: () => void;
   onOpenStats?: () => void;
+  onOpenRanking?: () => void;
+  onGoToGames?: () => void;
 }
 
 export const GamifiedDashboard: React.FC<GamifiedDashboardProps> = ({
   userProgress,
   onResetGuardia,
-  onOpenStats
+  onOpenStats,
+  onOpenRanking,
+  onGoToGames
 }) => {
   const [showBudgetTooltip, setShowBudgetTooltip] = React.useState(false);
   const rank = getPlayerRank(userProgress.xp || userProgress.score);
@@ -44,9 +48,18 @@ export const GamifiedDashboard: React.FC<GamifiedDashboardProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-5 border-b border-slate-100">
         
         {/* Card 1: Perfil y Rango Médico (Deep Navy Clinical Master) */}
-        <div className="bg-slate-950 text-white rounded-xl p-4 flex flex-col justify-between shadow-xs border border-slate-800">
+        <div 
+          onClick={onOpenRanking}
+          className={`bg-slate-950 text-white rounded-xl p-4 flex flex-col justify-between shadow-xs border border-slate-800 ${
+            onOpenRanking ? 'cursor-pointer hover:border-emerald-500/60 transition-all' : ''
+          }`}
+          title={onOpenRanking ? "Ver Ranking Global y Clasificación Top 10" : undefined}
+        >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Perfil Facultativo</span>
+            <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase flex items-center gap-1">
+              Perfil Facultativo
+              {onOpenRanking && <Trophy className="w-3 h-3 text-amber-400" />}
+            </span>
             <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${rank.badgeBg} ${rank.badgeTextColor} ${rank.badgeBorder}`}>
               Nivel {rank.levelNumber}
             </span>
@@ -111,13 +124,26 @@ export const GamifiedDashboard: React.FC<GamifiedDashboardProps> = ({
           <div className="flex items-center justify-between pt-2 text-[11px] text-slate-600 border-t border-slate-100">
             <span>Guardia: <strong className="text-slate-900 font-mono">{userProgress.lives}/3</strong> vidas</span>
             {userProgress.lives < 3 && (
-              <button
-                onClick={onResetGuardia}
-                className="text-[10px] font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer"
-              >
-                <RefreshCw className="w-3 h-3" />
-                <span>Restablecer</span>
-              </button>
+              <div className="flex items-center gap-1.5">
+                {onGoToGames && (
+                  <button
+                    onClick={onGoToGames}
+                    className="text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded-lg flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
+                    title="Juega en el Parque para recuperar vidas (+1 ❤️) y conseguir puntos extra"
+                  >
+                    <Gamepad2 className="w-3 h-3 text-emerald-600" />
+                    <span>Recargar (+1 ❤️)</span>
+                  </button>
+                )}
+                <button
+                  onClick={onResetGuardia}
+                  className="text-[10px] font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer"
+                  title="Restablecer vidas y presupuesto"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  <span className="hidden sm:inline">Reiniciar</span>
+                </button>
+              </div>
             )}
           </div>
         </div>
