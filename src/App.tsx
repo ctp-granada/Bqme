@@ -33,6 +33,7 @@ import { DailyChallengeView } from './components/DailyChallenge/DailyChallengeVi
 import { OnboardingTour } from './components/Onboarding/OnboardingTour';
 import { AuthModal } from './components/Auth/AuthModal';
 import { CourseHome } from './components/Portal/CourseHome';
+import { LandingPage } from './components/LandingPage';
 import { BiomedicalCity } from './components/City/BiomedicalCity';
 import { InteractiveLabsContainer } from './components/InteractiveLabs/InteractiveLabsContainer';
 import { TeachingMaterialView } from './components/TeachingMaterial/TeachingMaterialView';
@@ -606,9 +607,9 @@ export default function App() {
           </>
         )}
 
-        {/* Module 0: Portal Home (UGR Bioquímica Médica) */}
+        {/* Module 0: Pantalla Principal / LandingPage (Hospital, Biblioteca, Parque) */}
         {activeModule === 'inicio' && (
-          <CourseHome
+          <LandingPage
             onNavigate={(mod) => setActiveModule(mod)}
             onOpenLab={(lab) => {
               setSelectedInitialLab(lab);

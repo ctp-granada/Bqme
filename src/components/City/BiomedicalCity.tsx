@@ -262,6 +262,104 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
           </div>
         </div>
 
+        {/* ISOMETRIC CITY MAP VIEW WITH INTERACTIVE OVERLAYS */}
+        <div className="relative z-10 mb-8 rounded-2xl overflow-hidden border-2 border-slate-700/80 shadow-2xl aspect-16/9 bg-slate-900 group">
+          <img
+            src="/biomedical_city_map.jpg"
+            alt="Plano Isométrico de la Ciudad Biomédica UGR"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.01]"
+            referrerPolicy="no-referrer"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/30 pointer-events-none" />
+
+          {/* Hospital Pin */}
+          <div
+            style={{ left: '10%', top: '8%', width: '28%', height: '34%' }}
+            className={`absolute z-20 cursor-pointer rounded-2xl transition-all duration-300 ${
+              selectedDistrict === 'hospital' || hoveredBuilding === 'hospital'
+                ? 'ring-4 ring-rose-500 bg-rose-500/20 shadow-[0_0_25px_rgba(244,63,94,0.5)]'
+                : 'hover:bg-rose-500/10 hover:ring-2 hover:ring-rose-400'
+            }`}
+            onMouseEnter={() => setHoveredBuilding('hospital')}
+            onMouseLeave={() => setHoveredBuilding(null)}
+            onClick={() => setSelectedDistrict(selectedDistrict === 'hospital' ? null : 'hospital')}
+          >
+            <div className="absolute top-4 left-6 flex items-center gap-2 animate-bounce">
+              <span className="relative flex h-7 w-7 items-center justify-center">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-7 w-7 bg-rose-600 text-white items-center justify-center shadow-lg border-2 border-white">
+                  <Stethoscope className="w-3.5 h-3.5" />
+                </span>
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-white text-xs font-black border border-rose-500/60 backdrop-blur-md">
+                <span className="text-rose-400">HOSPITAL</span>
+                <span className="text-[10px] text-slate-300 font-normal">({cases.length} Casos)</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Biblioteca Pin */}
+          <div
+            style={{ left: '38%', top: '24%', width: '26%', height: '36%' }}
+            className={`absolute z-20 cursor-pointer rounded-2xl transition-all duration-300 ${
+              selectedDistrict === 'biblioteca' || hoveredBuilding === 'biblioteca'
+                ? 'ring-4 ring-blue-500 bg-blue-500/20 shadow-[0_0_25px_rgba(59,130,246,0.5)]'
+                : 'hover:bg-blue-500/10 hover:ring-2 hover:ring-blue-400'
+            }`}
+            onMouseEnter={() => setHoveredBuilding('biblioteca')}
+            onMouseLeave={() => setHoveredBuilding(null)}
+            onClick={() => setSelectedDistrict(selectedDistrict === 'biblioteca' ? null : 'biblioteca')}
+          >
+            <div className="absolute top-4 left-6 flex items-center gap-2 animate-bounce">
+              <span className="relative flex h-7 w-7 items-center justify-center">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-7 w-7 bg-blue-600 text-white items-center justify-center shadow-lg border-2 border-white">
+                  <BookOpen className="w-3.5 h-3.5" />
+                </span>
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-white text-xs font-black border border-blue-500/60 backdrop-blur-md">
+                <span className="text-blue-400">BIBLIOTECA</span>
+                <span className="text-[10px] text-slate-300 font-normal">(Materiales)</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Parque Pin */}
+          <div
+            style={{ left: '56%', top: '50%', width: '36%', height: '40%' }}
+            className={`absolute z-20 cursor-pointer rounded-2xl transition-all duration-300 ${
+              selectedDistrict === 'parque' || hoveredBuilding === 'parque'
+                ? 'ring-4 ring-emerald-500 bg-emerald-500/20 shadow-[0_0_25px_rgba(16,185,129,0.5)]'
+                : 'hover:bg-emerald-500/10 hover:ring-2 hover:ring-emerald-400'
+            }`}
+            onMouseEnter={() => setHoveredBuilding('parque')}
+            onMouseLeave={() => setHoveredBuilding(null)}
+            onClick={() => setSelectedDistrict(selectedDistrict === 'parque' ? null : 'parque')}
+          >
+            <div className="absolute top-4 left-6 flex items-center gap-2 animate-bounce">
+              <span className="relative flex h-7 w-7 items-center justify-center">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-7 w-7 bg-emerald-600 text-white items-center justify-center shadow-lg border-2 border-white">
+                  <Trees className="w-3.5 h-3.5" />
+                </span>
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-white text-xs font-black border border-emerald-500/60 backdrop-blur-md">
+                <span className="text-emerald-400">PARQUE</span>
+                <span className="text-[10px] text-slate-300 font-normal">(Juegos)</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Map Helper overlay bar */}
+          <div className="absolute bottom-3 left-4 right-4 z-10 hidden sm:flex items-center justify-between text-xs text-white/90 bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 pointer-events-none">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span>Haz clic sobre el Hospital, la Biblioteca o el Parque para desplegar sus actividades</span>
+            </span>
+          </div>
+        </div>
+
         {/* THE 3 KEY CITY LANDMARKS (Interactive Cards Grid) */}
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           
@@ -644,6 +742,25 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
           {/* District Content: Sub-facilities, Activities & Quick Access */}
           {selectedDistrict === 'hospital' && (
             <div className="space-y-6">
+              {/* High-Resolution District Illustration */}
+              <div className="relative h-52 sm:h-64 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-md">
+                <img
+                  src="/hospital_section.jpg"
+                  alt="Hospital Clínico San Cecilio"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
+                    <span className="text-xs sm:text-sm font-bold text-rose-300">Hospital Clínico San Cecilio • Urgencias y Triaje</span>
+                  </div>
+                  <span className="text-[11px] font-mono bg-slate-900/90 text-rose-200 px-2.5 py-1 rounded-lg border border-rose-500/40">
+                    {cases.length} Pacientes en Espera
+                  </span>
+                </div>
+              </div>
+
               <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
                 El Hospital es el corazón de la práctica médica del estudiante. Cada caso recrea un paciente en urgencias o planta con anamnesis, exploración y pruebas analíticas en las que debes solicitar los biomarcadores adecuados sin incurrir en costes innecesarios.
               </p>
@@ -723,6 +840,25 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
 
           {selectedDistrict === 'biblioteca' && (
             <div className="space-y-6">
+              {/* High-Resolution District Illustration */}
+              <div className="relative h-52 sm:h-64 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-md">
+                <img
+                  src="/library_section.jpg"
+                  alt="Biblioteca Biomédica UGR"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse" />
+                    <span className="text-xs sm:text-sm font-bold text-blue-300">Biblioteca Biomédica Central • Material Docente y Vademécum</span>
+                  </div>
+                  <span className="text-[11px] font-mono bg-slate-900/90 text-blue-200 px-2.5 py-1 rounded-lg border border-blue-500/40">
+                    4 Módulos Teóricos
+                  </span>
+                </div>
+              </div>
+
               <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
                 La Biblioteca reúne el corpus científico y las guías de estudio de la Cátedra de Bioquímica y Biología Molecular I de la UGR. Aquí afianzarás los fundamentos teóricos antes de emitir cualquier juicio clínico.
               </p>
@@ -802,6 +938,25 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
 
           {selectedDistrict === 'parque' && (
             <div className="space-y-6">
+              {/* High-Resolution District Illustration */}
+              <div className="relative h-52 sm:h-64 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-md">
+                <img
+                  src="/park_section.jpg"
+                  alt="Parque Biomédico UGR"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs sm:text-sm font-bold text-emerald-300">Parque Biomédico & Laboratorios Virtuales</span>
+                  </div>
+                  <span className="text-[11px] font-mono bg-slate-900/90 text-emerald-200 px-2.5 py-1 rounded-lg border border-emerald-500/40">
+                    3 Simuladores Cinéticos
+                  </span>
+                </div>
+              </div>
+
               <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
                 El Parque Biomédico es la zona lúdica y de gamificación del campus. Aquí aprenderás jugando mediante modelos metabólicos interactivos, desafíos diarios con recompensas de XP dobles y la trivia rápida de enzimas.
               </p>

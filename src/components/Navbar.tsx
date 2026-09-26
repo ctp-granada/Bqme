@@ -19,7 +19,9 @@ import {
   LogOut,
   User as UserIcon,
   Cloud,
-  RefreshCw
+  RefreshCw,
+  ArrowLeft,
+  Trees
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -48,6 +50,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   const rank = getPlayerRank(userProgress.xp || userProgress.score);
   const streakInfo = getStreakMultiplier(userProgress.streak);
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Alumno';
+
+  // Check if user has entered one of the 3 key districts or stats
+  const isHospital = activeModule === 'casos' || activeModule === 'desafio';
+  const isLibrary = activeModule === 'docencia' || activeModule === 'biblioteca';
+  const isPark = activeModule === 'laboratorios' || activeModule === 'reto-diario';
+  const isStats = activeModule === 'estadisticas';
+  const isInsideKeyPlace = isHospital || isLibrary || isPark || isStats;
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
@@ -165,238 +174,278 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* 2. LOWER BAR: Complete Academic Navigation Sections */}
-      <div className="px-4 sm:px-8 py-2 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          
-          {/* Main Navigation Modules */}
-          <nav className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 w-full sm:w-auto justify-center overflow-x-auto">
-            {/* 1. Portal Home */}
-            <button
-              onClick={() => setActiveModule('inicio')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'inicio'
-                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/90 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <Home className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'inicio' ? 'text-emerald-600' : 'text-slate-500'}`} />
-              <span>Inicio</span>
-            </button>
+      {/* 2. CONTEXTUAL LOWER BAR: Visible ONLY when user enters Hospital, Biblioteca, Parque, or Estadísticas */}
+      {isInsideKeyPlace && (
+        <div className="px-4 sm:px-8 py-2.5 bg-white border-b border-slate-200/90 shadow-2xs animate-in fade-in slide-in-from-top-1 duration-200">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            
+            {/* Left: Back to City Plano + Contextual Place Tabs */}
+            <div className="flex items-center gap-2.5 w-full sm:w-auto overflow-x-auto">
+              {/* Back to Landing Page / City Entrance Button */}
+              <button
+                onClick={() => setActiveModule('inicio')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer group"
+                title="Volver a la Pantalla Principal (Hospital, Biblioteca, Parque)"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 text-emerald-400 group-hover:-translate-x-0.5 transition-transform" />
+                <span>Volver al Inicio</span>
+              </button>
 
-            {/* 2. Ciudad Biomédica (Mapa Interactivo: Hospital, Biblioteca, Parque) */}
-            <button
-              onClick={() => setActiveModule('ciudad')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'ciudad'
-                  ? 'bg-slate-900 text-white shadow-xs font-bold'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/60 font-semibold'
-              }`}
-            >
-              <Building2 className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'ciudad' ? 'text-emerald-400' : 'text-emerald-600'}`} />
-              <span>Ciudad Biomédica</span>
-              <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${
-                activeModule === 'ciudad' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-emerald-100 text-emerald-800'
-              }`}>
-                3 Lugares
-              </span>
-            </button>
+              <div className="h-5 w-px bg-slate-200 shrink-0 hidden sm:block" />
 
-            {/* 3. Clinical Simulator Cases */}
-            <button
-              onClick={() => setActiveModule('casos')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'casos'
-                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/90 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <Stethoscope className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'casos' ? 'text-slate-900' : 'text-slate-500'}`} />
-              <span>Simulador de Casos</span>
-            </button>
+              {/* HOSPITAL TABS */}
+              {isHospital && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold">
+                    <Stethoscope className="w-3.5 h-3.5 text-rose-600" />
+                    <span>HOSPITAL CLÍNICO</span>
+                  </span>
 
-            {/* 3. Challenge Mode */}
-            <button
-              onClick={() => setActiveModule('desafio')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'desafio'
-                  ? 'bg-slate-900 text-white shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <Target className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'desafio' ? 'text-emerald-400' : 'text-slate-500'}`} />
-              <span>Modo Desafío</span>
-            </button>
-
-            {/* 4. Daily Challenge */}
-            <button
-              onClick={() => setActiveModule('reto-diario')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'reto-diario'
-                  ? 'bg-emerald-600 text-white shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <Zap className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'reto-diario' ? 'text-white fill-white' : 'text-emerald-600 fill-emerald-600'}`} />
-              <span>Reto Diario</span>
-            </button>
-
-            {/* 5. Interactive Labs (Randle, Ictericias, Hemostasia) */}
-            <button
-              onClick={() => setActiveModule('laboratorios')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'laboratorios'
-                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/90 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <FlaskConical className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'laboratorios' ? 'text-amber-700' : 'text-slate-500'}`} />
-              <span>Laboratorios Virtuales</span>
-            </button>
-
-            {/* 6. Teaching Material (Temario, Seminarios, MIR) */}
-            <button
-              onClick={() => setActiveModule('docencia')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'docencia'
-                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/90 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <GraduationCap className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'docencia' ? 'text-blue-600' : 'text-slate-500'}`} />
-              <span>Material Docente</span>
-            </button>
-
-            {/* 7. Biomarker Reference Library */}
-            <button
-              onClick={() => setActiveModule('biblioteca')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'biblioteca'
-                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/90 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <BookOpen className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'biblioteca' ? 'text-slate-900' : 'text-slate-500'}`} />
-              <span>Biblioteca</span>
-            </button>
-
-            {/* 8. Progress & Stats */}
-            <button
-              onClick={() => setActiveModule('estadisticas')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                activeModule === 'estadisticas'
-                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/90 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-              }`}
-            >
-              <BarChart3 className={`w-3.5 h-3.5 shrink-0 ${activeModule === 'estadisticas' ? 'text-slate-900' : 'text-slate-500'}`} />
-              <span>Progreso</span>
-            </button>
-          </nav>
-
-          {/* Gamification Bar: Level Rank, XP and Active Simulation Status */}
-          <div className="flex items-center justify-center gap-2 sm:gap-2.5 flex-wrap">
-            {/* Challenge Mode Live Status: Hearts & Streak */}
-            {activeModule === 'desafio' && (
-              <>
-                {/* Hearts / Patient Lives */}
-                <div 
-                  className="bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs" 
-                  title="Vidas del Paciente (3 vidas por guardia médica)"
-                >
-                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-tight hidden sm:inline">Vidas:</span>
-                  <div className="flex items-center gap-0.5">
-                    {[1, 2, 3].map((h) => (
-                      <Heart
-                        key={h}
-                        className={`w-3.5 h-3.5 transition-all ${
-                          h <= userProgress.lives
-                            ? 'text-rose-500 fill-rose-500'
-                            : 'text-slate-300 fill-slate-200 opacity-50'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Flame Streak */}
-                {userProgress.streak > 0 && (
-                  <div 
-                    className="bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-xl flex items-center gap-1 text-emerald-900 text-xs font-semibold shadow-2xs"
-                    title={`Racha Actual: ${userProgress.streak} aciertos seguidos (+${(streakInfo.multiplier - 1) * 100}% bonus)`}
+                  <button
+                    onClick={() => setActiveModule('casos')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'casos'
+                        ? 'bg-rose-600 text-white font-bold shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
                   >
-                    <Flame className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600" />
-                    <span>{userProgress.streak}</span>
-                    <span className="text-[10px] text-emerald-700 font-mono hidden sm:inline">x{streakInfo.multiplier}</span>
+                    <Stethoscope className="w-3.5 h-3.5" />
+                    <span>Casos Clínicos</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveModule('desafio')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'desafio'
+                        ? 'bg-slate-950 text-white font-bold shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    <Target className="w-3.5 h-3.5 text-rose-400" />
+                    <span>Modo Desafío (Guardia)</span>
+                  </button>
+                </div>
+              )}
+
+              {/* BIBLIOTECA TABS */}
+              {isLibrary && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold">
+                    <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+                    <span>BIBLIOTECA MÉDICA</span>
+                  </span>
+
+                  <button
+                    onClick={() => setActiveModule('docencia')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'docencia'
+                        ? 'bg-blue-600 text-white font-bold shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    <GraduationCap className="w-3.5 h-3.5" />
+                    <span>Material Docente & MIR</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveModule('biblioteca')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'biblioteca'
+                        ? 'bg-blue-600 text-white font-bold shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Vademécum de Biomarcadores</span>
+                  </button>
+                </div>
+              )}
+
+              {/* PARQUE TABS */}
+              {isPark && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
+                    <Trees className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>PARQUE LÚDICO</span>
+                  </span>
+
+                  <button
+                    onClick={() => setActiveModule('laboratorios')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'laboratorios'
+                        ? 'bg-emerald-600 text-white font-bold shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    <FlaskConical className="w-3.5 h-3.5" />
+                    <span>Laboratorios Virtuales</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveModule('reto-diario')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'reto-diario'
+                        ? 'bg-emerald-600 text-white font-bold shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                    <span>Reto Diario (2x XP)</span>
+                  </button>
+                </div>
+              )}
+
+              {/* STATS TABS */}
+              {isStats && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold">
+                    <BarChart3 className="w-3.5 h-3.5 text-slate-600" />
+                    <span>EXPEDIENTE ACADÉMICO</span>
+                  </span>
+
+                  <button
+                    onClick={() => setActiveModule('estadisticas')}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white shadow-xs"
+                  >
+                    <BarChart3 className="w-3.5 h-3.5" />
+                    <span>Progreso & Insignias</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Right: Gamification Status */}
+            <div className="flex items-center justify-end gap-2 sm:gap-2.5 shrink-0">
+              {/* Challenge Mode Live Status: Hearts & Streak */}
+              {activeModule === 'desafio' && (
+                <>
+                  <div 
+                    className="bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs" 
+                    title="Vidas del Paciente (3 vidas por guardia médica)"
+                  >
+                    <span className="text-[10px] font-bold text-slate-600 uppercase tracking-tight hidden sm:inline">Vidas:</span>
+                    <div className="flex items-center gap-0.5">
+                      {[1, 2, 3].map((h) => (
+                        <Heart
+                          key={h}
+                          className={`w-3.5 h-3.5 transition-all ${
+                            h <= userProgress.lives
+                              ? 'text-rose-500 fill-rose-500'
+                              : 'text-slate-300 fill-slate-200 opacity-50'
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
-                )}
-              </>
-            )}
 
-            {/* Rank Badge */}
-            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-xl border text-xs font-semibold shadow-2xs ${rank.badgeBg} ${rank.badgeTextColor} ${rank.badgeBorder}`}>
-              <span>{rank.icon}</span>
-              <span className="truncate max-w-[110px] sm:max-w-[130px]">{rank.shortTitle}</span>
+                  {userProgress.streak > 0 && (
+                    <div 
+                      className="bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-xl flex items-center gap-1 text-emerald-900 text-xs font-semibold shadow-2xs"
+                      title={`Racha Actual: ${userProgress.streak} aciertos seguidos (+${(streakInfo.multiplier - 1) * 100}% bonus)`}
+                    >
+                      <Flame className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600" />
+                      <span>{userProgress.streak}</span>
+                      <span className="text-[10px] text-emerald-700 font-mono hidden sm:inline">x{streakInfo.multiplier}</span>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* Rank Badge */}
+              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-xl border text-xs font-semibold shadow-2xs ${rank.badgeBg} ${rank.badgeTextColor} ${rank.badgeBorder}`}>
+                <span>{rank.icon}</span>
+                <span className="truncate max-w-[110px] sm:max-w-[130px]">{rank.shortTitle}</span>
+              </div>
+
+              {/* XP Score Badge */}
+              <div className="bg-slate-900 text-white px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs font-bold font-mono shadow-2xs border border-slate-800">
+                <span className="text-emerald-400">XP</span>
+                <span>{userProgress.xp || userProgress.score}</span>
+              </div>
             </div>
 
-            {/* XP Score Badge */}
-            <div className="bg-slate-900 text-white px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs font-bold font-mono shadow-2xs border border-slate-800">
-              <span className="text-emerald-400">XP</span>
-              <span>{userProgress.xp || userProgress.score}</span>
-            </div>
           </div>
-
         </div>
-      </div>
+      )}
 
-      {/* Mobile Sub-Navigation Bar for Small Screens */}
-      <div className="md:hidden flex items-center justify-around bg-slate-950 px-2 py-2 text-xs font-medium fixed bottom-0 left-0 right-0 z-50 border-t border-slate-800 text-white">
-        <button
-          onClick={() => setActiveModule('inicio')}
-          className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
-            activeModule === 'inicio' ? 'text-emerald-400 font-bold' : 'text-slate-400'
-          }`}
-        >
-          <Home className="w-4 h-4" />
-          <span className="text-[9px]">Inicio</span>
-        </button>
-        <button
-          onClick={() => setActiveModule('casos')}
-          className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
-            activeModule === 'casos' ? 'text-white font-bold' : 'text-slate-400'
-          }`}
-        >
-          <Stethoscope className="w-4 h-4" />
-          <span className="text-[9px]">Casos</span>
-        </button>
-        <button
-          onClick={() => setActiveModule('laboratorios')}
-          className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
-            activeModule === 'laboratorios' ? 'text-amber-400 font-bold' : 'text-slate-400'
-          }`}
-        >
-          <FlaskConical className="w-4 h-4" />
-          <span className="text-[9px]">Labs</span>
-        </button>
-        <button
-          onClick={() => setActiveModule('docencia')}
-          className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
-            activeModule === 'docencia' ? 'text-blue-400 font-bold' : 'text-slate-400'
-          }`}
-        >
-          <GraduationCap className="w-4 h-4" />
-          <span className="text-[9px]">Docencia</span>
-        </button>
-        <button
-          onClick={() => setActiveModule('estadisticas')}
-          className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
-            activeModule === 'estadisticas' ? 'text-white font-bold' : 'text-slate-400'
-          }`}
-        >
-          <BarChart3 className="w-4 h-4" />
-          <span className="text-[9px]">Stats</span>
-        </button>
-      </div>
+      {/* Mobile Sub-Navigation Bar for Small Screens: Only visible inside places */}
+      {isInsideKeyPlace && (
+        <div className="md:hidden flex items-center justify-around bg-slate-950 px-2 py-2 text-xs font-medium fixed bottom-0 left-0 right-0 z-50 border-t border-slate-800 text-white">
+          <button
+            onClick={() => setActiveModule('inicio')}
+            className="px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 text-emerald-400 font-bold"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-[9px]">Plano Ciudad</span>
+          </button>
+          {isHospital && (
+            <>
+              <button
+                onClick={() => setActiveModule('casos')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'casos' ? 'text-rose-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <Stethoscope className="w-4 h-4" />
+                <span className="text-[9px]">Casos</span>
+              </button>
+              <button
+                onClick={() => setActiveModule('desafio')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'desafio' ? 'text-rose-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <Target className="w-4 h-4" />
+                <span className="text-[9px]">Desafío</span>
+              </button>
+            </>
+          )}
+          {isLibrary && (
+            <>
+              <button
+                onClick={() => setActiveModule('docencia')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'docencia' ? 'text-blue-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <GraduationCap className="w-4 h-4" />
+                <span className="text-[9px]">Temario</span>
+              </button>
+              <button
+                onClick={() => setActiveModule('biblioteca')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'biblioteca' ? 'text-blue-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="text-[9px]">Biomarcadores</span>
+              </button>
+            </>
+          )}
+          {isPark && (
+            <>
+              <button
+                onClick={() => setActiveModule('laboratorios')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'laboratorios' ? 'text-emerald-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <FlaskConical className="w-4 h-4" />
+                <span className="text-[9px]">Labs</span>
+              </button>
+              <button
+                onClick={() => setActiveModule('reto-diario')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'reto-diario' ? 'text-amber-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <Zap className="w-4 h-4" />
+                <span className="text-[9px]">Reto Diario</span>
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </header>
   );
 };
