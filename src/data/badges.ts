@@ -99,6 +99,22 @@ export const SYSTEM_BADGE_DEFINITIONS: BadgeDefinition[] = [
     targetAccuracy: 90
   },
   {
+    id: 'badge_neuromuscular',
+    system: 'neuromuscular',
+    title: 'Experto en Neuromuscular & Señalización',
+    shortTitle: 'Neuromuscular',
+    category: 'system',
+    description: 'Dominio de la neurotransmisión colinérgica, receptores acoplados a canales iónicos y patología de la placa motora.',
+    requirementDescription: 'Alcanza ≥90% de precisión en casos neuromusculares y señalización (mín. 1 caso).',
+    icon: '🧠',
+    themeColor: 'from-violet-600 to-purple-700',
+    badgeBg: 'bg-purple-50',
+    badgeBorder: 'border-purple-400',
+    badgeTextColor: 'text-purple-950',
+    minCasesRequired: 1,
+    targetAccuracy: 90
+  },
+  {
     id: 'badge_grandmaster',
     title: 'Gran Maestro de Bioquímica',
     shortTitle: 'Gran Maestro',

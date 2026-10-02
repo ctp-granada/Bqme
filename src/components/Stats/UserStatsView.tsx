@@ -74,7 +74,8 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
     hepatic: '🪵 Hepático / Ictericias',
     metabolic: '⚡ Metabólico / β-Oxidación',
     renal: '🫘 Renal / Urea / Uricemia',
-    pancreatic: '🔬 Pancreático-Digestivo'
+    pancreatic: '🔬 Pancreático-Digestivo',
+    neuromuscular: '🧠 Neuromuscular / Señalización'
   };
 
   const filteredBadges = allBadges.filter((b) => {
@@ -188,7 +189,7 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
           }`}
         >
           <Trophy className="w-4 h-4 text-amber-400" />
-          <span>Ranking de Cátedra</span>
+          <span>Ranking Departamental</span>
           <span className="bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full text-[10px] font-bold font-mono">
             Top 10
           </span>
@@ -577,18 +578,18 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
       {/* TAB 2: GALERÍA DE INSIGNIAS Y LOGROS DE ESPECIALIDAD */}
       {activeTab === 'insignias' && (
         <div className="space-y-6">
-          {/* Header Banner */}
-          <div className="bg-slate-950 text-white p-6 rounded-2xl shadow-xs border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          {/* Header Banner in Medical Gold */}
+          <div className="bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white p-6 rounded-2xl shadow-xs border border-amber-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-emerald-500/10 text-emerald-400 text-xs font-semibold uppercase tracking-wider border border-emerald-500/20 mb-2">
-                <Crown className="w-3.5 h-3.5" />
-                <span>Cuadro de Acreditación de Cátedra</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-900/60 text-amber-200 text-xs font-semibold uppercase tracking-wider border border-amber-400/40 mb-2">
+                <Crown className="w-3.5 h-3.5 text-amber-300" />
+                <span>Cuadro de Acreditación Departamental</span>
               </div>
               <h2 className="text-xl font-bold text-white tracking-tight">
                 Insignias de Maestría y Competencias Clínicas
               </h2>
-              <p className="text-xs text-slate-400 max-w-xl mt-1 leading-relaxed">
-                Desbloquea insignias de perito alcanzando al menos un <strong className="text-emerald-400">90% de precisión diagnóstica</strong> en casos de cada sistema orgánico específico (mínimo 3 casos evaluados).
+              <p className="text-xs text-amber-100 max-w-xl mt-1 leading-relaxed">
+                Desbloquea insignias de perito alcanzando al menos un <strong className="text-amber-200">90% de precisión diagnóstica</strong> en casos de cada sistema orgánico específico (mínimo 3 casos evaluados).
               </p>
             </div>
 

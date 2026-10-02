@@ -133,7 +133,7 @@ export const InteractiveLabsContainer: React.FC<InteractiveLabsContainerProps> =
             streak: 0,
             currentLevel: 'intermedio',
             libraryConsultations: 0,
-            systemStats: { cardiac: { attempted: 0, correct: 0 }, hepatic: { attempted: 0, correct: 0 }, metabolic: { attempted: 0, correct: 0 }, renal: { attempted: 0, correct: 0 }, pancreatic: { attempted: 0, correct: 0 } },
+            systemStats: { cardiac: { attempted: 0, correct: 0 }, hepatic: { attempted: 0, correct: 0 }, metabolic: { attempted: 0, correct: 0 }, renal: { attempted: 0, correct: 0 }, pancreatic: { attempted: 0, correct: 0 }, neuromuscular: { attempted: 0, correct: 0 } },
             history: []
           }}
           onRechargeLife={onRechargeLife || (() => {})}

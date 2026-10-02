@@ -545,7 +545,7 @@ export const ImmediateFeedbackModal: React.FC<ImmediateFeedbackModalProps> = ({
           <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/90 text-xs text-slate-800 space-y-1.5">
             <span className="font-bold uppercase tracking-wider text-emerald-800 flex items-center space-x-1.5 text-[11px]">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Perla Clínica y Resumen Docente de Cátedra:</span>
+              <span>Perla Clínica y Resumen Docente Departamental:</span>
             </span>
             <p className="italic leading-relaxed text-slate-700">{currentCase.expertClinicalKey}</p>
           </div>

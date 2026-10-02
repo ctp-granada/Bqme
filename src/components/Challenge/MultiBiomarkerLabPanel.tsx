@@ -37,6 +37,7 @@ const SYSTEM_TABS: { id: OrganSystem | 'all'; label: string; icon: string }[] = 
   { id: 'hepatic', label: 'Hepático / Ictericias', icon: '🪵' },
   { id: 'metabolic', label: 'Metabólico / β-Oxid.', icon: '⚡' },
   { id: 'renal', label: 'Renal / Uricemia', icon: '🫘' },
+  { id: 'neuromuscular', label: 'Neuromuscular', icon: '🧠' },
 ];
 
 interface PresetBattery {

@@ -44,14 +44,14 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({ run, onFinishTou
       target: '#tour-clinical-scenario',
       placement: 'bottom',
       skipBeacon: true,
-      title: '📋 Escenario Clínico y Diagnósticos Diferenciales',
+      title: '📋 Escenario Clínico y Datos del Paciente',
       content: (
         <div className="space-y-2 text-left text-xs leading-relaxed">
           <p>
-            Lee atentamente la anamnesis, constantes vitales y el listado de <strong>diagnósticos diferenciales en discusión</strong>.
+            Lee atentamente la anamnesis, constantes vitales, antecedentes y la analítica inicial disponible.
           </p>
           <p>
-            Tu misión es solicitar la batería analítica adecuada que confirme la patología diana y discrimine con precisión entre las hipótesis clínicas planteadas.
+            Tu misión es solicitar la batería analítica adecuada que identifique la alteración bioquímica y oriente con precisión el proceso fisiopatológico.
           </p>
         </div>
       )

@@ -132,7 +132,7 @@ export const RandleCycleLab: React.FC = () => {
               Laboratorio Interactivo de Metabolismo Intermediario
             </span>
             <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold text-slate-300 bg-slate-900 border border-slate-800">
-              Cátedra de Bioquímica Médica UGR
+              Departamento de Bioquímica y Biología Molecular III e Inmunología • UGR
             </span>
           </div>
 
@@ -496,7 +496,7 @@ export const RandleCycleLab: React.FC = () => {
         <div className="flex items-center gap-2">
           <HelpCircle className="w-5 h-5 text-emerald-600" />
           <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-            Autoevaluación de Cátedra • Ciclo de Randle
+            Autoevaluación Docente • Ciclo de Randle
           </h3>
         </div>
         <p className="text-xs text-slate-700 leading-relaxed">

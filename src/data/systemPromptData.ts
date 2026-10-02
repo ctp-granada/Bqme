@@ -23,7 +23,7 @@ La aplicación consta de 3 módulos sinérgicos:
    - Proporciona **Retroalimentación Inmediata** tras la respuesta, explicando de forma rigurosa la bioquímica, cinética de liberación, especificidad de la opción correcta y la causa de inadecuación de los distractores.
 
 3. **Biblioteca de Biomarcadores de Consulta (Reference Library)**:
-   - Fichas técnicas estructuradas con los valores exactos de la tabla de referencia de la cátedra: Isoformas, Valores de referencia (convencional y SI), Ventana temporal, Parámetros analíticos, Falsos positivos/negativos y Mecanismo fisiopatológico.
+   - Fichas técnicas estructuradas con los valores exactos de la tabla de referencia del Departamento: Isoformas, Valores de referencia (convencional y SI), Ventana temporal, Parámetros analíticos, Falsos positivos/negativos y Mecanismo fisiopatológico.
    - **Mecánica de Penalización**: El estudiante puede consultar la biblioteca durante un desafío. El uso registrado aplicará una reducción del 10% en el puntaje de retención del caso para fomentar la memoria de trabajo activa sin bloquear el aprendizaje.
 
 ---

@@ -94,7 +94,8 @@ export const BiomarkerLibrary: React.FC<BiomarkerLibraryProps> = ({
     { id: 'hepatic', label: '🪵 Hepáticos / Ictericias' },
     { id: 'metabolic', label: '⚡ Metabólicos / β-Oxidación' },
     { id: 'renal', label: '🫘 Renales / Urea / Uricemia' },
-    { id: 'pancreatic', label: '🔬 Pancreático-Digestivo' }
+    { id: 'pancreatic', label: '🔬 Pancreático-Digestivo' },
+    { id: 'neuromuscular', label: '🧠 Neuromuscular / Señalización' }
   ];
 
   return (

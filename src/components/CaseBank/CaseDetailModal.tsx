@@ -56,6 +56,34 @@ export const CaseDetailModal: React.FC<CaseDetailModalProps> = ({
             </div>
           </div>
 
+          {/* Molecular Signaling Pathway Section (Docencia Departamental) */}
+          {caseData.molecularPathway && (
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 rounded-xl p-4 space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-200 text-amber-900 border border-amber-300">
+                  🧬 Señalización Celular & Bioquímica Molecular
+                </span>
+                {caseData.signalingType && (
+                  <span className="text-[11px] font-mono text-amber-800 font-semibold">
+                    {caseData.signalingType.replace(/_/g, ' • ')}
+                  </span>
+                )}
+              </div>
+              <div className="text-xs space-y-1.5 pt-1">
+                <div>
+                  <strong className="text-amber-950">Vía de transducción:</strong>{' '}
+                  <span className="text-amber-900 font-medium">{caseData.molecularPathway}</span>
+                </div>
+                {caseData.molecularAlteration && (
+                  <div>
+                    <strong className="text-amber-950">Diana molecular alterada:</strong>{' '}
+                    <span className="text-amber-800">{caseData.molecularAlteration}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Anamnesis / History of Present Illness */}
           <div className="space-y-3">
             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center space-x-2">
@@ -165,19 +193,15 @@ export const CaseDetailModal: React.FC<CaseDetailModalProps> = ({
             </div>
           </div>
 
-          {/* Differential Diagnoses Section */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center space-x-2">
-              <AlertCircle className="w-4 h-4 text-amber-600" />
-              <span>Diagnósticos Diferenciales Plausibles</span>
-            </h3>
-            <div className="space-y-2">
-              {caseData.differentialDiagnoses.map((diff, idx) => (
-                <div key={idx} className="p-3 bg-amber-50/50 rounded-xl border border-amber-200/80 text-xs">
-                  <span className="font-bold text-amber-900 block text-sm mb-1">{diff.disease}</span>
-                  <p className="text-slate-700">{diff.plausibilityRationale}</p>
-                </div>
-              ))}
+          {/* Clinical Objective Banner */}
+          <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-200/70 flex items-center justify-between gap-4">
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">
+                Objetivo Docente del Caso
+              </span>
+              <p className="text-xs text-slate-700">
+                Analice los datos clínicos y constantes del paciente para seleccionar razonadamente los biomarcadores bioquímicos de mayor utilidad diagnóstica.
+              </p>
             </div>
           </div>
         </div>

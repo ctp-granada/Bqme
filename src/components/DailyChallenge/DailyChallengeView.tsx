@@ -223,23 +223,24 @@ export const DailyChallengeView: React.FC<DailyChallengeViewProps> = ({
             </div>
           </div>
 
-          {/* Key Differential Diagnostics in Discussion */}
+          {/* Vital Signs & Initial Physical Exam */}
           <div className="space-y-2">
             <h4 className="text-xs font-black uppercase tracking-wider text-slate-500">
-              Diagnósticos Diferenciales en Discusión
+              Constantes Vitales y Exploración Física Inicial
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {dailyCase.differentialDiagnoses.map((diag, index) => (
-                <div
-                  key={index}
-                  className="p-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-800 flex items-center gap-2"
-                >
-                  <span className="w-5 h-5 rounded-md bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center shrink-0">
-                    {index + 1}
-                  </span>
-                  <span className="truncate">{diag.disease}</span>
-                </div>
-              ))}
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 text-xs text-slate-700 space-y-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pb-2 border-b border-slate-200/60 font-semibold text-slate-800">
+                <div><span className="text-slate-400 block text-[10px] font-bold uppercase">P.A.</span>{dailyCase.physicalExam.vitalSigns.bp}</div>
+                <div><span className="text-slate-400 block text-[10px] font-bold uppercase">F.C.</span>{dailyCase.physicalExam.vitalSigns.hr}</div>
+                <div><span className="text-slate-400 block text-[10px] font-bold uppercase">Temp.</span>{dailyCase.physicalExam.vitalSigns.temp}</div>
+                <div><span className="text-slate-400 block text-[10px] font-bold uppercase">SatO₂</span>{dailyCase.physicalExam.vitalSigns.sao2}</div>
+              </div>
+              {dailyCase.physicalExam.findings.length > 0 && (
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  <strong className="text-slate-800 font-semibold">{dailyCase.physicalExam.findings[0].systemName}:</strong>{' '}
+                  {dailyCase.physicalExam.findings[0].description}
+                </p>
+              )}
             </div>
           </div>
 

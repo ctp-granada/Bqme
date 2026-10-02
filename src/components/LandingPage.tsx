@@ -28,8 +28,10 @@ import {
   GraduationCap,
   Gamepad2,
   Heart,
-  Trophy
+  Trophy,
+  Dices
 } from 'lucide-react';
+import { CLINICAL_CASES_DATABASE } from '../data/clinicalCases';
 
 interface LandingPageProps {
   onNavigate: (module: ActiveModule) => void;
@@ -87,7 +89,7 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
     secondaryActions: [
       {
         label: 'Banco de Casos Clínicos',
-        sublabel: '15 Casos clasificados por sistemas orgánicos',
+        sublabel: `${CLINICAL_CASES_DATABASE.length} Casos clasificados por sistemas orgánicos`,
         target: 'casos',
         icon: Stethoscope
       },
@@ -111,7 +113,7 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
       }
     ],
     facilities: ['Urgencias & Triaje General', 'Unidad Coronaria', 'Planta de Medicina Interna', 'Laboratorio Central 24h'],
-    stats: '15 Pacientes Activos • 5 Sistemas',
+    stats: '16 Pacientes Activos • 6 Sistemas',
     themeColor: {
       accent: 'rose-500',
       border: 'border-rose-500/50',
@@ -123,7 +125,7 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
   biblioteca: {
     id: 'biblioteca',
     name: 'Biblioteca Biomédica Central',
-    tagline: 'Corpus científico de la Cátedra, guías docentes oficiales y vademécum de biomarcadores',
+    tagline: 'Corpus científico del Departamento de Bioquímica y Biología Molecular III e Inmunología, guías docentes oficiales y vademécum de biomarcadores',
     badge: 'DISTRITO DEL SABER • MATERIALES',
     image: '/library_section.jpg',
     description:
@@ -232,6 +234,16 @@ interface MaterialNotice {
 
 const INITIAL_NOTICES: MaterialNotice[] = [
   {
+    id: 'noticia-mg',
+    title: 'Nuevo Caso Clínico: La residente que no puede mantener los ojos abiertos (Señalización Celular)',
+    type: 'caso',
+    date: '¡Nuevo en el Hospital!',
+    badge: 'CANALES Y SEÑALIZACIÓN',
+    description: 'Diagnóstico diferencial de Miastenia Gravis, receptores nicotínicos colinérgicos y canales iónicos regulados por ligando en la unión neuromuscular.',
+    targetModule: 'casos',
+    isNew: true
+  },
+  {
     id: 'noticia-1',
     title: 'Nuevo Caso Clínico: Síndrome Coronario Agudo con Elevación del ST',
     type: 'caso',
@@ -321,23 +333,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="space-y-10 animate-in fade-in duration-300 pb-12">
-      {/* 1. INSTITUTIONAL HERO HEADER: Apple Health / Clinical Modern Aesthetic */}
-      <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xs p-6 sm:p-8 relative overflow-hidden transition-all">
-        {/* Titanium gray & subtle emerald radial accents */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-emerald-50/50 via-slate-100/30 to-transparent rounded-full blur-2xl pointer-events-none -mr-20 -mt-20" />
+      {/* 1. INSTITUTIONAL HERO HEADER: Medical Gold / Clinical Modern Aesthetic */}
+      <div className="bg-gradient-to-br from-amber-50/60 via-white to-amber-50/30 rounded-3xl border border-amber-200/80 shadow-xs p-6 sm:p-8 relative overflow-hidden transition-all">
+        {/* Soft medical amber radial accents */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-amber-100/50 via-amber-50/20 to-transparent rounded-full blur-2xl pointer-events-none -mr-20 -mt-20" />
         
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-3xl">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase bg-slate-900 text-white flex items-center gap-1.5 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase bg-amber-600 text-white flex items-center gap-1.5 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-amber-200 animate-pulse" />
                 Facultad de Medicina • Universidad de Granada
               </span>
-              <span className="px-3 py-1 rounded-full text-[11px] font-semibold text-slate-700 bg-slate-100 border border-slate-200/80">
+              <span className="px-3 py-1 rounded-full text-[11px] font-semibold text-amber-900 bg-amber-100/70 border border-amber-200/80">
                 Campus de la Salud (PTS) • Curso 2025/2026
               </span>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200">
-                Bioquímica y Biología Molecular I
+              <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-950 bg-amber-100/90 border border-amber-300">
+                Departamento de Bioquímica y Biología Molecular III e Inmunología
               </span>
             </div>
 
@@ -350,11 +362,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          {/* Quick Metrics Capsule in Modern Clinical Titanium Style */}
+          {/* Quick Metrics Capsule in Modern Clinical Warm Style */}
           <div className="flex items-center gap-3 shrink-0 self-start lg:self-center">
-            <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-3.5 flex items-center gap-3 shadow-2xs">
-              <div className="w-10 h-10 rounded-xl bg-slate-950 text-emerald-400 flex items-center justify-center font-bold text-sm shadow-xs">
-                <Sparkles className="w-5 h-5 text-emerald-400" />
+            <div className="bg-white border border-amber-200/80 rounded-2xl p-3.5 flex items-center gap-3 shadow-2xs">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-300/80 text-amber-700 flex items-center justify-center font-bold text-sm shadow-xs">
+                <Sparkles className="w-5 h-5 text-amber-600" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
@@ -362,14 +374,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
                 <div className="flex items-baseline gap-1.5">
                   <span className="text-lg font-black text-slate-900">{userXP}</span>
-                  <span className="text-xs font-semibold text-emerald-800">XP</span>
+                  <span className="text-xs font-semibold text-amber-700">XP</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-3.5 flex items-center gap-3 shadow-2xs">
-              <div className="w-10 h-10 rounded-xl bg-slate-950 text-rose-400 flex items-center justify-center font-bold text-sm shadow-xs">
-                <CheckCircle2 className="w-5 h-5 text-rose-400" />
+            <div className="bg-white border border-amber-200/80 rounded-2xl p-3.5 flex items-center gap-3 shadow-2xs">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-300/80 text-rose-700 flex items-center justify-center font-bold text-sm shadow-xs">
+                <CheckCircle2 className="w-5 h-5 text-rose-600" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
@@ -377,7 +389,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
                 <div className="flex items-baseline gap-1.5">
                   <span className="text-lg font-black text-slate-900">{completedCasesCount}</span>
-                  <span className="text-xs font-semibold text-slate-500">/ 15</span>
+                  <span className="text-xs font-semibold text-slate-500">/ 16</span>
                 </div>
               </div>
             </div>
@@ -451,7 +463,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
                 <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/90 text-white text-xs font-black shadow-lg border border-rose-500/60 backdrop-blur-md">
                   <span className="text-rose-400 font-extrabold">HOSPITAL</span>
-                  <span className="text-[10px] text-slate-300 font-medium">(15 Casos)</span>
+                  <span className="text-[10px] text-slate-300 font-medium">({CLINICAL_CASES_DATABASE.length} Casos)</span>
                 </span>
               </div>
 
@@ -635,9 +647,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
 
               <div>
-                <h3 className="text-base font-black text-slate-900 group-hover:text-rose-600 transition-colors">
-                  1. El Hospital Clínico
-                </h3>
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                    <Stethoscope className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-black text-slate-900 group-hover:text-rose-600 transition-colors">
+                    1. El Hospital Clínico
+                  </h3>
+                </div>
                 <p className="text-xs text-slate-600 mt-1 line-clamp-2">
                   Atiende a pacientes en urgencias, solicita biomarcadores diagnósticos y administra costes.
                 </p>
@@ -678,9 +695,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
 
               <div>
-                <h3 className="text-base font-black text-slate-900 group-hover:text-blue-600 transition-colors">
-                  2. La Biblioteca Central
-                </h3>
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <BookOpen className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-black text-slate-900 group-hover:text-blue-600 transition-colors">
+                    2. La Biblioteca Central
+                  </h3>
+                </div>
                 <p className="text-xs text-slate-600 mt-1 line-clamp-2">
                   Temario oficial de Bioquímica Médica UGR, fichas de biomarcadores y preguntas MIR.
                 </p>
@@ -721,9 +743,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
 
               <div>
-                <h3 className="text-base font-black text-slate-900 group-hover:text-emerald-600 transition-colors">
-                  3. El Parque Biomédico
-                </h3>
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                    <Dices className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-black text-slate-900 group-hover:text-emerald-600 transition-colors">
+                    3. El Parque Biomédico
+                  </h3>
+                </div>
                 <p className="text-xs text-slate-600 mt-1 line-clamp-2">
                   Minijuegos para recargar vidas (+1 ❤️) y ganar XP, simuladores cinéticos y reto contrarreloj.
                 </p>
@@ -759,9 +786,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="flex items-center gap-2.5 shrink-0">
             <button
               onClick={() => setShowUploadModal(true)}
-              className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-2 cursor-pointer"
+              className="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-2 cursor-pointer"
             >
-              <UploadCloud className="w-4 h-4 text-emerald-400" />
+              <UploadCloud className="w-4 h-4 text-amber-100" />
               <span>Notificar Nuevo Material</span>
             </button>
           </div>
@@ -788,7 +815,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {notices.map((notice) => (
             <div
               key={notice.id}
-              className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-slate-300 hover:bg-white transition-all flex flex-col justify-between group shadow-2xs"
+              className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-amber-300 hover:bg-white transition-all flex flex-col justify-between group shadow-2xs"
             >
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
@@ -808,9 +835,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   </span>
                 </div>
 
-                <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-800 transition-colors line-clamp-2">
-                  {notice.title}
-                </h4>
+                <div className="flex items-start gap-2">
+                  {notice.type === 'caso' && (
+                    <Stethoscope className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                  )}
+                  {notice.type === 'guia' && (
+                    <BookOpen className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                  )}
+                  {notice.type === 'laboratorio' && (
+                    <FlaskConical className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  )}
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-amber-800 transition-colors line-clamp-2">
+                    {notice.title}
+                  </h4>
+                </div>
 
                 <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
                   {notice.description}
@@ -1076,9 +1114,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-xs cursor-pointer flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-xs cursor-pointer flex items-center gap-1.5"
                 >
-                  <UploadCloud className="w-3.5 h-3.5 text-emerald-400" />
+                  <UploadCloud className="w-3.5 h-3.5 text-amber-100" />
                   <span>Publicar Aviso</span>
                 </button>
               </div>

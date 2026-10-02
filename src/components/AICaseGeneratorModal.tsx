@@ -65,6 +65,15 @@ const SYSTEM_CURRICULUM_DETAILS: Record<OrganSystem, {
       { id: 'acute_biliary_pancreatitis', name: 'Pancreatitis Aguda Biliar Clásica (Lipasa sérica > 3x LSN)' }
     ],
     biomarkers: ['Lipasa Sérica', 'Triglicéridos Séricos', 'tTG-IgA', 'Vitamina B12', 'Magnesio / Calcio', 'Amilasa Total']
+  },
+  neuromuscular: {
+    label: '🧠 Neuromuscular y Señalización Celular',
+    icon: '🧠',
+    subtopics: [
+      { id: 'myasthenia_gravis', name: 'Miastenia Gravis (Receptores nicotínicos AChR y canales iónicos)' },
+      { id: 'lambert_eaton', name: 'Síndrome de Lambert-Eaton (Canales de calcio VGCC presinápticos)' }
+    ],
+    biomarkers: ['Anticuerpos Anti-AChR', 'Anticuerpos Anti-MuSK', 'Anti-VGCC', 'CK Total', 'Electromiografía']
   }
 };
 

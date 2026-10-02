@@ -92,7 +92,7 @@ export function getPlayerRank(xp: number): PlayerRank {
       minXp: 1001,
       maxXp: 1001,
       levelNumber: 5,
-      nextRankTitle: "Rango Máximo Cátedra",
+      nextRankTitle: "Rango Máximo Departamental",
       progressPct: 100
     };
   }

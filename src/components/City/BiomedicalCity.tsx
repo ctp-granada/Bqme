@@ -866,7 +866,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
               </div>
 
               <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
-                La Biblioteca reúne el corpus científico y las guías de estudio de la Cátedra de Bioquímica y Biología Molecular I de la UGR. Aquí afianzarás los fundamentos teóricos antes de emitir cualquier juicio clínico.
+                La Biblioteca reúne el corpus científico y las guías de estudio del Departamento de Bioquímica y Biología Molecular III e Inmunología de la Facultad de Medicina UGR. Aquí afianzarás los fundamentos teóricos antes de emitir cualquier juicio clínico.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

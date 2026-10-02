@@ -1202,5 +1202,436 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       }
     ],
     expertClinicalKey: 'Ante una anemia ferropénica refractaria al hierro oral en un adulto joven con síntomas digestivos o antecedentes autoinmunes (Tiroiditis de Hashimoto), el tamizaje serológico primario de elección es el anticuerpo Anti-Transglutaminasa Tisular IgA (tTG-IgA) junto a la determinación de IgA Total sérica.'
+  },
+  // ==========================================
+  // CASOS NEUROMUSCULARES Y SEÑALIZACIÓN CELULAR
+  // ==========================================
+  {
+    id: 'case_neuromuscular_01',
+    title: 'La residente que no puede mantener los ojos abiertos',
+    system: 'neuromuscular',
+    difficulty: 'intermedio',
+    categoryDocente: 'cell_signaling',
+    signalingType: 'ligand_gated_ion_channel',
+    molecularPathway: 'Acetilcolina → receptor nicotínico → entrada de cationes → despolarización',
+    molecularAlteration: 'Disminución de receptores nicotínicos funcionales',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 28,
+        gender: 'Femenino',
+        occupation: 'Médico Residente (R1 de Medicina Interna)'
+      },
+      chiefComplaint: 'Ptosis palpebral bilateral asimétrica y diplopía fluctuante de empeoramiento vespertino tras las guardias.',
+      presentIllness: 'Médico residente de 28 años que consulta por cuadro de fatiga ocular y debilidad muscular progresiva de 6 semanas de evolución. Refiere que por las mañanas se despierta asintomática, pero al final de la jornada laboral o durante las guardias médicas de 24 horas no puede mantener los ojos abiertos (ptosis bilateral de predominio derecho) y experimenta visión doble (diplopía binocular horizontal). En las últimas semanas refiere además fatiga en los músculos maseteros al masticar alimentos consistentes y dificultad transitoria para mantener los brazos elevados al asearse o explorar pacientes. Los síntomas mejoran notablemente tras el reposo o periodos de sueño.',
+      pastMedicalHistory: ['Tiroiditis autoinmune de Hashimoto en tratamiento sustitutivo', 'Sin antecedentes de esclerosis múltiple ni traumatismos craneales'],
+      medications: ['Levotiroxina 75 μg/día en ayunas'],
+      lifestyle: 'No fumadora. Consumo ocasional de café durante las guardias. Jornadas con elevado estrés físico y turnos prolongados.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '118/76 mmHg',
+        hr: '72 lpm',
+        rr: '14 rpm',
+        temp: '36.6 °C',
+        sao2: '99% aire ambiente'
+      },
+      findings: [
+        {
+          systemName: 'Pares Craneales y Examen Ocular',
+          description: 'Ptosis palpebral derecha manifiesta tras mirada sostenida superior durante 60 segundos (fatigabilidad patológica). Prueba del hielo positiva (elevación de >2 mm de la hendidura palpebral tras 2 minutos de aplicación de hielo local). Diplopía a la mirada lateral extrema. Pupilas isocóricas y normorreactivas sin defecto pupilar aferente.'
+        },
+        {
+          systemName: 'Musculoesquelético y Neurológico Motor',
+          description: 'Fuerza proximal en extremidades superiores 4+/5 que declina con el esfuerzo repetido y se recupera tras 2 minutos de reposo. Reflejos osteotendinosos conservados (+2/4) simétricos. Sensibilidad táctil y algésica normal.'
+        }
+      ]
+    },
+    initialLabWork: [
+      { test: 'TSH Sérica', result: '2.10', unit: 'mUI/L', referenceRange: '0.40 - 4.00' },
+      { test: 'T4 Libre', result: '1.24', unit: 'ng/dL', referenceRange: '0.80 - 1.80' },
+      { test: 'Creatina Quinasa (CK Total)', result: '82', unit: 'U/L', referenceRange: '26 - 192 (Normal, descarta necrosis muscular)' },
+      { test: 'Electromiografía (Estimulación Repetitiva a 3 Hz)', result: 'Decremento patológico > 12% en la amplitud del potencial de acción muscular compuesto (CMAP)', unit: '%', referenceRange: '< 10% de decremento' },
+      { test: 'TC Torácica con Contraste', result: 'Hiperplasia tímica linfoide sin evidencia de timoma invasivo ni masas mediastínicas', unit: '-', referenceRange: 'Normal' }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Miastenia Gravis',
+        plausibilityRationale: 'Concordancia perfecta con fatiga muscular patológica fluctuante de predominio vespertino, afectación oculomotora (ptosis y diplopía) que mejora con reposo y prueba del hielo, test decrementador positivo y terreno autoinmune previo.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Síndrome Miasténico de Lambert-Eaton',
+        plausibilityRationale: 'Trastorno de la unión neuromuscular presináptica, pero típicamente afecta a miembros inferiores, mejora paradójicamente tras el ejercicio breve (facilitación) y asocia abolición de reflejos rotulianos y disautonomía (boca seca), ausentes en esta paciente.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Miopatía Mitocondrial (Oftalmoplejía Externa Progresiva)',
+        plausibilityRationale: 'Cursa con ptosis y limitación ocular simétrica, pero la debilidad es fija y no fluctuante con el reposo diario, no responde a inhibidores de la colinesterasa ni presenta decremento en la electromiografía.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Esclerosis Múltiple (Forma Brote-Remisión)',
+        plausibilityRationale: 'Puede cursar con diplopía y fatiga en mujeres jóvenes, pero suele presentar alteraciones pupilares (neuritis óptica con dolor), síntomas sensitivos/piramidales persistentes durante días y lesiones desmielinizantes en resonancia magnética cerebral.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Miastenia Gravis',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_achr_ab',
+        biomarkerId: 'bm_achr_ab',
+        biomarkerName: 'Anticuerpos Anti-Receptor de Acetilcolina (AChR-Ab)',
+        isCorrect: true,
+        biochemicalRationale: 'Los autoanticuerpos frente al receptor nicotínico de acetilcolina (AChR-Ab) provocan la lisis de la membrana postsináptica mediada por complemento, aceleran la endocitosis y degradación del receptor (modulación antigénica) y bloquean el sitio de fijación del ligando. Esto reduce drásticamente el número de receptores nicotínicos funcionales en la placa motora, disminuyendo el potencial de placa terminal (EPP) por debajo del umbral para abrir los canales de sodio voltaje-dependientes.',
+        whyOptimalOrSuboptimal: 'Es el biomarcador serológico de elección de máxima especificidad (>99%) y alta sensibilidad (~85%) para confirmar la Miastenia Gravis y evidenciar la alteración del receptor acoplado a canal iónico dependiente de ligando.'
+      },
+      {
+        id: 'bm_opt_anti_vgcc_distractor',
+        biomarkerId: 'bm_anti_vgcc',
+        biomarkerName: 'Anticuerpos Anti-Canales de Calcio Dependientes de Voltaje (Anti-VGCC)',
+        isCorrect: false,
+        biochemicalRationale: 'Autoanticuerpos dirigidos contra los canales Cav2.1 presinápticos que inhiben el influjo de calcio y la exocitosis cuántica de vesículas de acetilcolina.',
+        whyOptimalOrSuboptimal: 'Es el biomarcador característico del Síndrome de Lambert-Eaton (defecto presináptico), no de la Miastenia Gravis (defecto postsináptico de canales iónicos activados por ligando).'
+      },
+      {
+        id: 'bm_opt_ck_distractor',
+        biomarkerId: 'bm_ck_total',
+        biomarkerName: 'Creatina Quinasa Sérica Total (CK)',
+        isCorrect: false,
+        biochemicalRationale: 'Enzima citosólica miocítica indicadora de rotura del sarcolema en distrofias, miopatías inflamatorias o rabdomiólisis.',
+        whyOptimalOrSuboptimal: 'En la miastenia gravis la arquitectura de la fibra muscular está íntegra y el defecto es puramente neuroquímico/molecular en la señalización del canal, por lo que la CK es estrictamente normal.'
+      },
+      {
+        id: 'bm_opt_alt_distractor',
+        biomarkerId: 'bm_alt',
+        biomarkerName: 'Transaminasas Hepáticas (ALT/AST)',
+        isCorrect: false,
+        biochemicalRationale: 'Biomarcadores enzimáticos de daño citopático hepatocelular sin valor diagnóstico en patología neuromuscular.',
+        whyOptimalOrSuboptimal: 'No guardan relación con la placa motora ni con la cinética de neurotransmisores colinérgicos.'
+      }
+    ],
+    expertClinicalKey: 'Perla de Señalización Celular: La sinapsis neuromuscular representa el modelo canónico de receptor ionotrópico o canal iónico regulado por ligando. La fijación de acetilcolina abre el canal nicotínico permitiendo la entrada de Na+ que genera el potencial de placa terminal (EPP). En la Miastenia Gravis, los anticuerpos anti-AChR destruyen estos receptores, reduciendo el margen de seguridad de la transmisión. Los fármacos anticolinesterásicos (piridostigmina) inhiben la degradación de acetilcolina en la hendidura sináptica, prolongando su disponibilidad y maximizando la activación de los receptores residuales.',
+    essentialBiomarkerIds: ['bm_achr_ab']
+  },
+  {
+    id: 'case_metabolic_signaling_01',
+    title: 'Diarrea secretora profusa "en agua de arroz" y deshidratación grave en un cooperante',
+    system: 'metabolic',
+    difficulty: 'intermedio',
+    categoryDocente: 'cell_signaling',
+    signalingType: 'gpcr_gs_camp_pka',
+    molecularPathway: 'Toxina colérica (subunidad A1) → ADP-ribosilación irreversible de Gαs → bloqueo de GTPasa → activación constitutiva de Adenilato Ciclasa → elevación de AMPc → PKA → apertura mantenida de CFTR → hipersecreción luminal de Cl- y H2O',
+    molecularAlteration: 'ADP-ribosilación irreversible y activación constitutiva continua de la subunidad Gαs dependiente de NAD+',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 34,
+        gender: 'Masculino',
+        occupation: 'Médico Cooperante en Emergencias Sanitarias'
+      },
+      chiefComplaint: 'Diarrea líquida inagotable blanquecina de 12 horas de evolución, vómitos repetidos, calambres musculares generalizados y sed abrasadora.',
+      presentIllness: 'Cooperante internacional de 34 años que regresa de un campo de refugiados tras inundaciones tropicales. Inició súbitamente hace 12 horas un cuadro de deposiciones acuosas muy abundantes y frecuentes (más de 15 evacuaciones de aspecto líquido blanquecino no sanguinolento, con grumos mucosos en "agua de arroz" y olor ligeramente dulzón), sin dolor abdominal cólico ni tenesmo. En las últimas 4 horas se agregan náuseas y vómitos biliosos, calambres musculares intensos en pantorrillas y postración extrema por deshidratación aguda.',
+      pastMedicalHistory: ['Sin patologías crónicas de interés', 'Vacunación rutinaria al día; sin profilaxis colérica oral'],
+      medications: ['Ninguna'],
+      lifestyle: 'Estancia de 4 semanas en zona con red de agua potable colapsada. Consumo involuntario de bebidas locales sin hervir en las últimas 48 horas.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '82/48 mmHg (choque hipovolémico descompensado)',
+        hr: '128 lpm (pulso filiforme y taquicárdico)',
+        rr: '24 rpm (hiperpnea compensatoria de Kussmaul)',
+        temp: '35.9 °C (hipotermia por mala perfusión)',
+        sao2: '98% aire ambiente'
+      },
+      findings: [
+        {
+          systemName: 'Signos Generales y de Hidratación',
+          description: 'Afectación severa del estado general: letárgico, ojos profundamente hundidos (enoftalmos), ausencia de lágrimas, lengua y mucosa yugal como "papel de lija", signo del pliegue cutáneo marcadamente positivo (>3 segundos en abdomen), frialdad distal y acrocianosis.'
+        },
+        {
+          systemName: 'Abdomen y Examen Fecal',
+          description: 'Abdomen blando, no doloroso a la palpación profunda, sin defensa muscular ni signos de peritonismo. Ruidos hidroaéreos marcadamente aumentados. Evacuación rectal continua de líquido lechoso transparente con detritus mucosos sin trazas de sangre.'
+        }
+      ]
+    },
+    initialLabWork: [
+      { test: 'Hematocrito (Hto)', result: '56', unit: '%', referenceRange: '40 - 52 (Hemoconcentración severa por fuga volumétrica masiva)' },
+      { test: 'Creatinina Sérica', result: '2.4', unit: 'mg/dL', referenceRange: '0.7 - 1.3 (Fracaso renal agudo de origen prerrenal)' },
+      { test: 'Potasio Sérico (K+)', result: '2.7', unit: 'mEq/L', referenceRange: '3.5 - 5.0 (Hipopotasemia severa por pérdida colónica de potasio)' },
+      { test: 'Gasometría Venosa Periférica', result: 'pH: 7.20, HCO3-: 11 mEq/L, pCO2: 29 mmHg (Acidosis metabólica severa con anión GAP normal por pérdida digestiva neta de HCO3-)', unit: 'mEq/L', referenceRange: 'pH 7.35-7.45; HCO3- 22-26' },
+      { test: 'Examen Fecal al Microscopio (Frotis con Azul de Metileno)', result: 'Ausencia total de leucocitos polimorfonucleares (PMN 0 por campo) y ausencia de eritrocitos (enteropatía puramente secretora sin lisis mucosa)', unit: 'PMN/campo', referenceRange: '0 PMN/campo' }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Cólera Epidémico Grave (Infección por Vibrio cholerae toxigénico)',
+        plausibilityRationale: 'Concordancia absoluta con antecedentes de exposición en zona endémica, cuadro hiperagudo de diarrea masiva en agua de arroz sin invasión mucosa (ausencia de pus o sangre en heces), hemoconcentración crítica, hipopotasemia con acidosis metabólica hiperclorémica y choque hipovolémico fulminante.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Gastroenteritis Invasiva por Shigella / Salmonella Enteritidis',
+        plausibilityRationale: 'Causa diarrea aguda en viajeros, pero se caracteriza por un mecanismo patogénico citotóxico invasivo con fiebre alta, dolor cólico intenso, tenesmo y heces con moco, pus (abundantes leucocitos) y sangre franca (disentería).',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Diarrea Osmótica por Ingestión de Laxantes o Polialcoholes',
+        plausibilityRationale: 'Retiene agua en la luz por gradiente osmótico pero cede de inmediato con el ayuno oral estricto y no genera la pérdida masiva electrolítica letal característica de la toxina ADP-ribosiladora.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Síndrome Carcinoide / Tumor Secretor de VIP (VIPoma)',
+        plausibilityRationale: 'Produce diarrea secretora acuosa profusa mediada por AMPc («cólera pancreático»), pero es una neoplasia neuroendocrina de instauración crónica a lo largo de meses, asociada a flushing facial y lesiones hepáticas metastásicas.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Cólera Epidémico Grave (Infección por Vibrio cholerae toxigénico)',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_cholera_toxin_correct',
+        biomarkerId: 'bm_cholera_toxin',
+        biomarkerName: 'Detección de Enterotoxina Colérica y Cultivo Selectivo TCBS',
+        isCorrect: true,
+        biochemicalRationale: 'La toxina colérica es una enterotoxina de tipo AB5. La subunidad catalítica A1 transfiere de forma irreversible el grupo ADP-ribosa desde el NAD+ intracelular a la subunidad Gαs del complejo de la adenilato ciclasa. Al quedar bloqueada la actividad GTPásica intrínseca, Gαs se mantiene permanentemente unida a GTP en estado activo constante, produciendo una síntesis desmedida y continua de AMPc. El AMPc hiperactiva a la PKA, la cual mantiene permanentemente fosforilado y abierto al canal apical de cloruro CFTR e inhibe el intercambiador Na+/H+ (NHE3). La salida forzada de cloruro hacia la luz intestinal arrastra sodio, bicarbonato y agua a razón de hasta 1000 mL/hora, desatando la diarrea en "agua de arroz".',
+        whyOptimalOrSuboptimal: 'Es el biomarcador y método microbiológico confirmatorio de referencia que identifica el mecanismo patogénico de la toxina sobre la proteína Gs y permite aislar el clon epidémico en el medio selectivo TCBS.'
+      },
+      {
+        id: 'bm_opt_lipase_distractor',
+        biomarkerId: 'bm_lipasa',
+        biomarkerName: 'Lipasa Sérica',
+        isCorrect: false,
+        biochemicalRationale: 'Enzima acinar digestiva liberada en pancreatitis necrotizante.',
+        whyOptimalOrSuboptimal: 'Completamente normal; no guarda relación con la patología del enterocito secretor ni con la transducción de señales por proteínas G.'
+      },
+      {
+        id: 'bm_opt_ammonia_distractor',
+        biomarkerId: 'bm_amonio_plasmatico',
+        biomarkerName: 'Amonio Plasmático',
+        isCorrect: false,
+        biochemicalRationale: 'Metabolito neurotóxico procedente del catabolismo de aminoácidos y del ciclo de la urea.',
+        whyOptimalOrSuboptimal: 'Inespecífico y no relacionado con la fisiopatología de la pérdida luminal de agua intestinal.'
+      },
+      {
+        id: 'bm_opt_uric_acid_distractor',
+        biomarkerId: 'bm_acido_urico',
+        biomarkerName: 'Ácido Úrico Sérico',
+        isCorrect: false,
+        biochemicalRationale: 'Producto final de la degradación de bases púricas.',
+        whyOptimalOrSuboptimal: 'Puede sufrir elevación reactiva leve por hemoconcentración y disminución del filtrado glomerular pero carece por completo de especificidad etiológica.'
+      }
+    ],
+    expertClinicalKey: 'Perla de Transducción de Señales (GPCR y AMPc): La toxina colérica constituye el experimento de la naturaleza por excelencia para estudiar la cascada Gs-AMPc-PKA. Al bloquear por ADP-ribosilación la hidrólisis del GTP unido a Gαs, anula el mecanismo intrínseco de auto-apagado de la señal. El tratamiento de rescate no consiste en antidiarreicos (que retendrían líquido en asas paralizadas), sino en la hidratación oral masiva con soluciones que contienen Glucosa y Sodio: el cotransportador apical SGLT1 es independiente de la cascada AMPc/PKA y permanece intacto, permitiendo que la absorción acoplada de glucosa arrastre sodio y agua al torrente sanguíneo, salvando la vida del paciente.',
+    essentialBiomarkerIds: ['bm_cholera_toxin']
+  },
+  {
+    id: 'case_cardiac_signaling_01',
+    title: 'Cefalea pulsátil, diaforesis e hipertensión paroxística: La tormenta adrenérgica',
+    system: 'cardiac',
+    difficulty: 'intermedio',
+    categoryDocente: 'cell_signaling',
+    signalingType: 'gpcr_gq_plc_ip3_dag',
+    molecularPathway: 'Noradrenalina/Adrenalina → receptor α1 vascular (Gq/PLC/IP3/Ca2+) y receptor β1 cardíaco (Gs/AC/AMPc/PKA) → vasoconstricción sistémica extrema y taquicardia desregulada',
+    molecularAlteration: 'Hiperestimulación autonómica masiva y episódica de los receptores adrenérgicos acoplados a proteínas G por hipersecreción tumoral cromafín',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 44,
+        gender: 'Femenino',
+        occupation: 'Arquitecta'
+      },
+      chiefComplaint: 'Crisis bruscas recurrentes de dolor de cabeza explosivo, sudoración en sábana, palpitaciones torácicas rápidas y palidez cutánea cadavérica.',
+      presentIllness: 'Mujer de 44 años sin antecedentes de hipertensión crónica que es remitida a urgencias por presentar episodios paroxísticos de 15 a 30 minutos de duración, autolimitados, que se repiten 2 o 3 veces por semana desde hace 2 meses. Durante las crisis refiere cefalea occipital pulsátil 10/10 acompañada de sudoración profusa generalizada, taquicardia desbocada con sensación de muerte inminente, temblor fino en las manos y palidez facial extrema que posteriormente da paso a rubefacción. En un episodio previo en su centro de salud se constató TA de 230/125 mmHg. Niega ingesta de drogas estimulantes, simpaticomiméticos o descongestionantes.',
+      pastMedicalHistory: ['Colecistectomía laparoscópica hace 5 años', 'Sin antecedentes familiares de neoplasias endocrinas múltiples conocidas'],
+      medications: ['Ninguna habitual; toma paracetamol ocasional sin mejoría de la cefalea'],
+      lifestyle: 'No fumadora. Dieta normosódica. No consume café ni alcohol.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '218/120 mmHg (en el inicio de la crisis en urgencias; desciende a 130/80 mmHg tras el cese)',
+        hr: '124 lpm (taquicardia sinusal)',
+        rr: '20 rpm',
+        temp: '37.1 °C',
+        sao2: '99% aire ambiente'
+      },
+      findings: [
+        {
+          systemName: 'Cardiovascular y Vascular Periférico',
+          description: 'Latido de la punta enérgico e hiperdinámico. Ruidos cardíacos taquicárdicos sin soplos ni tercer ruido. Marcada palidez cutánea en cara y extremidades con frialdad acral y relleno capilar enlentecido durante el pico hipertensivo.'
+        },
+        {
+          systemName: 'Abdomen y Examen Físico General',
+          description: 'Abdomen blando, depresible, sin visceromegalias. No se auscultan soplos en arterias renales. Diaforesis visible con empapamiento de la ropa. Temblor postural fino distal en ambas manos.'
+        }
+      ]
+    },
+    initialLabWork: [
+      { test: 'Glucemia en Ayunas', result: '142', unit: 'mg/dL', referenceRange: '70 - 109 (Hiperglucemia inducida por gluconeogénesis y glucogenólisis adrenérgica mediada por receptores beta-2 y alfa-1)' },
+      { test: 'Troponina Cardíaca Ultrasensible (hs-cTn)', result: '19', unit: 'ng/L', referenceRange: '< 50 (Sin necrosis miocárdica irreversible aguda)' },
+      { test: 'Creatinina Sérica', result: '0.88', unit: 'mg/dL', referenceRange: '0.5 - 1.1' },
+      { test: 'Electrocardiograma (ECG)', result: 'Taquicardia sinusal a 122 lpm sin alteraciones isquémicas del segmento ST ni ondas Q patológicas', unit: '-', referenceRange: 'Normal' },
+      { test: 'Ecografía / TC Abdominal con Contraste', result: 'Masa nodular heterogénea hipercaptante de 4.3 x 3.8 cm en la glándula suprarrenal izquierda con áreas centrales quísticas necróticas', unit: 'cm', referenceRange: 'Sin nódulos' }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Feocromocitoma Medulosuprarrenal',
+        plausibilityRationale: 'Presentación de libro con la tríada clásica de paroxismos (cefalea, diaforesis y taquicardia) junto a crisis hipertensivas de gran magnitud, hiperglucemia de estrés y nódulo suprarrenal sólido heterogéneo.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Hipertensión Arterial Esencial con Crisis Hipertensiva',
+        plausibilityRationale: 'La elevación de tensión arterial es severa, pero no cursa de forma paroxística con la tríada clásica ni asocia masa suprarrenal hipervascularizada.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Crisis de Pánico / Trastorno de Angustia con Agorafobia',
+        plausibilityRationale: 'Puede simular la descarga adrenérgica (temblor, palpitaciones, sudoración), pero rara vez alcanza tensiones arteriales superiores a 210/120 mmHg y no justifica la masa adrenal orgánica identificada en neuroimagen.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Tirotoxicosis / Hipertiroidismo por Enfermedad de Graves',
+        plausibilityRationale: 'Cursa con taquicardia, sudoración y temblor por hipersensibilidad adrenérgica, pero la tensión arterial diastólica suele ser baja o normal (presión de pulso amplia), la clínica es continua y no paroxística y cursa con TSH inhibida.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Feocromocitoma Medulosuprarrenal',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_metanephrines_correct',
+        biomarkerId: 'bm_metanephrines_plasma',
+        biomarkerName: 'Metanefrinas Libres Fraccionadas en Plasma',
+        isCorrect: true,
+        biochemicalRationale: 'La secreción de noradrenalina y adrenalina por las células cromafines del feocromocitoma activa potentemente la cascada del receptor α1 acoplado a Gq: la subunidad Gαq activa a la Fosfolipasa C-β (PLC-β), que hidroliza el fosfatidilinositol 4,5-bisfosfato (PIP2) generando inositol 1,4,5-trifosfato (IP3) y diacilglicerol (DAG). El IP3 se une a sus receptores en el retículo sarcoplásmico liberando Ca2+ al citosol, lo que activa a la quinasa de cadena ligera de miosina (MLCK) y desencadena una vasoconstricción arteriolar masiva con picos de TA > 200 mmHg. En el corazón, las catecolaminas activan receptores β1 acoplados a Gs-adenilato ciclasa-AMPc-PKA, disparando la entrada de Ca2+ y la frecuencia cardíaca. Las metanefrinas libres plasmáticas son el biomarcador óptimo porque la enzima intratumoral Catecol-O-metiltransferasa (COMT) metaboliza continuamente las catecolaminas dentro del propio tumor en normetanefrina y metanefrina libres, liberándolas a la sangre de forma constante, lo que confiere una sensibilidad diagnóstica superior al 98% incluso entre paroxismos.',
+        whyOptimalOrSuboptimal: 'Es el biomarcador de primera elección de máxima sensibilidad analítica (>98%) para diagnosticar el feocromocitoma e ilustrar la hiperactivación de las vías de transducción adrenérgica.'
+      },
+      {
+        id: 'bm_opt_troponin_distractor',
+        biomarkerId: 'bm_troponin_c',
+        biomarkerName: 'Troponina Cardíaca Ultrasensible (hs-cTn)',
+        isCorrect: false,
+        biochemicalRationale: 'Proteína miofibrilar marcadora de necrosis celular de miocitos cardíacos.',
+        whyOptimalOrSuboptimal: 'Negativa o mínimamente elevada en ausencia de daño isquémico miocárdico directo o miocardiopatía de Takotsubo; no identifica la fuente catecolaminérgica de la crisis.'
+      },
+      {
+        id: 'bm_opt_ckmb_distractor',
+        biomarkerId: 'bm_ckmb',
+        biomarkerName: 'CK-MB Masa',
+        isCorrect: false,
+        biochemicalRationale: 'Isoenzima citosólica miocárdica de cinética corta.',
+        whyOptimalOrSuboptimal: 'Inespecífica para hipertensión secundaria y normal en este escenario sin infarto agudo de miocardio.'
+      },
+      {
+        id: 'bm_opt_bnp_distractor',
+        biomarkerId: 'bm_nt_probnp',
+        biomarkerName: 'NT-proBNP',
+        isCorrect: false,
+        biochemicalRationale: 'Péptido liberado por los ventrículos en respuesta a sobrecarga hemodinámica de volumen o presión.',
+        whyOptimalOrSuboptimal: 'Puede incrementarse por la postcarga elevada pero carece de especificidad diagnóstica para confirmar una neoplasia neuroendocrina.'
+      }
+    ],
+    expertClinicalKey: 'Perla de Señalización Adrenérgica y Fisiopatología Molecular: El feocromocitoma ilustra la sinergia letal de dos vías de transducción GPCR: la vía Gq-PLC-IP3-Ca2+ (mediada por receptores α1 vasculares, responsable de la vasoconstricción crítica) y la vía Gs-AC-AMPc-PKA (mediada por receptores β1 miocárdicos, generadora de la taquicardia extrema). En el manejo farmacológico preoperatorio es mandatorio realizar un bloqueo alfa-adrenérgico previo (con fenoxibenzamina o doxazosina) durante al menos 10-14 días antes de iniciar bloqueantes beta-adrenérgicos: si se administrara un beta-bloqueante primero, se anularía la vasodilatación beta-2 compensadora, dejando sin oposición al receptor alfa-1 acoplado a Gq, lo que desencadenaría una crisis hipertensiva vasoconstrictora potencialmente mortal.',
+    essentialBiomarkerIds: ['bm_metanephrines_plasma']
+  },
+  {
+    id: 'case_metabolic_signaling_02',
+    title: 'Acantosis nigricans severa, hiperinsulinismo extremo y oligomenorrea en una joven no obesa',
+    system: 'metabolic',
+    difficulty: 'avanzado',
+    categoryDocente: 'cell_signaling',
+    signalingType: 'receptor_tyrosine_kinase',
+    molecularPathway: 'Insulina → subunidad α del INSR → autofosforilación de tirosinas en subunidad β → IRS-1 → PI3K → PIP3 → Akt/PKB → translocación vesicular de GLUT4',
+    molecularAlteration: 'Mutación con pérdida de función en el dominio tirosina quinasa intracelular del receptor de insulina (INSR)',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 17,
+        gender: 'Femenino',
+        occupation: 'Estudiante de Bachillerato y Gimnasta'
+      },
+      chiefComplaint: 'Aparición progresiva de pigmentación oscura aterciopelada en pliegues cutáneos (acantosis nigricans severa), reglas muy irregulares y aumento del vello facial a pesar de ser deportista y delgada.',
+      presentIllness: 'Adolescente de 17 años, deportista de competición con complexión delgada (IMC 20.4 kg/m²), que es remitida desde dermatología por lesiones cutáneas de 18 meses de evolución consistentes en placas hiperpigmentadas, rugosas y aterciopeladas en la cara posterior del cuello, ambas axilas, pliegues inframamarios e ingles (acantosis nigricans florida). Presenta asimismo oligomenorrea severa con ciclos de 90 a 120 días e hirsutismo progresivo en mentón y patillas. En analíticas de medicina deportiva previas llamó la atención una cifra de insulina basal desmesuradamente alta en presencia de glucemias normales-altas, sin sobrepeso ni antecedentes familiares de diabetes mellitus tipo 2 común.',
+      pastMedicalHistory: ['Nacimiento a término con peso adecuado', 'Sin consumo de corticoides ni anabolizantes'],
+      medications: ['Ninguna'],
+      lifestyle: 'Dieta mediterránea estricta equilibrada sin exceso de carbohidratos refinados. Entrenamiento físico aeróbico diario.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '112/68 mmHg',
+        hr: '64 lpm',
+        rr: '14 rpm',
+        temp: '36.6 °C',
+        sao2: '99% aire ambiente'
+      },
+      findings: [
+        {
+          systemName: 'Dermatológico y Cutáneo',
+          description: 'Acantosis nigricans exuberante grado 4 en cuello ("collar de terciopelo negro"), axilas con acrocordones múltiples y afectación simétrica en articulaciones metacarpofalángicas de las manos. Escala de Ferriman-Gallwey: 13/36 (hirsutismo moderado).'
+        },
+        {
+          systemName: 'Hábito Corporal y Endocrino',
+          description: 'Hábito corporal no cushingoide: no presenta obesidad troncular, ni cara de luna llena, ni estrías violáceas abdominales ni giba de búfalo. Masa muscular bien definida compatible con actividad física atlética. Tiroides de tamaño y consistencia normal.'
+        }
+      ]
+    },
+    initialLabWork: [
+      { test: 'Glucosa Basal en Ayunas', result: '114', unit: 'mg/dL', referenceRange: '70 - 109 (Glucemia basal alterada / prediabetes)' },
+      { test: 'Hemoglobina Glicosilada (HbA1c)', result: '5.9', unit: '%', referenceRange: '< 5.7% (Prediabetes moderada a pesar de hiperinsulinemia masiva)' },
+      { test: 'Testosterona Total Sérica', result: '98', unit: 'ng/dL', referenceRange: '15 - 70 (Hiperandrogenismo ovárico secundario)' },
+      { test: 'DHEA-Sulfato (DHEA-S)', result: '190', unit: 'μg/dL', referenceRange: '65 - 380 (Normal, excluye hiperplasia suprarrenal congénita o tumor adrenal)' },
+      { test: 'Anticuerpos Anti-GAD65 y Anti-IA2', result: 'Negativos', unit: '-', referenceRange: 'Negativos (Descarta Diabetes Mellitus Tipo 1 o autoinmune)' }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Síndrome de Resistencia a la Insulina Tipo A (Mutación en el gen del Receptor de Insulina - INSR)',
+        plausibilityRationale: 'Concordancia perfecta con acantosis nigricans masiva e hiperandrogenismo severo en una mujer joven no obesa, con ausencia de autoanticuerpos, normo/prediabetes e hiperinsulinemia basal descomunal derivada de un defecto genético en la transducción del receptor tirosina quinasa.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Síndrome de Ovario Poliquístico (SOP) Clásico',
+        plausibilityRationale: 'Comparte oligomenorrea e hiperandrogenismo, pero en el SOP la resistencia a la insulina es típicamente leve a moderada y ligada a sobrepeso; no justifica una acantosis nigricans monstruosa generalizada con insulinas basales superiores a 150-250 µUI/mL en una paciente deportista delgada.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Diabetes Mellitus Tipo 1 / LADA de Debut',
+        plausibilityRationale: 'Cursa con hiperglucemia en jóvenes no obesos, pero el mecanismo patogénico es el déficit absoluto de insulina por necrosis autoinmune de islotes pancreáticos, cursando con niveles basales de insulina casi indetectables y autoanticuerpos positivos.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Síndrome de Cushing Primario (Adenoma Suprarrenal Cortical)',
+        plausibilityRationale: 'Produce intolerancia hidrocarbonada e hirsutismo por exceso de esteroides, pero genera obesidad centrípeta marcada, hipertensión arterial, equimosis fáciles y elevación del cortisol libre urinario.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Síndrome de Resistencia a la Insulina Tipo A (Mutación en el gen del Receptor de Insulina - INSR)',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_insulin_homa_correct',
+        biomarkerId: 'bm_fasting_insulin',
+        biomarkerName: 'Insulina Basal en Ayunas e Índice HOMA-IR',
+        isCorrect: true,
+        biochemicalRationale: 'El receptor de insulina (INSR) es el prototipo de receptor de membrana con actividad tirosina quinasa intrínseca (RTK), compuesto por un heterotetrámero α2β2. La unión de la insulina a las subunidades alfa activa la actividad catalítica de las subunidades beta citosólicas, que se autofosforilan en residuos de tirosina y reclutan a proteínas adaptadoras como IRS-1. IRS-1 fosforilado activa a la fosfatidilinositol 3-quinasa (PI3K), que convierte PIP2 en PIP3 en la membrana plasmática, reclutando a PDK1 y fosforilando a Akt (Protein Kinasa B). Akt media la translocación de vesículas con transportadores GLUT4 a la membrana celular para captar glucosa en músculo y grasa. En el Síndrome Tipo A, mutaciones inactivadoras en el dominio tirosina quinasa impiden la autofosforilación y la activación de Akt. Como consecuencia, las células beta pancreáticas intentan vencer este bloqueo secretando cantidades astronómicas de insulina (> 150-300 µUI/mL, con HOMA-IR > 20). Esta concentración masiva de insulina circulante estimula por reacción cruzada los receptores de IGF-1 en queratinocitos dérmicos (desencadenando la proliferación epitelial aterciopelada de la acantosis nigricans) y en células de la teca ovárica (estimulando la síntesis autónoma de testosterona).',
+        whyOptimalOrSuboptimal: 'La determinación de insulina basal extraordinariamente elevada en ayunas junto con el índice HOMA-IR y la normo/prediabetes confirman de forma concluyente la resistencia extrema a la insulina mediada por defecto en el receptor tirosina quinasa.'
+      },
+      {
+        id: 'bm_opt_hba1c_distractor',
+        biomarkerId: 'bm_hba1c',
+        biomarkerName: 'Hemoglobina Glicosilada (HbA1c)',
+        isCorrect: false,
+        biochemicalRationale: 'Marcador de glicación no enzimática de la hemoglobina dependiente de la glucemia media durante los 120 días previos.',
+        whyOptimalOrSuboptimal: 'Solo indica el grado de alteración glucémica (prediabetes en 5.9%), pero es completamente incapaz de discriminar el mecanismo molecular de resistencia extrema mediado por receptor tirosina quinasa frente a otras formas de diabetes.'
+      },
+      {
+        id: 'bm_opt_acylcarnitine_distractor',
+        biomarkerId: 'bm_perfil_acilcarnitinas',
+        biomarkerName: 'Perfil de Acilcarnitinas en Sangre',
+        isCorrect: false,
+        biochemicalRationale: 'Biomarcador por espectrometría de masas en tándem de errores innatos de la beta-oxidación mitocondrial (como MCADD).',
+        whyOptimalOrSuboptimal: 'Normal; no evalúa la cascada de fosforilación del receptor de insulina.'
+      },
+      {
+        id: 'bm_opt_bhydroxybutyrate_distractor',
+        biomarkerId: 'bm_beta_hidroxibutirato',
+        biomarkerName: 'Beta-Hidroxibutirato en Sangre',
+        isCorrect: false,
+        biochemicalRationale: 'Cuerpo cetónico predominante en cetoacidosis.',
+        whyOptimalOrSuboptimal: 'Negativo o normal (< 0.5 mmol/L), ya que la hiperinsulinemia masiva mantiene fuertemente suprimida la cetogénesis mitocondrial hepática.'
+      }
+    ],
+    expertClinicalKey: 'Perla de Señalización Molecular (Receptor Tirosina Quinasa - RTK): El receptor de insulina bifurca su señal en dos ramas principales: 1) La vía metabólica PI3K-Akt (responsable de la captación de glucosa vía GLUT4, síntesis de glucógeno y supresión de lipólisis) y 2) La vía mitogénica MAPK / Ras-Raf-MEK-ERK (responsable de la proliferación y diferenciación celular). Cuando el dominio tirosina quinasa presenta una mutación inactivadora, la captación metabólica de glucosa fracasa estrepitosamente, obligando a una hiperinsulinemia masiva de rescate. Sin embargo, a concentraciones suprafisiológicas de cientos de µUI/mL, la insulina interactúa con los receptores intactos de IGF-1 y promueve la vía mitogénica MAPK en la piel y el ovario, generando respectivamente la acantosis nigricans florida y el hiperandrogenismo severo.',
+    essentialBiomarkerIds: ['bm_fasting_insulin']
   }
 ];

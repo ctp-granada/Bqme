@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Maximize2
 } from 'lucide-react';
+import { CLINICAL_CASES_DATABASE } from '../../data/clinicalCases';
 
 const cityMapImage = '/biomedical_city_map.jpg';
 
@@ -32,7 +33,7 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
   onNavigate,
   onOpenLab,
   onStartDailyChallenge,
-  casesCount = 15
+  casesCount = CLINICAL_CASES_DATABASE.length
 }) => {
   const [hoveredSpot, setHoveredSpot] = useState<ActiveHotspot>(null);
   const [selectedSpot, setSelectedSpot] = useState<ActiveHotspot>(null);
@@ -335,7 +336,7 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
-              Consulta los temarios oficiales de la cátedra de Bioquímica Médica UGR, seminarios, vademécum detallado de biomarcadores con valores de referencia y preguntas tipo test MIR razonadas.
+              Consulta los temarios oficiales del Departamento de Bioquímica y Biología Molecular III e Inmunología (UGR), seminarios, vademécum detallado de biomarcadores con valores de referencia y preguntas tipo test MIR razonadas.
             </p>
 
             <div className="flex items-center gap-2 flex-wrap pt-1">

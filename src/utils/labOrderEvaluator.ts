@@ -15,16 +15,20 @@ const CASE_ESSENTIAL_MAP: Record<string, string[]> = {
   case_renal_03: ['bm_creatinina', 'bm_urea'],
   case_pancreatic_01: ['bm_lipasa', 'bm_trigliceridos'],
   case_pancreatic_02: ['bm_vitamina_b12', 'bm_magnesio'],
-  case_pancreatic_03: ['bm_ttg_iga']
+  case_pancreatic_03: ['bm_ttg_iga'],
+  case_neuromuscular_01: ['bm_achr_ab'],
+  case_metabolic_signaling_01: ['bm_cholera_toxin'],
+  case_cardiac_signaling_01: ['bm_metanephrines_plasma'],
+  case_metabolic_signaling_02: ['bm_fasting_insulin']
 };
 
 // Unit cost in budget percentage per test category (realistic clinical laboratory economics)
 export const getBiomarkerCost = (biomarker: Biomarker): number => {
   // Specialized immunological or mass spectrometry profiles cost slightly more
-  if (['bm_perfil_acilcarnitinas', 'bm_ttg_iga', 'bm_nt_probnp'].includes(biomarker.id)) {
+  if (['bm_perfil_acilcarnitinas', 'bm_ttg_iga', 'bm_nt_probnp', 'bm_achr_ab', 'bm_anti_vgcc', 'bm_metanephrines_plasma'].includes(biomarker.id)) {
     return 8;
   }
-  if (['bm_troponin_c', 'bm_elastasa_fecal', 'bm_vitamina_b12', 'bm_gastrina'].includes(biomarker.id)) {
+  if (['bm_troponin_c', 'bm_elastasa_fecal', 'bm_vitamina_b12', 'bm_gastrina', 'bm_cholera_toxin', 'bm_fasting_insulin'].includes(biomarker.id)) {
     return 6;
   }
   return 4; // Standard routine biochemical enzymes, substrates, ions

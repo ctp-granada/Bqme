@@ -1236,5 +1236,168 @@ export const BIOMARKERS_DATABASE: Biomarker[] = [
     discriminatoryContexts: [
       'Explica la hipocalcemia e hipoexcitabilidad neuromuscular refractarias en consumidores crónicos de IBP.'
     ]
+  },
+  // ==========================================
+  // MARCADORES NEUROMUSCULARES Y SEÑALIZACIÓN CELULAR
+  // ==========================================
+  {
+    id: 'bm_achr_ab',
+    name: 'Anticuerpos Anti-Receptor de Acetilcolina (AChR-Ab)',
+    abbreviation: 'Anti-AChR',
+    isoforms: 'Inmunoglobulinas IgG policlonales (IgG1/IgG3) dirigidas contra la región inmunogénica principal (MIR) de las subunidades alfa (α1) del receptor nicotínico postsináptico',
+    system: 'neuromuscular',
+    referenceValues: {
+      conventional: '< 0.40 nmol/L (Negativo)',
+      si: '< 0.40 nmol/L',
+      genderAgeVariations: 'Negativo: < 0.40 nmol/L; Indeterminado: 0.40 - 0.50 nmol/L; Positivo: > 0.50 nmol/L (Ensayo RIA con 125I-alfa-bungarotoxina).'
+    },
+    temporalWindow: {
+      elevationStart: 'Detectable desde la instauración clínica de los síntomas',
+      peakWindow: 'Títulos estables; suelen correlacionar con exacerbaciones clínicas y crisis miasténicas',
+      normalizationWindow: 'Persisten detectables de forma crónica; descienden gradualmente tras timectomía, recambio plasmático o inmunosupresión sostenida',
+      halfLife: '21 días (vida media típica de IgG sérica)'
+    },
+    diagnosticParams: {
+      sensitivity: '85% en Miastenia Gravis generalizada; 50-70% en Miastenia Gravis ocular pura',
+      specificity: '> 99% para Miastenia Gravis autoinmune',
+      optimalCutoff: '> 0.50 nmol/L'
+    },
+    clinicalRelevance: 'Vía molecular de señalización y canales iónicos: La acetilcolina liberada por la motoneurona se une a los receptores nicotínicos (canales iónicos regulados por ligando), desencadenando la apertura del poro, el influjo de Na+ y la despolarización de la placa motora. Los autoanticuerpos anti-AChR inducen lisis de los pliegues postsinápticos mediada por complemento, internalización acelerada del receptor (modulación antigénica) y bloqueo estérico directo, reduciendo la densidad de canales funcionales por debajo del umbral de disparo muscular.',
+    diagnosticIndication: 'Sospecha de Miastenia Gravis ante ptosis palpebral, diplopía fluctuante, fatiga muscular inducible con el esfuerzo repetido y debilidad bulbar o proximal.',
+    falsePositivesNegatives: {
+      falsePositives: ['Extremadamente raros (< 0.1%); ocasionalmente en ELA tratada con D-penicilamina o timoma sin clínica miasténica manifiesta'],
+      falseNegatives: ['15% de casos de miastenia generalizada y 30-50% de formas oculares (formas seronegativas, candidatas a estudio de Anti-MuSK y Anti-LRP4)']
+    },
+    discriminatoryContexts: [
+      'Confirma de forma concluyente la Miastenia Gravis autoinmune y la diferencia del Síndrome de Lambert-Eaton (Anti-VGCC) y miopatías mitocondriales o inflamatorias.'
+    ]
+  },
+  {
+    id: 'bm_anti_vgcc',
+    name: 'Anticuerpos Anti-Canales de Calcio Dependientes de Voltaje tipo P/Q (Anti-VGCC)',
+    abbreviation: 'Anti-VGCC',
+    isoforms: 'Autoanticuerpos IgG dirigidos contra la subunidad alfa-1A de los canales Cav2.1 presinápticos',
+    system: 'neuromuscular',
+    referenceValues: {
+      conventional: '< 20 pmol/L (Negativo)',
+      si: '< 20 pmol/L',
+      genderAgeVariations: 'Normal: < 20 pmol/L; Límite: 20 - 30 pmol/L; Positivo: > 30 pmol/L.'
+    },
+    temporalWindow: {
+      elevationStart: 'Presente desde fases precoces del síndrome',
+      peakWindow: 'Títulos elevados y estables (asociados en 50-60% a carcinoma microcítico de pulmón)',
+      normalizationWindow: 'Disminución con tratamiento oncológico o inmunosupresor',
+      halfLife: '21 días'
+    },
+    diagnosticParams: {
+      sensitivity: '85-95% para Síndrome Miasténico de Lambert-Eaton',
+      specificity: '> 98%',
+      optimalCutoff: '> 30 pmol/L'
+    },
+    clinicalRelevance: 'Mecanismo molecular presináptico: Los canales de calcio dependientes de voltaje en el botón presináptico permiten la entrada de Ca2+ necesaria para la fusión vesicular y la exocitosis cuántica de acetilcolina. Los anticuerpos anti-VGCC reducen el influjo de calcio, disminuyendo la liberación de neurotransmisor.',
+    diagnosticIndication: 'Diagnóstico de Síndrome de Lambert-Eaton ante debilidad de cinturas que mejora transitoriamente con el ejercicio, arreflexia y disautonomía.',
+    falsePositivesNegatives: {
+      falsePositives: ['Ocasional en carcinoma microcítico de pulmón sin clínica miasténica evidente'],
+      falseNegatives: ['Formas seronegativas raras de Lambert-Eaton']
+    },
+    discriminatoryContexts: [
+      'Discrimina el defecto presináptico de Lambert-Eaton frente al defecto postsináptico de la Miastenia Gravis.'
+    ]
+  },
+  {
+    id: 'bm_metanephrines_plasma',
+    name: 'Metanefrinas Libres Fraccionadas en Plasma',
+    abbreviation: 'Metanefrinas Libres',
+    isoforms: 'Normetanefrina libre (derivada de noradrenalina) y Metanefrina libre (derivada de adrenalina) metabolizadas por COMT intratumoral',
+    system: 'cardiac',
+    referenceValues: {
+      conventional: 'Normetanefrina: < 0.90 nmol/L (< 165 pg/mL); Metanefrina: < 0.50 nmol/L (< 99 pg/mL)',
+      si: 'Normetanefrina: < 0.90 nmol/L; Metanefrina: < 0.50 nmol/L',
+      genderAgeVariations: 'Ligeros incrementos con la edad y en decúbito no estricto durante la venopunción.'
+    },
+    temporalWindow: {
+      elevationStart: 'Elevación persistente continua debido a la metabolización intratumoral permanente dentro de las células cromafines',
+      peakWindow: 'Picos extremos (> 3 a 5 veces el límite superior) durante o inmediatamente tras paroxismos hipertensivos',
+      normalizationWindow: 'Normalización completa a las 24-48 horas tras resección quirúrgica tumoral',
+      halfLife: '30 - 60 minutos'
+    },
+    diagnosticParams: {
+      sensitivity: '97 - 99% para feocromocitoma y paraganglioma',
+      specificity: '93 - 96% (valores > 3-4x LSN confieren especificidad > 99%)',
+      optimalCutoff: 'Normetanefrina > 0.90 nmol/L o Metanefrina > 0.50 nmol/L'
+    },
+    clinicalRelevance: 'Mecanismo molecular de señalización neuroendocrina: Las catecolaminas liberadas en exceso por el feocromocitoma activan dos cascadas principales de receptores acoplados a proteínas G (GPCR): 1) Receptores α1-adrenérgicos en músculo liso vascular acoplados a Gq → activación de PLC-β → escisión de PIP2 en IP3 y DAG → liberación de Ca2+ intracelular del retículo sarcoplásmico mediada por IP3 y activación de la quinasa de cadena ligera de miosina (MLCK) → vasoconstricción periférica intensa con hipertensión crítica; 2) Receptores β1-adrenérgicos miocárdicos acoplados a Gs → activación de adenilato ciclasa → AMPc → PKA → aumento de entrada de Ca2+ vía canales tipo L → cronotropismo e inotropismo positivos extremos (taquicardia y palpitaciones). Las metanefrinas libres plasmáticas son el biomarcador diagnóstico de referencia porque se originan por la acción continua de la catecol-O-metiltransferasa (COMT) dentro del tejido tumoral, independientemente de que la secreción de catecolaminas activas sea episódica.',
+    diagnosticIndication: 'Triada clásica paroxística de cefalea pulsátil, sudoración profusa y palpitaciones taquicárdicas con hipertensión arterial severa o refractaria.',
+    falsePositivesNegatives: {
+      falsePositives: ['Estrés fisiológico agudo o dolor severo', 'Fármacos simpaticomiméticos, descongestionantes, antidepresivos tricíclicos, IMAO o betabloqueantes'],
+      falseNegatives: ['Tumores secretores exclusivamente de dopamina (extremadamente infrecuentes)']
+    },
+    discriminatoryContexts: [
+      'Biomarcador óptimo de primera línea para confirmar feocromocitoma frente a hipertensión esencial, crisis de angustia/pánico o tormenta tiroidea.'
+    ]
+  },
+  {
+    id: 'bm_fasting_insulin',
+    name: 'Insulina Basal en Ayunas e Índice HOMA-IR',
+    abbreviation: 'Insulina / HOMA-IR',
+    isoforms: 'Insulina plasmática monomérica biológicamente activa (cadenas A y B unidas por puentes disulfuro) y Péptido C equimolar',
+    system: 'metabolic',
+    referenceValues: {
+      conventional: 'Insulina en ayunas: 2.6 – 24.9 µUI/mL; HOMA-IR: < 2.5 (Normal); > 3.8 (Resistencia severa)',
+      si: 'Insulina: 18 – 173 pmol/L; HOMA-IR: < 2.5',
+      genderAgeVariations: 'Aumenta en la pubertad y con el incremento de adiposidad visceral.'
+    },
+    temporalWindow: {
+      elevationStart: 'Elevación crónica continua en estados de resistencia a la insulina',
+      peakWindow: 'Niveles marcadamente desproporcionados (> 100 - 300 µUI/mL) en síndromes monogénicos de resistencia extrema',
+      normalizationWindow: 'Crónica; no remite sin intervención genética/sensibilizadora específica',
+      halfLife: '4 - 6 minutos (rápido aclaramiento hepático)'
+    },
+    diagnosticParams: {
+      sensitivity: '95% en síndromes de resistencia severa a la insulina',
+      specificity: '92% para disfunción del receptor INSR frente a diabetes autoinmune',
+      optimalCutoff: 'Insulina basal > 50 µUI/mL con HOMA-IR > 8.0 en ausencia de obesidad mórbida'
+    },
+    clinicalRelevance: 'Mecanismo molecular de señalización por Receptor Tirosina Quinasa (RTK): La insulina se une a los dominios extracelulares alfa del receptor de insulina (INSR), induciendo un cambio conformacional que activa la actividad tirosina quinasa intrínseca de las subunidades beta citoplasmáticas. Las subunidades beta se autofosforilan en residuos de tirosina y reclutan a proteínas adaptadoras como IRS-1 e IRS-2. IRS fosforilado activa la Fosfoinositol 3-Quinasa (PI3K), que genera fosfatidilinositol-3,4,5-trifosfato (PIP3) en la membrana interna. PIP3 recluta y activa a PDK1 y Akt/PKB, que promueve la exocitosis de vesículas intracelulares que contienen transportadores de glucosa GLUT4 hacia la membrana en músculo y tejido adiposo. En los Síndromes de Resistencia a la Insulina Tipo A (mutaciones en INSR), esta cascada tirosina quinasa está rota, impidiendo la señalización de Akt y la captación de glucosa mediada por GLUT4, lo que genera hiperinsulinismo masivo compensatorio (>100 µUI/mL) con acantosis nigricans por estimulación cruzada de receptores de IGF-1.',
+    diagnosticIndication: 'Evaluación de hiperinsulinemia extrema con acantosis nigricans florida, oligomenorrea/hiperandrogenismo y sospecha de mutación en receptor tirosina quinasa.',
+    falsePositivesNegatives: {
+      falsePositives: ['Presencia de anticuerpos anti-insulina circulantes', 'Insulinoma (aunque cursa con hipoglucemia sintomática, no con hiperglucemia o resistencia)'],
+      falseNegatives: ['Agotamiento tardío de células beta con pérdida de la reserva secretora de insulina']
+    },
+    discriminatoryContexts: [
+      'Discrimina la resistencia a la insulina por defecto del receptor RTK frente a la deficiencia de insulina (Diabetes Mellitus Tipo 1) y frente al insulinoma.'
+    ]
+  },
+  {
+    id: 'bm_cholera_toxin',
+    name: 'Detección de Enterotoxina Colérica y Cultivo Selectivo TCBS',
+    abbreviation: 'Toxina Colérica / TCBS',
+    isoforms: 'Enterotoxina colérica (holotoxina AB5: subunidad catalítica A1 + pentámero de unión B a gangliósido GM1)',
+    system: 'metabolic',
+    referenceValues: {
+      conventional: 'Negativo / No detectable',
+      si: 'Negativo',
+      genderAgeVariations: 'Patógeno no colonizador habitual en individuos sanos.'
+    },
+    temporalWindow: {
+      elevationStart: 'Primeras horas del inicio de las heces acuosas en agua de arroz',
+      peakWindow: '24 - 48 horas tras el contagio fecal-oral',
+      normalizationWindow: 'Negativización tras aclaramiento del patógeno y antibioterapia adecuada',
+      halfLife: 'Persiste mientras dure la colonización enterocítica'
+    },
+    diagnosticParams: {
+      sensitivity: '95% para Vibrio cholerae toxigénico O1/O139',
+      specificity: '98% mediante cultivo selectivo TCBS y confirmación por PCR o inmunoensayo',
+      optimalCutoff: 'Aislamiento de colonias sacarosa-positivas (amarillas) en TCBS con aglutinación serológica'
+    },
+    clinicalRelevance: 'Mecanismo molecular de señalización y transporte epitelial: La subunidad B de la toxina colérica se une específicamente al gangliósido GM1 en la superficie apical del enterocito, permitiendo la endocitosis y translocación retrógrada de la subunidad activa A1 hacia el citosol. Allí, la subunidad A1 utiliza NAD+ intracelular para catalizar la ADP-ribosilación irreversible de un residuo de arginina en la subunidad Gαs acoplada a la adenilato ciclasa. Esta modificación química bloquea de forma irreversible la actividad GTPasa intrínseca de Gαs, impidiendo la hidrólisis de GTP a GDP. En consecuencia, Gαs permanece constitutivamente "encendida", estimulando sin freno a la adenilato ciclasa. La elevación exponencial de AMPc intracelular hiperactiva a la Protein Quinasa A (PKA), la cual fosforila el dominio R del canal de cloruro CFTR y el cotransportador apical Na+/H+ (NHE3). La apertura masiva y sostenida de los canales CFTR bombea cloruro y bicarbonato hacia el lumen intestinal, arrastrando masivamente sodio y agua por gradiente osmótico (hasta 1 litro por hora de pérdidas hidroelectrolíticas mortales si no se repone).',
+    diagnosticIndication: 'Diarrea acuosa profusa en "agua de arroz", sin sangre ni leucocitos fecales, acompañada de deshidratación hipovolémica severa y acidosis metabólica tras viajes o áreas endémicas.',
+    falsePositivesNegatives: {
+      falsePositives: ['Reactividad cruzada serológica con la enterotoxina termolábil (LT) de Escherichia coli enterotoxigénica (ETEC)'],
+      falseNegatives: ['Toma de muestra rectal tardía tras inicio de doxiciclina o ciprofloxacino']
+    },
+    discriminatoryContexts: [
+      'Identifica de forma inequívoca el cólera epidémico mediado por la vía Gs-AMPc frente a diarreas invasivas (Shigella, Salmonella) o diarreas osmóticas.'
+    ]
   }
 ];

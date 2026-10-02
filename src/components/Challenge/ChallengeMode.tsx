@@ -171,7 +171,7 @@ export const ChallengeMode: React.FC<ChallengeModeProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
               <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Hallazgos Físicos y Signos Vitales
+                Exploración Física & Signos Vitales
               </h4>
               <ul className="text-xs space-y-1 text-slate-700 font-medium">
                 <li>• P.A: {currentCase.physicalExam.vitalSigns.bp} | F.C: {currentCase.physicalExam.vitalSigns.hr}</li>
@@ -184,28 +184,32 @@ export const ChallengeMode: React.FC<ChallengeModeProps> = ({
 
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    Diagnósticos Diferenciales en Discusión
-                  </h4>
-                  <span className="text-[9px] font-semibold uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
-                    {currentCase.differentialDiagnoses.length} Entidades
-                  </span>
-                </div>
+                <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                  Antecedentes y Contexto Clínico
+                </h4>
                 <ul className="text-xs space-y-1 text-slate-700 font-medium">
-                  {currentCase.differentialDiagnoses.map((diff, idx) => (
-                    <li key={idx} className="flex items-start gap-1">
-                      <span className="text-slate-500 font-bold">•</span>
-                      <span>{diff.disease}</span>
+                  {currentCase.clinicalHistory.pastMedicalHistory.length > 0 ? (
+                    currentCase.clinicalHistory.pastMedicalHistory.slice(0, 3).map((pmh, idx) => (
+                      <li key={idx} className="flex items-start gap-1">
+                        <span className="text-slate-400 font-bold">•</span>
+                        <span>{pmh}</span>
+                      </li>
+                    ))
+                  ) : (
+                    <li>• Sin antecedentes médicos de interés.</li>
+                  )}
+                  {currentCase.clinicalHistory.medications.length > 0 && (
+                    <li className="pt-1 text-[11px] text-slate-500">
+                      <strong className="text-slate-700">Tratamiento:</strong> {currentCase.clinicalHistory.medications.join(', ')}
                     </li>
-                  ))}
+                  )}
                 </ul>
               </div>
 
               {/* Guided Learning Tip */}
               <div className="mt-3 pt-2.5 border-t border-slate-200/80 flex items-center justify-between text-[11px]">
                 <span className="text-slate-500 flex items-center gap-1 font-medium">
-                  <span className="text-emerald-600">🎯</span> Biomarcadores discriminatorios en biblioteca
+                  <span className="text-emerald-600">🎯</span> Biomarcadores de referencia departamentales
                 </span>
                 <button
                   type="button"

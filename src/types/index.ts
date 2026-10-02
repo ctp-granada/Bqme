@@ -1,4 +1,4 @@
-export type OrganSystem = 'cardiac' | 'hepatic' | 'metabolic' | 'renal' | 'pancreatic';
+export type OrganSystem = 'cardiac' | 'hepatic' | 'metabolic' | 'renal' | 'pancreatic' | 'neuromuscular';
 
 export type DifficultyLevel = 'intermedio' | 'avanzado' | 'experto';
 
@@ -145,6 +145,10 @@ export interface ClinicalCase {
   biomarkerOptions: BiomarkerOption[];
   expertClinicalKey: string;
   essentialBiomarkerIds?: string[];
+  categoryDocente?: string;
+  signalingType?: string;
+  molecularPathway?: string;
+  molecularAlteration?: string;
 }
 
 export interface CaseAttemptRecord {

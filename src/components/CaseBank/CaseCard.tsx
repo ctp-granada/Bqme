@@ -14,7 +14,8 @@ export const CaseCard: React.FC<CaseCardProps> = ({ caseData, onSelectCase, onSt
     hepatic: 'Hepático / Ictericias',
     metabolic: 'Metabolismo / β-Oxidación',
     renal: 'Renal / Urea / Uricemia',
-    pancreatic: 'Pancreático-Digestivo'
+    pancreatic: 'Pancreático-Digestivo',
+    neuromuscular: 'Neuromuscular / Señalización'
   };
 
   return (
@@ -31,9 +32,18 @@ export const CaseCard: React.FC<CaseCardProps> = ({ caseData, onSelectCase, onSt
         </div>
 
         {/* Title */}
-        <h3 className="font-bold text-slate-900 text-base leading-snug group-hover:text-slate-700 transition-colors mb-2.5">
+        <h3 className="font-bold text-slate-900 text-base leading-snug group-hover:text-slate-700 transition-colors mb-2">
           {caseData.title}
         </h3>
+
+        {caseData.signalingType && (
+          <div className="mb-2.5">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-50 text-amber-800 border border-amber-200/80">
+              <span>🧬</span>
+              <span>Señalización: {caseData.signalingType.replace(/_/g, ' ')}</span>
+            </span>
+          </div>
+        )}
 
         {/* Demographics & Complaint */}
         <div className="space-y-2 text-xs text-slate-600 mb-4">
@@ -49,20 +59,20 @@ export const CaseCard: React.FC<CaseCardProps> = ({ caseData, onSelectCase, onSt
           </p>
         </div>
 
-        {/* Differentials Tag Preview */}
+        {/* Initial Lab Preview */}
         <div className="border-t border-slate-100 pt-3 mt-2">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
-            Diagnósticos Diferenciales:
+            Analítica Inicial Disponible:
           </span>
           <div className="flex flex-wrap gap-1.5">
-            {caseData.differentialDiagnoses.slice(0, 2).map((diff, idx) => (
-              <span key={idx} className="text-[10px] font-medium bg-slate-50 text-slate-700 px-2 py-0.5 rounded-md border border-slate-200/80 truncate max-w-[180px]">
-                {diff.disease}
+            {caseData.initialLabWork.slice(0, 3).map((lab, idx) => (
+              <span key={idx} className="text-[10px] font-medium bg-slate-50 text-slate-700 px-2 py-0.5 rounded-md border border-slate-200/80 truncate max-w-[200px]">
+                {lab.test}: <strong className="font-semibold text-slate-900">{lab.result} {lab.unit}</strong>
               </span>
             ))}
-            {caseData.differentialDiagnoses.length > 2 && (
+            {caseData.initialLabWork.length > 3 && (
               <span className="text-[10px] font-medium text-slate-400 self-center">
-                +{caseData.differentialDiagnoses.length - 2} más
+                +{caseData.initialLabWork.length - 3} más
               </span>
             )}
           </div>

@@ -31,7 +31,8 @@ export const CaseList: React.FC<CaseListProps> = ({
     { id: 'hepatic', label: 'Hepático / Ictericias' },
     { id: 'metabolic', label: 'Metabolismo / β-Oxidación' },
     { id: 'renal', label: 'Renal / Urea / Uricemia' },
-    { id: 'pancreatic', label: 'Pancreático-Digestivo' }
+    { id: 'pancreatic', label: 'Pancreático-Digestivo' },
+    { id: 'neuromuscular', label: 'Neuromuscular / Señalización' }
   ];
 
   return (

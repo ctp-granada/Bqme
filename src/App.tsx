@@ -59,7 +59,8 @@ const INITIAL_PROGRESS: UserProgress = {
     hepatic: { attempted: 0, correct: 0 },
     metabolic: { attempted: 0, correct: 0 },
     renal: { attempted: 0, correct: 0 },
-    pancreatic: { attempted: 0, correct: 0 }
+    pancreatic: { attempted: 0, correct: 0 },
+    neuromuscular: { attempted: 0, correct: 0 }
   },
   history: []
 };

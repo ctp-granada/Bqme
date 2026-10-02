@@ -21,6 +21,7 @@ import {
   FileText
 } from 'lucide-react';
 import { InteractiveCityEntrance } from '../City/InteractiveCityEntrance';
+import { CLINICAL_CASES_DATABASE } from '../../data/clinicalCases';
 
 interface CourseHomeProps {
   onNavigate: (module: ActiveModule) => void;
@@ -41,34 +42,34 @@ export const CourseHome: React.FC<CourseHomeProps> = ({
       <InteractiveCityEntrance 
         onNavigate={onNavigate}
         onOpenLab={onOpenLab}
-        casesCount={15}
+        casesCount={CLINICAL_CASES_DATABASE.length}
       />
 
-      {/* Institutional Faculty Info Banner */}
-      <div className="bg-slate-950 text-white rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-sm relative overflow-hidden">
-        {/* Subtle decorative medical cross grid */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+      {/* Institutional Faculty Info Banner in Warm Medical Gold */}
+      <div className="bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white rounded-3xl p-6 sm:p-10 border border-amber-800 shadow-md relative overflow-hidden">
+        {/* Subtle decorative warm glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
         
         <div className="max-w-4xl space-y-4 relative z-10">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-900/60 text-amber-200 border border-amber-400/40 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               Facultad de Medicina • Universidad de Granada (UGR)
             </span>
-            <span className="px-3 py-1 rounded-full text-xs font-semibold text-slate-300 bg-slate-900 border border-slate-800">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold text-amber-100 bg-amber-900/40 border border-amber-500/30">
               Campus de la Salud (PTS) • Curso 2025/2026
             </span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-            Cátedra de Bioquímica y Biología Molecular I
-            <span className="block text-lg sm:text-xl font-normal text-slate-300 mt-1">
+            Departamento de Bioquímica y Biología Molecular III e Inmunología
+            <span className="block text-lg sm:text-xl font-normal text-amber-100 mt-1">
               Portal Oficial de la Asignatura y Plataforma de Aprendizaje Clínico
             </span>
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-            Bienvenido al entorno docente digital del Departamento de Bioquímica y Biología Molecular I. Aquí encontrará el <strong className="text-white">simulador clínico de casos reales y biomarcadores</strong>, los <strong className="text-white">laboratorios virtuales interactivos</strong> (Ciclo de Randle, Ictericias, Hemostasia) y todo el <strong className="text-white">material docente acreditado</strong> para el Grado en Medicina.
+          <p className="text-xs sm:text-sm text-amber-50/90 leading-relaxed max-w-3xl">
+            Bienvenido al entorno docente digital del Departamento de Bioquímica y Biología Molecular III e Inmunología. Aquí encontrará el <strong className="text-white">simulador clínico de casos reales y biomarcadores</strong>, los <strong className="text-white">laboratorios virtuales interactivos</strong> (Ciclo de Randle, Ictericias, Hemostasia) y todo el <strong className="text-white">material docente acreditado</strong> para el Grado en Medicina.
           </p>
 
           <div className="pt-2 flex items-center gap-3 flex-wrap">
@@ -83,17 +84,17 @@ export const CourseHome: React.FC<CourseHomeProps> = ({
 
             <button
               onClick={() => onNavigate('docencia')}
-              className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-semibold border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-amber-900/60 hover:bg-amber-900/90 text-white text-xs sm:text-sm font-semibold border border-amber-400/50 transition-all flex items-center gap-2 cursor-pointer"
             >
-              <BookOpen className="w-4 h-4 text-blue-400" />
+              <BookOpen className="w-4 h-4 text-amber-200" />
               <span>Biblioteca & Materiales</span>
             </button>
 
             <button
               onClick={() => onNavigate('laboratorios')}
-              className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-semibold border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-amber-900/60 hover:bg-amber-900/90 text-white text-xs sm:text-sm font-semibold border border-amber-400/50 transition-all flex items-center gap-2 cursor-pointer"
             >
-              <FlaskConical className="w-4 h-4 text-amber-400" />
+              <FlaskConical className="w-4 h-4 text-amber-200" />
               <span>Laboratorios Virtuales</span>
             </button>
           </div>
@@ -171,7 +172,7 @@ export const CourseHome: React.FC<CourseHomeProps> = ({
                 Material Docente Oficial
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Temario completo estructurado en 4 módulos, guías de seminarios, preguntas tipo test MIR comentadas y bibliografía de cátedra.
+                Temario completo estructurado en 4 módulos, guías de seminarios, preguntas tipo test MIR comentadas y bibliografía docente oficial.
               </p>
             </div>
             <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-800">
@@ -370,7 +371,7 @@ export const CourseHome: React.FC<CourseHomeProps> = ({
                 Guía Docente: Algoritmos ESC 2024 para Troponina Ultrasensible
               </h4>
               <p className="text-[11px] text-slate-600 leading-relaxed">
-                Documento de cátedra con curvas cinéticas de elevación precoz (0h/1h/3h) y diagnóstico diferencial entre SCA y daño miocárdico secundario.
+                Documento docente oficial con curvas cinéticas de elevación precoz (0h/1h/3h) y diagnóstico diferencial entre SCA y daño miocárdico secundario.
               </p>
             </div>
 

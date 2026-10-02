@@ -167,7 +167,7 @@ export const MOCK_LEADERBOARD_PEERS: PeerStudent[] = [
     id: "peer-9",
     name: "Álvaro Prieto Castillo",
     avatar: "👨‍⚕️",
-    institution: "Facultad Medicina UGR / Cátedra Bioquímica",
+    institution: "Facultad Medicina UGR / Dpto. Bioquímica y Biología Molecular III",
     city: "Granada",
     xp: 260,
     score: 260,

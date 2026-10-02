@@ -756,7 +756,7 @@ export const JaundiceSimulatorLab: React.FC = () => {
             <div className="flex items-center gap-2">
               <Info className="w-4 h-4 text-emerald-600" />
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                Perla Fisiopatológica de Cátedra
+                Perla Fisiopatológica Docente
               </h4>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed">
