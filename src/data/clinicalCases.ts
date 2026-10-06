@@ -6,18 +6,26 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   // ==========================================
   {
     id: 'case_cardiac_01',
-    title: 'Dolor Torácico Opresivo de 3 Horas de Evolución en Varón de 58 Años',
+    title: 'Tomás B.: Dolor opresivo en el pecho y sudor frío',
     system: 'cardiac',
     difficulty: 'intermedio',
+    studentSummary: 'Varón de 58 años que acude a urgencias por un dolor opresivo muy fuerte en el centro del pecho que se extiende al brazo izquierdo desde hace 3 horas. El objetivo es identificar qué proteína del músculo cardíaco se libera a la sangre con la suficiente rapidez y especificidad para confirmar si las células del corazón están muriendo (infarto) o si es solo una falta transitoria de oxígeno (angina).',
+    clinicalGlossary: [
+      { term: 'Dolor precordial / retroesternal', simpleDefinition: 'Dolor o sensación de peso u opresión en la zona del pecho, justo detrás del hueso esternón, típico del sufrimiento cardíaco.' },
+      { term: 'Diaforesis', simpleDefinition: 'Sudoración fría, pegajosa y abundante desencadenada por la respuesta de alarma del sistema nervioso simpático ante el dolor o estrés grave.' },
+      { term: 'Isquemia frente a Necrosis', simpleDefinition: 'La isquemia es la falta transitoria de riego sanguíneo y oxígeno (como en la angina). Si la arteria sigue bloqueada, las células mueren, lo que se denomina necrosis celular (infarto).' },
+      { term: 'Troponina cardíaca ultrasensible', simpleDefinition: 'Proteína estructural propia del músculo cardíaco. Solo se escapa al torrente sanguíneo cuando los miocitos sufren daño irreversible en su membrana.' }
+    ],
+    biochemicalConceptSimple: '1. Un coágulo en una arteria coronaria corta el flujo de sangre -> 2. Los miocitos se quedan sin oxígeno y se detiene la producción de ATP mitocondrial -> 3. Fallan las bombas iónicas, la célula se hincha de agua y su membrana se rompe -> 4. Se liberan al torrente sanguíneo las proteínas del sarcómero miocárdico (Troponina I y T).',
     clinicalHistory: {
       patientDemographics: {
         age: 58,
         gender: 'Masculino',
         occupation: 'Ejecutivo Financiero'
       },
-      chiefComplaint: 'Dolor torácico retroesternal irradiado a cuello y brazo izquierdo.',
-      presentIllness: 'Paciente acude al servicio de urgencias refiriendo dolor precordial opresivo de intensidad 9/10 iniciado hace 3 horas mientras realizaba ejercicio moderado. Se acompaña de diaforesis profusa y náuseas. No ha remitido con reposo.',
-      pastMedicalHistory: ['Hipertensión Arterial Esencial', 'Dislipidemia Mixta', 'Diabetes Mellitus Tipo 2'],
+      chiefComplaint: 'Dolor torácico opresivo ("como una losa en el pecho") que se extiende hacia el cuello y el brazo izquierdo.',
+      presentIllness: 'Paciente acude al servicio de urgencias refiriendo dolor opresivo muy intenso en el pecho (intensidad 9/10) iniciado hace 3 horas mientras subía escaleras. Se acompaña de sudoración fría intensa (diaforesis) y náuseas. El dolor no ha mejorado tras descansar 30 minutos sentado.',
+      pastMedicalHistory: ['Hipertensión Arterial Esencial', 'Dislipidemia Mixta (Colesterol y Triglicéridos elevados)', 'Diabetes Mellitus Tipo 2'],
       medications: ['Enalapril 20 mg/12h', 'Atorvastatina 40 mg/24h', 'Metformina 850 mg/12h'],
       lifestyle: 'Fumador activo (20 cigarrillos/día desde hace 30 años).'
     },
@@ -36,7 +44,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
     },
     initialLabWork: [
       { test: 'Glucemia en ayunas', result: '168', unit: 'mg/dL', referenceRange: '70 - 109' },
-      { test: 'Electrocardiograma (ECG)', result: 'Descenso del segmento ST de 1.5 mm en derivaciones V4-V6 e inversión de onda T', unit: 'mm', referenceRange: 'Isoeléctrico' },
+      { test: 'Electrocardiograma (ECG)', result: 'Descenso del segmento ST de 1.5 mm en derivaciones V4-V6 e inversión de onda T (signos de falta de oxígeno en cara anterior)', unit: 'mm', referenceRange: 'Isoeléctrico' },
       { test: 'Creatinina Sérica', result: '0.9', unit: 'mg/dL', referenceRange: 'H: 0.7 - 1.3' }
     ],
     differentialDiagnoses: [
@@ -68,35 +76,35 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         biomarkerId: 'bm_troponin_c',
         biomarkerName: 'Troponina Cardíaca (hs-cTn)',
         isCorrect: true,
-        biochemicalRationale: 'La troponina cardíaca es la isoforma miocardioespecífica de elección. Su liberación rápida a partir de las 2-4 horas post-evento (con valores >50 ng/L) confirma el daño miocárdico irreversible.',
-        whyOptimalOrSuboptimal: 'Es el biomarcador óptimo porque permite confirmar la necrosis miocárdica en la ventana de 3 horas del paciente, diferenciando en forma categórica el SCASEST de la Angina Inestable.'
+        biochemicalRationale: 'La troponina cardíaca es la proteína específica del músculo del corazón por excelencia. Al morir los cardiomiocitos, la troponina se vierte de forma continua a la sangre a partir de las 2-4 horas del inicio del dolor. Una cifra elevada (> 50 ng/L) confirma que existe necrosis (muerte celular irreversible).',
+        whyOptimalOrSuboptimal: 'Es el biomarcador óptimo porque permite confirmar o descartar el infarto en la ventana precoz de 3 horas que tiene el paciente, diferenciando con total seguridad un infarto de una simple angina inestable.'
       },
       {
         id: 'bm_opt_2',
         biomarkerId: 'bm_ckmb',
-        biomarkerName: 'CK-MB Masa',
+        biomarkerName: 'CK-MB Masa (Creatina Quinasa fracción MB)',
         isCorrect: false,
-        biochemicalRationale: 'La CK-MB requiere de 4 a 6 horas para elevarse significativamente por encima de 5 ng/mL. Posee además menor especificidad por presencia en músculo esquelético.',
-        whyOptimalOrSuboptimal: 'Inadecuado en esta ventana precoz de 3 horas por menor sensibilidad comparada con la troponina ultrasensible.'
+        biochemicalRationale: 'La CK-MB tarda más tiempo en elevarse (entre 4 y 6 horas) y además existe en pequeñas cantidades en el músculo esquelético.',
+        whyOptimalOrSuboptimal: 'Subóptimo a las 3 horas de evolución: puede dar un falso negativo porque todavía no le ha dado tiempo a elevarse en sangre.'
       },
       {
         id: 'bm_opt_3',
         biomarkerId: 'bm_nt_probnp',
         biomarkerName: 'NT-proBNP',
         isCorrect: false,
-        biochemicalRationale: 'El NT-proBNP se sintetiza en respuesta al estiramiento de los miocitos ventriculares por sobrecarga de presión/volumen.',
-        whyOptimalOrSuboptimal: 'Inespecífico para isquemia/necrosis celular aguda en ausencia de insuficiencia cardíaca descompensada.'
+        biochemicalRationale: 'El NT-proBNP es un péptido que se libera cuando las paredes de los ventrículos se estiran por exceso de volumen de líquido o presión.',
+        whyOptimalOrSuboptimal: 'Inespecífico para daño celular agudo; se utiliza para insuficiencia cardíaca, no para confirmar necrosis celular en fase precoz.'
       },
       {
         id: 'bm_opt_4',
         biomarkerId: 'bm_ldh',
         biomarkerName: 'Lactato Deshidrogenasa Total (LDH)',
         isCorrect: false,
-        biochemicalRationale: 'Enzima citosólica de elevación tardía (12-24 horas) y baja especificidad.',
-        whyOptimalOrSuboptimal: 'Subóptimo por elevarse tardíamente y carecer de especificidad tisular.'
+        biochemicalRationale: 'Enzima citosólica que se encuentra en casi todas las células del cuerpo (glóbulos rojos, hígado, músculo) y tarda más de 12-24 horas en elevarse.',
+        whyOptimalOrSuboptimal: 'Muy tardío y poco específico; hoy en día está obsoleto para el diagnóstico inicial de dolor torácico.'
       }
     ],
-    expertClinicalKey: 'En la ventana precoz (3 horas) de un posible SCASEST, la Troponina cardíaca (cTn) es el único biomarcador con la sensibilidad analítica y especificidad miocárdica suficientes para discriminar infarto agudo con necrosis de la angina inestable.'
+    expertClinicalKey: 'Regla de Oro en el Dolor de Pecho: La Troponina Cardíaca ultrasensible es el único marcador con suficiente rapidez (se eleva a las 2-3 horas) y especificidad cardíaca para demostrar que las células del corazón se están rompiendo, permitiendo distinguir un infarto con necrosis de una angina de pecho.'
   },
 
   // ==========================================
@@ -104,17 +112,25 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   // ==========================================
   {
     id: 'case_hepatic_01',
-    title: 'Ictericia Flavínica y Palidez Mucosa en Mujer de 34 Años con Astenia Severa',
+    title: 'Carmen R.: Coloración amarillenta y fatiga intensa',
     system: 'hepatic',
     difficulty: 'intermedio',
+    studentSummary: 'Carmen R., mujer de 34 años con antecedentes de lupus, consulta porque desde hace 4 días nota sus ojos y piel amarillos (ictericia) y se siente muy débil. Sus deposiciones son de color oscuro normal y no tiene picor ni dolor en el vientre. El reto es confirmar si la bilirrubina alta se debe a que se están rompiendo glóbulos rojos masivamente antes del hígado (ictericia prehepática o hemolítica) o a un problema en las vías biliares.',
+    clinicalGlossary: [
+      { term: 'Ictericia flavínica', simpleDefinition: 'Tinte amarillento claro o pajizo en el blanco de los ojos (escleras) y en la piel, típico de cuando se destruyen glóbulos rojos a gran velocidad.' },
+      { term: 'Hemólisis', simpleDefinition: 'Rotura prematura de los glóbulos rojos en la circulación o en el bazo, liberando hemoglobina y la enzima intracelular LDH al torrente sanguíneo.' },
+      { term: 'Bilirrubina no conjugada (indirecta)', simpleDefinition: 'Bilirrubina que viaja unida a la albúmina antes de entrar al hígado. No se puede filtrar por los riñones porque no es soluble en agua.' },
+      { term: 'Esplenomegalia', simpleDefinition: 'Aumento del tamaño del bazo. El bazo actúa como un filtro que atrapa y destruye los glóbulos rojos alterados por anticuerpos.' }
+    ],
+    biochemicalConceptSimple: '1. Los anticuerpos destruyen los glóbulos rojos (hemólisis) -> 2. Se libera hemoglobina que los macrófagos convierten en bilirrubina no conjugada (indirecta) -> 3. La cantidad de bilirrubina desborda la capacidad del hígado -> 4. Aumenta la bilirrubina indirecta en sangre y se eleva fuertemente la enzima LDH (que residía dentro de los eritrocitos).',
     clinicalHistory: {
       patientDemographics: {
         age: 34,
         gender: 'Femenino',
         occupation: 'Diseñadora Gráfica'
       },
-      chiefComplaint: 'Coloración amarillenta en ojos (ictericia) y fatiga intensa desde hace 4 días.',
-      presentIllness: 'Paciente acude por ictericia de tono pajizo/amarillo claro (flavínica) acompañada de astenia progresiva, palpitaciones y coluria leve. Niega prurito, dolor abdominal o acolia; sus deposiciones son de coloración café oscura normal/hipercólica.',
+      chiefComplaint: 'Coloración amarillenta en los ojos (ictericia) y cansancio extremo desde hace 4 días.',
+      presentIllness: 'Carmen R. acude a urgencias por notar coloración amarillenta clara (ictericia flavínica) en los ojos y la piel, acompañada de cansancio progresivo (astenia), palpitaciones y orina algo oscura (coluria leve). No tiene picor en el cuerpo (prurito), dolor abdominal ni heces pálidas (acolia); de hecho, sus deposiciones mantienen su color café habitual.',
       pastMedicalHistory: ['Lupus Eritematoso Sistémico (LES) en remisión'],
       medications: ['Hidroxicloroquina 200 mg/día'],
       lifestyle: 'No consume alcohol ni fármacos hepatotóxicos.'
@@ -133,13 +149,11 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Hemoglobina', result: '6.8', unit: 'g/dL', referenceRange: '12.0 - 15.5' },
-      { test: 'Bilirrubina Total', result: '5.8', unit: 'mg/dL', referenceRange: '0.3 - 1.2' },
-      { test: 'Bilirrubina Directa', result: '0.2', unit: 'mg/dL', referenceRange: '< 0.3' },
-      { test: 'ALT (GPT)', result: '32', unit: 'U/L', referenceRange: '< 40' },
-      { test: 'AST (GOT)', result: '38', unit: 'U/L', referenceRange: '< 40' },
-      { test: 'GGT', result: '28', unit: 'U/L', referenceRange: 'M < 40' },
-      { test: 'Fosfatasa Alcalina', result: '75', unit: 'U/L', referenceRange: '40 - 130' }
+      { test: 'Hemoglobina', result: '6.8', unit: 'g/dL', referenceRange: '12.0 - 15.5 (Anemia severa)', isAbnormal: true },
+      { test: 'Volumen Corpuscular Medio (VCM)', result: '104', unit: 'fL', referenceRange: '80 - 100 (Macrocitosis / Reticulocitosis regenerativa)', isAbnormal: true },
+      { test: 'Bilirrubina Total', result: '5.8', unit: 'mg/dL', referenceRange: '0.3 - 1.2 (Ictericia clínica evidente)', isAbnormal: true },
+      { test: 'Bilirrubina Directa', result: '0.2', unit: 'mg/dL', referenceRange: '< 0.3 (Predominio indirecto neto: 5.6 mg/dL)' },
+      { test: 'Creatinina Sérica', result: '0.8', unit: 'mg/dL', referenceRange: '0.5 - 1.1' }
     ],
     differentialDiagnoses: [
       {
@@ -193,14 +207,23 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'Permanecerá normal en ausencia de daño parenquimatosos hepático concomitante.'
       }
     ],
-    expertClinicalKey: 'La Ictericia Prehepática se caracteriza por elevación de la Bilirrubina Indirecta (No Conjugada) con preservación de la función hepática/biliar (GGT y FA normales) y marcado aumento de LDH por lisis de hematíes.'
+    expertClinicalKey: 'La Ictericia Prehepática se caracteriza por elevación de la Bilirrubina Indirecta (No Conjugada) con preservación de la función hepática/biliar (GGT y FA normales) y marcado aumento de LDH por lisis de hematíes.',
+    essentialBiomarkerIds: ['bm_ldh']
   },
 
   {
     id: 'case_hepatic_02',
-    title: 'Ictericia Verdínica, Coluria y Acolia en Mujer de 48 Años con Prurito Intenso',
+    title: 'Elena M.: Picor en la piel, heces blanquecinas y orina oscura',
     system: 'hepatic',
     difficulty: 'intermedio',
+    studentSummary: 'Elena M., de 48 años y con cálculos biliares previos, acude porque su piel ha tomado un color amarillo-verdoso, le pica todo el cuerpo de forma insoportable, su orina sale oscura como té y sus heces son casi blancas. El objetivo es reconocer que un cálculo está atascando el conducto biliar (obstrucción o colestasis) impidiendo que la bilis llegue al intestino.',
+    clinicalGlossary: [
+      { term: 'Acolia', simpleDefinition: 'Heces pálidas o blanquecinas como arcilla. Ocurre porque la bilis no puede llegar al intestino, de modo que no se forma el pigmento marrón normal (estercobilina).' },
+      { term: 'Coluria', simpleDefinition: 'Orina de color muy oscuro, como refresco de cola o té concentrado. Se debe a que la bilirrubina directa (que sí es soluble en agua) pasa a la sangre y se filtra por el riñón.' },
+      { term: 'Prurito por colestasis', simpleDefinition: 'Picor intenso y generalizado provocado por el depósito de sales biliares en la piel al no poder evacuarse por la vía biliar.' },
+      { term: 'Fosfatasa Alcalina (FA) y GGT', simpleDefinition: 'Enzimas situadas en los canalículos biliares del hígado. Cuando la bilis se queda estancada por un tapón, ambas enzimas se disparan en la sangre.' }
+    ],
+    biochemicalConceptSimple: '1. Un cálculo tapa el conducto colédoco -> 2. La bilis se acumula a presión en el hígado -> 3. La bilirrubina conjugada (directa) y las sales biliares refluyen a la sangre -> 4. La orina se vuelve oscura (coluria) y la piel pica (sales biliares) -> 5. Al no llegar bilis al intestino, las heces salen blancas (acolia).',
     clinicalHistory: {
       patientDemographics: {
         age: 48,
@@ -208,8 +231,8 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Docente'
       },
       chiefComplaint: 'Tonalidad verdosa en la piel, orina muy oscura ("color té") y deposiciones blanquecinas.',
-      presentIllness: 'Paciente refiere ictericia de tono verdínico de 6 días de evolución asociada a acolia (heces pálidas/blanquecinas), coluria marcada y prurito palmo-plantar generalizado insoportable. Presenta malestar vago en hipocondrio derecho.',
-      pastMedicalHistory: ['Colelitiasis sintomática tratada conservadoramente'],
+      presentIllness: 'Elena M. refiere coloración amarillenta-verdosa en la piel y los ojos de 6 días de evolución, acompañada de heces blanquecinas (acolia), orina muy oscura (coluria) y un picor insoportable en palmas y plantas (prurito). Nota además una molestia sorda en el lado derecho superior del abdomen.',
+      pastMedicalHistory: ['Colelitiasis sintomática (cálculos en la vesícula) tratada conservadoramente'],
       medications: ['Ninguno habitual'],
       lifestyle: 'No consume alcohol.'
     },
@@ -227,10 +250,11 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Bilirrubina Total', result: '9.2', unit: 'mg/dL', referenceRange: '0.3 - 1.2' },
-      { test: 'Bilirrubina Directa', result: '8.1', unit: 'mg/dL', referenceRange: '< 0.3' },
-      { test: 'ALT (GPT)', result: '85', unit: 'U/L', referenceRange: '< 40' },
-      { test: 'AST (GOT)', result: '78', unit: 'U/L', referenceRange: '< 40' }
+      { test: 'Hemograma Completo', result: 'Leucocitos 7.200 /µL, Hemoglobina 13.5 g/dL (Sin anemia hemolítica ni leucocitosis febril)', unit: '', referenceRange: 'Normal' },
+      { test: 'Bilirrubina Total', result: '9.2', unit: 'mg/dL', referenceRange: '0.3 - 1.2', isAbnormal: true },
+      { test: 'Bilirrubina Directa', result: '8.1', unit: 'mg/dL', referenceRange: '< 0.3 (Hiperbilirrubinemia con marcado predominio directo > 85%)', isAbnormal: true },
+      { test: 'Tira de Orina en Urgencias', result: 'Bilirrubina positiva (+++), Urobilinógeno negativo (Confirma coluria por regurgitación biliar directa sin paso intestinal)', unit: '', referenceRange: 'Negativo' },
+      { test: 'Creatinina Sérica', result: '0.7', unit: 'mg/dL', referenceRange: '0.5 - 1.1' }
     ],
     differentialDiagnoses: [
       {
@@ -284,22 +308,31 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'Evaluadora de función crónica, irrelevante en el diagnóstico agudo de obstrucción biliar.'
       }
     ],
-    expertClinicalKey: 'La Ictericia Posthepática (Obstructiva) cursa con predominio de Bilirrubina Directa (>0.3 mg/dL), acolia, coluria y elevación coordinada de Fosfatasa Alcalina y GGT.'
+    expertClinicalKey: 'La Ictericia Posthepática (Obstructiva) cursa con predominio de Bilirrubina Directa (>0.3 mg/dL), acolia, coluria y elevación coordinada de Fosfatasa Alcalina y GGT.',
+    essentialBiomarkerIds: ['bm_ggt', 'bm_fosfatasa_alcalina']
   },
 
   {
     id: 'case_hepatic_03',
-    title: 'Nivel Extremo de Transaminasas y Asterixis en Joven tras Sobredosis de Analgésicos',
+    title: 'Marta S.: Somnolencia y temblor involuntario tras tomar analgésicos',
     system: 'hepatic',
     difficulty: 'avanzado',
+    studentSummary: 'Marta S., joven de 22 años, es traída a urgencias 36 horas después de haber ingerido una cantidad tóxica muy grande de paracetamol (unos 20 gramos). Presenta piel amarilla, desorientación y un temblor rápido en las manos (asterixis). El objetivo es medir las enzimas del interior de las células hepáticas (transaminasas ALT y AST) para demostrar una rotura masiva de los hepatocitos (citólisis aguda).',
+    clinicalGlossary: [
+      { term: 'Citólisis hepática', simpleDefinition: 'Rotura o muerte masiva de las células del hígado (hepatocitos), liberando todo su contenido enzimático a la sangre.' },
+      { term: 'Transaminasas (ALT / GPT y AST / GOT)', simpleDefinition: 'Enzimas que catalizan reacciones de aminoácidos en el interior del hígado. Cuando el hígado sufre daño agudo grave, pasan de su valor normal (<40) a miles de unidades (>3000 U/L).' },
+      { term: 'Asterixis / Flapping tremor', simpleDefinition: 'Temblor o "aleteo" involuntario al mantener las manos extendidas. Es un signo de que las toxinas que el hígado no puede depurar (como el amonio) están afectando al cerebro (encefalopatía hepática).' },
+      { term: 'NAPQI y Glutatión', simpleDefinition: 'El paracetamol en exceso produce un tóxico llamado NAPQI. Cuando se agota el glutatión (antioxidante del hígado), el NAPQI destruye las membranas de las células hepáticas.' }
+    ],
+    biochemicalConceptSimple: '1. Sobredosis de paracetamol -> 2. Se satura la vía normal de sulfatación y se produce NAPQI en exceso -> 3. Se agota la reserva hepática de glutatión -> 4. El NAPQI se une a proteínas mitocondriales causando necrosis -> 5. Se liberan miles de unidades de transaminasas (ALT > 3000 U/L) a la sangre.',
     clinicalHistory: {
       patientDemographics: {
         age: 22,
         gender: 'Femenino',
         occupation: 'Estudiante'
       },
-      chiefComplaint: 'Ictericia de inicio rápido, confusión y náuseas intensas.',
-      presentIllness: 'Paciente ingresa 36 horas después de ingesta masiva autolítica de paracetamol (~20 g). Desarrolla dolor severo en hipocondrio derecho, ictericia franca y asterixis (flapping tremor).',
+      chiefComplaint: 'Ictericia de inicio rápido, confusión y náuseas intensas tras ingesta de fármacos.',
+      presentIllness: 'Marta S. ingresa en urgencias 36 horas después de una ingesta de 20 gramos de paracetamol. Desarrolla dolor agudo en el costado derecho del abdomen (hipocondrio derecho), coloración amarillenta evidente en ojos y piel, y temblor en las manos al extenderlas (asterixis).',
       pastMedicalHistory: ['Depresión mayor'],
       medications: ['Sertralina 50 mg/día'],
       lifestyle: 'Sin consumo regular de alcohol.'
@@ -318,15 +351,16 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'ALT (GPT)', result: '4850', unit: 'U/L', referenceRange: '< 40' },
-      { test: 'AST (GOT)', result: '3920', unit: 'U/L', referenceRange: '< 40' },
-      { test: 'Bilirrubina Total', result: '4.2', unit: 'mg/dL', referenceRange: '0.3 - 1.2' },
-      { test: 'GGT', result: '45', unit: 'U/L', referenceRange: 'M < 40' }
+      { test: 'Hemograma general', result: 'Leucocitos 7.800 /µL, Hemoglobina 13.2 g/dL, Plaquetas 140.000 /µL', unit: '', referenceRange: 'Normal' },
+      { test: 'Glucemia en Urgencias', result: '54', unit: 'mg/dL', referenceRange: '70 - 109 (Hipoglucemia sintomática por fallo glucogénico agudo)', isAbnormal: true },
+      { test: 'Coagulación de Urgencias (INR)', result: 'Actividad Protrombina 26%, INR 2.8', unit: '', referenceRange: 'INR 0.8 - 1.2 (Fallo agudo de síntesis hepática)', isAbnormal: true },
+      { test: 'Bilirrubina Total', result: '4.2', unit: 'mg/dL', referenceRange: '0.3 - 1.2 (Ictericia clínica progresiva)', isAbnormal: true },
+      { test: 'Creatinina Sérica', result: '1.1', unit: 'mg/dL', referenceRange: '0.5 - 1.1' }
     ],
     differentialDiagnoses: [
       {
         disease: 'Ictericia Hepática / Citolítica (Necrosis Hepatocelular Aguda por Paracetamol)',
-        plausibilityRationale: 'Ictericia de origen hepático parenquimatosos por agotamiento de glutatión y acumulación del metabolito tóxico NAPQI, provocando necrosis centrolobulillar y elevación masiva de ALT/AST (>1000 U/L).',
+        plausibilityRationale: 'Ictericia con fallo agudo de síntesis (coagulopatía e hipoglucemia) tras ingesta masiva de analgésicos con agotamiento de glutatión y acumulación de NAPQI tóxico.',
         isTargetDisease: true
       },
       {
@@ -375,7 +409,8 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'Aunque se eleva, carece de especificidad hepática frente a la ALT.'
       }
     ],
-    expertClinicalKey: 'La Ictericia Hepática (Citolítica) se distingue por niveles masivos de ALT y AST (>1000 U/L) que reflejan ruptura de membranas del parenquima hepático.'
+    expertClinicalKey: 'La Ictericia Hepática (Citolítica) se distingue por niveles masivos de ALT y AST (>1000 U/L) que reflejan ruptura de membranas del parenquima hepático.',
+    essentialBiomarkerIds: ['bm_alt', 'bm_ast']
   },
 
   // ==========================================
@@ -383,9 +418,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   // ==========================================
   {
     id: 'case_metabolic_01',
-    title: 'Acantosis Nigricans, Obesidad Abdominal e Hipertrigliceridemia en Varón de 42 Años',
+    title: 'Javier T.: Manchas oscuras en el cuello y aumento de peso',
     system: 'metabolic',
     difficulty: 'intermedio',
+    studentSummary: 'Javier T., conductor de 42 años con sobrepeso abdominal, acude a revisión por notar que la piel de la nuca y las axilas se ha vuelto oscura y gruesa (acantosis nigricans), y que tiene mucho sueño tras comer. Aunque su azúcar en ayunas aún no llega a rango de diabetes, sus triglicéridos están muy altos y sufre resistencia a la insulina.',
+    clinicalGlossary: [
+      { term: 'Acantosis nigricans', simpleDefinition: 'Placas oscuras, gruesas y aterciopeladas en pliegues de la piel (cuello, axilas). Aparecen porque el exceso de insulina en sangre estimula a los receptores de crecimiento de la piel.' },
+      { term: 'Resistencia a la insulina', simpleDefinition: 'Situación en la que el músculo y la grasa no responden bien a la insulina habitual. El páncreas tiene que bombear muchísima más insulina para mantener la glucosa controlada.' },
+      { term: 'Triglicéridos y VLDL', simpleDefinition: 'Grasas que circulan por la sangre empaquetadas en lipoproteínas. Al fallar el efecto de la insulina, el tejido adiposo suelta ácidos grasos y el hígado fabrica triglicéridos sin parar.' },
+      { term: 'Índice HOMA-IR', simpleDefinition: 'Fórmula sencilla que combina la glucosa y la insulina en ayunas para medir cuánta resistencia tienen los tejidos.' }
+    ],
+    biochemicalConceptSimple: '1. Los tejidos se vuelven insensibles a la insulina -> 2. El páncreas responde bombeando cantidades masivas de insulina (hiperinsulinemia compensadora) -> 3. La grasa se descompone y viaja al hígado, elevando los triglicéridos en sangre -> 4. La insulina en exceso estimula el crecimiento de las células de la piel provocando manchas oscuras (acantosis nigricans).',
     clinicalHistory: {
       patientDemographics: {
         age: 42,
@@ -393,7 +436,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Conductor de Autobús'
       },
       chiefComplaint: 'Aumento de peso, somnolencia posprandial y oscurecimiento de la piel en cuello y axilas.',
-      presentIllness: 'Paciente acude a chequeo rutinario refiriendo aumento de perímetro abdominal en los últimos 2 años. Nota fatiga fácil tras comidas ricas en carbohidratos y manchas hiperpigmentadas terciopeladas en pliegues cutáneos.',
+      presentIllness: 'Javier T. acude a chequeo rutinario refiriendo aumento del perímetro abdominal en los últimos 2 años. Nota fatiga fácil tras comidas ricas en carbohidratos y manchas hiperpigmentadas aterciopeladas en los pliegues del cuello y las axilas.',
       pastMedicalHistory: ['Hipertensión arterial estadio I'],
       medications: ['Lisinopril 10 mg/día'],
       lifestyle: 'Dieta rica en azúcares refinados y grasas saturadas. Sedentario.'
@@ -412,15 +455,16 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Glucemia en ayunas', result: '105', unit: 'mg/dL', referenceRange: '70 - 109' },
-      { test: 'HbA1c', result: '5.6', unit: '%', referenceRange: '< 5,7' },
-      { test: 'Triglicéridos', result: '240', unit: 'mg/dL', referenceRange: '< 150' },
-      { test: 'HDL-colesterol', result: '34', unit: 'mg/dL', referenceRange: '> 40' }
+      { test: 'Glucemia Basal en Ayunas (Cribado)', result: '105', unit: 'mg/dL', referenceRange: '70 - 109 (Glucemia basal alterada en rango de prediabetes)' },
+      { test: 'Hemograma Completo', result: 'Leucocitos 6.400 /µL, Hemoglobina 14.8 g/dL', unit: '', referenceRange: 'Normal' },
+      { test: 'Creatinina Sérica', result: '0.85', unit: 'mg/dL', referenceRange: '0.7 - 1.3' },
+      { test: 'Presión Arterial en Consulta', result: '138/88', unit: 'mmHg', referenceRange: '< 120/80 (Prehipertensión arterial)' },
+      { test: 'Sistemático de Orina', result: 'Negativo para proteinuria y glucosuria', unit: '', referenceRange: 'Normal' }
     ],
     differentialDiagnoses: [
       {
         disease: 'Estado de Resistencia a la Insulina / Síndrome Metabólico',
-        plausibilityRationale: 'Glucemia en ayunas en límite superior (105 mg/dL) con HbA1c <5.7%, acantosis nigricans, obesidad central y dislipidemia aterogénica típica (TG > 150 mg/dL y HDL < 40 mg/dL).',
+        plausibilityRationale: 'Glucemia basal en rango limítrofe en paciente con acantosis nigricans, obesidad visceral y perímetro de cintura aumentado.',
         isTargetDisease: true
       },
       {
@@ -469,14 +513,23 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'Normal en estados de resistencia a la insulina con hiperinsulinemia relativa que suprime la cetogénesis.'
       }
     ],
-    expertClinicalKey: 'La Resistencia a la Insulina se manifiesta precozmente con hipertrigliceridemia (>150 mg/dL), HDL bajo y signos cutáneos (acantosis nigricans) antes de que la glucemia se eleve a rangos diabéticos.'
+    expertClinicalKey: 'La Resistencia a la Insulina se manifiesta precozmente con hipertrigliceridemia (>150 mg/dL), HDL bajo y signos cutáneos (acantosis nigricans) antes de que la glucemia se eleve a rangos diabéticos.',
+    essentialBiomarkerIds: ['bm_trigliceridos', 'bm_fasting_insulin']
   },
 
   {
     id: 'case_metabolic_02',
-    title: 'Poliuria, Polidipsia y Respiración de Kussmaul en Joven de 19 Años',
+    title: 'Lucía B. (19 años): Mucha sed, ganas continuas de orinar y respiración agitada',
     system: 'metabolic',
     difficulty: 'intermedio',
+    studentSummary: 'Lucía B., estudiante de 19 años, debuta con diabetes tipo 1: en 3 días ha perdido 4 kg, tiene una sed constante inagotable (polidipsia) y orina a todas horas (poliuria). Llega a urgencias vomitando, con dolor de vientre, respiración profunda y rápida (respiración de Kussmaul) y aliento a frutas ácidas o acetona. El objetivo es medir el cuerpo cetónico principal (beta-hidroxibutirato) en sangre para confirmar una cetoacidosis diabética.',
+    clinicalGlossary: [
+      { term: 'Poliuria y Polidipsia', simpleDefinition: 'Orinar en volúmenes muy altos (porque la glucosa desborda el riñón y arrastra agua) y tener una sed insaciable para compensar la deshidratación.' },
+      { term: 'Respiración de Kussmaul', simpleDefinition: 'Respiración profunda, rápida y agitada. Es el mecanismo del pulmón para expulsar CO2 y compensar la acidez generada por los cuerpos cetónicos.' },
+      { term: 'Cuerpos cetónicos (β-hidroxibutirato)', simpleDefinition: 'Ácidos producidos por el hígado a partir de grasas cuando las células no pueden usar glucosa por falta de insulina. Acidifican peligrosamente la sangre.' },
+      { term: 'Aliento cetónico', simpleDefinition: 'Olor dulce o afrutado (parecido al quitaesmalte de uñas o manzanas fermentadas) producido por la evaporación de acetona en los pulmones.' }
+    ],
+    biochemicalConceptSimple: '1. Destrucción de células beta del páncreas -> 2. Cero insulina -> 3. La glucosa no puede entrar en las células y se dispara en sangre (>300 mg/dL) -> 4. El cuerpo cree que está en inanición y descompone grasas a lo loco -> 5. El hígado fabrica cuerpos cetónicos ácidos (β-hidroxibutirato > 3 mmol/L) produciendo cetoacidosis metabólica.',
     clinicalHistory: {
       patientDemographics: {
         age: 19,
@@ -484,7 +537,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Estudiante'
       },
       chiefComplaint: 'Sed insaciable (polidipsia), orina muy frecuente (poliuria) y dolor abdominal con vómitos.',
-      presentIllness: 'Paciente acude a urgencias por cuadro de 3 días de polidipsia intensa, poliuria y pérdida de 4 kg de peso. En las últimas 12 horas desarrolla náuseas, vómitos repetidos, dolor abdominal difuso y aliento con olor a "manzana/acetona".',
+      presentIllness: 'Lucía B. acude a urgencias por cuadro de 3 días de polidipsia intensa, poliuria y pérdida de 4 kg de peso. En las últimas 12 horas desarrolla náuseas, vómitos repetidos, dolor abdominal difuso y aliento con olor a "manzana/acetona".',
       pastMedicalHistory: ['Sin antecedentes de interés'],
       medications: ['Ninguno'],
       lifestyle: 'Estudiante sin hábitos tóxicos.'
@@ -565,9 +618,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
 
   {
     id: 'case_metabolic_03',
-    title: 'Hipoglucemia Hipocetósica en Lactante de 14 Meses tras Cuadro Febril y Ayuno',
+    title: 'Leo P. (14 meses): Letargo y bajada de azúcar tras un catarro con ayuno',
     system: 'metabolic',
     difficulty: 'experto',
+    studentSummary: 'Leo P., bebé de 14 meses, lleva 14 horas sin comer porque le dolía la garganta y tenía fiebre. Sus padres no consiguen despertarlo por la mañana, y en urgencias se detecta una glucosa en sangre bajísima (35 mg/dL). Lo asombroso es que el bebé ¡no tiene cuerpos cetónicos en sangre ni en orina! El objetivo es identificar que sus mitocondrias no pueden quemar grasas (déficit de MCAD en la beta-oxidación) para producir energía de reserva.',
+    clinicalGlossary: [
+      { term: 'Hipoglucemia hipocetósica', simpleDefinition: 'Tener el azúcar peligrosamente bajo sin generar cuerpos cetónicos. Normalmente, cuando se acaba el azúcar, el cuerpo quema grasa y fabrica cetonas; si no hay cetonas, la maquinaria de quemar grasas (beta-oxidación) está rota.' },
+      { term: 'Beta-oxidación mitocondrial', simpleDefinition: 'Ruta dentro de las mitocondrias que "corta" los ácidos grasos de dos en dos carbonos para producir energía (ATP) y cuerpos cetónicos durante el ayuno.' },
+      { term: 'Déficit de MCAD', simpleDefinition: 'Falta congénita de la enzima que procesa las grasas de tamaño medio (6 a 12 carbonos). Es el error más frecuente de la beta-oxidación.' },
+      { term: 'Acilcarnitinas', simpleDefinition: 'Complejos de ácidos grasos unidos a carnitina. Si una enzima falla, los ácidos grasos atascados se unen a carnitina y se escapan a la sangre (octanoilcarnitina C8).' }
+    ],
+    biochemicalConceptSimple: '1. El bebé entra en ayuno prolongado -> 2. Se agota el glucógeno del hígado -> 3. El cuerpo intenta quemar ácidos grasos para obtener energía y cetonas -> 4. La enzima MCAD no funciona -> 5. Se produce hipoglucemia severa sin cetonas de rescate y se acumula octanoilcarnitina (C8).',
     clinicalHistory: {
       patientDemographics: {
         age: 1.2,
@@ -575,7 +636,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Lactante'
       },
       chiefComplaint: 'Letargia marcada, hipotonía y dificultad para despertar por la mañana.',
-      presentIllness: 'Lactante de 14 meses es traído a urgencias soporoso tras un ayuno nocturno de 14 horas motivado por rechazo de tomas secundario a una infección viral leve de vías altas. La madre nota al niño muy pálido, frío y sudoroso.',
+      presentIllness: 'Leo P., lactante de 14 meses, es traído a urgencias soporoso tras un ayuno nocturno de 14 horas motivado por rechazo de tomas secundario a una infección viral leve de vías altas. La madre nota al niño muy pálido, frío y sudoroso.',
       pastMedicalHistory: ['Episodio previo similar a los 8 meses durante gastroenteritis'],
       medications: ['Paracetamol en gotas'],
       lifestyle: 'Lactancia y alimentación complementaria adecuada.'
@@ -659,9 +720,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   // ==========================================
   {
     id: 'case_renal_01',
-    title: 'Encefalopatía Aguda e Hiperamonemia en Neonato de 4 Días tras Ingesta Proteica',
+    title: 'Bebé Mateo (4 días): Dificultad para despertar y vómitos tras tomar leche',
     system: 'renal',
     difficulty: 'avanzado',
+    studentSummary: 'El recién nacido Mateo, de 4 días de vida, nació sano pero al empezar a tomar leche materna comienza a vomitar, respira muy deprisa, entra en coma y sufre convulsiones. Su amonio en sangre está desorbitado (>350 µmol/L) mientras que su urea es bajísima. El objetivo es identificar que tiene un fallo congénito en el ciclo de la urea (déficit de la enzima OTC) que le impide desintoxicar el nitrógeno de las proteínas.',
+    clinicalGlossary: [
+      { term: 'Amonio plasmático (NH4+)', simpleDefinition: 'Gas/ion altamente tóxico para las neuronas generado al degradar proteínas. El hígado debe transformarlo urgentemente en urea para que no dañe el cerebro.' },
+      { term: 'Ciclo de la urea', simpleDefinition: 'Ruta bioquímica exclusiva del hígado que toma el amonio tóxico y lo convierte en urea neutra, la cual se expulsa sin peligro por la orina.' },
+      { term: 'Déficit de OTC (Ornitina Transcarbamilasa)', simpleDefinition: 'La enfermedad más frecuente del ciclo de la urea. Al estar rota la enzima, el amonio se dispara en sangre y se acumula ácido orótico en la orina.' },
+      { term: 'Encefalopatía hiperamonémica', simpleDefinition: 'Intoxicación cerebral aguda causada por amonio: provoca edema cerebral, letargo, convulsiones y coma si no se trata de inmediato.' }
+    ],
+    biochemicalConceptSimple: '1. El bebé ingiere proteínas de la leche -> 2. La digestión libera aminoácidos y genera amonio libre -> 3. La enzima hepática OTC está inactiva y el ciclo de la urea no arranca -> 4. La urea está baja pero el amonio se dispara a niveles letales (>300 µmol/L) -> 5. El amonio atraviesa la barrera hematoencefálica y desata convulsiones y coma.',
     clinicalHistory: {
       patientDemographics: {
         age: 0.01,
@@ -669,7 +738,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Neonato'
       },
       chiefComplaint: 'Rechazo de tomas, vómitos, letargia e hiperventilación.',
-      presentIllness: 'Neonato a término nacido sin complicaciones que al 3er día de vida inicia rechazo progresivo de la lactancia, vómitos alimentarios, irritabilidad extrema seguida de estupor y convulsiones focales.',
+      presentIllness: 'El recién nacido Mateo, a término y sin complicaciones de parto, al 3er día de vida inicia rechazo progresivo de la lactancia, vómitos repetidos tras las tomas, irritabilidad extrema seguida de estupor y convulsiones.',
       pastMedicalHistory: ['Embarazo y parto normoevolutivo'],
       medications: ['Ninguno'],
       lifestyle: 'Lactancia materna.'
@@ -688,15 +757,15 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Amonio Plasmático', result: '380', unit: 'µmol/L', referenceRange: '< 50' },
-      { test: 'Urea Sérica', result: '12', unit: 'mg/dL', referenceRange: '20 - 50' },
-      { test: 'Glucemia en ayunas', result: '88', unit: 'mg/dL', referenceRange: '70 - 109' },
-      { test: 'Creatinina Sérica', result: '0.5', unit: 'mg/dL', referenceRange: 'M: 0.5 - 1.1' }
+      { test: 'Gasometría Capilar Neonatal', result: 'pH: 7.50, pCO2: 28 mmHg, HCO3-: 26 mEq/L (Alcalosis respiratoria por hiperventilación central neurotóxica)', unit: '', referenceRange: 'pH 7.35-7.45; pCO2 35-45' },
+      { test: 'Glucemia Capilar de Urgencias', result: '88', unit: 'mg/dL', referenceRange: '70 - 109 (Descarta hipoglucemia neonatal como causa primaria de letargia)' },
+      { test: 'Urea Sérica', result: '12', unit: 'mg/dL', referenceRange: '20 - 50 (Inesperadamente baja a pesar del cuadro de deshidratación neonatal)', isAbnormal: true },
+      { test: 'Iones en Sangre', result: 'Sodio 138 mEq/L, Potasio 4.5 mEq/L', unit: '', referenceRange: 'Normal' }
     ],
     differentialDiagnoses: [
       {
         disease: 'Defecto del Ciclo de la Urea (Deficiencia de Ornitina Transcarbamilasa - OTC)',
-        plausibilityRationale: 'Hiperamonemia masiva neurotóxica (Amonio 380 µmol/L) con Urea anormalmente baja (12 mg/dL) e ingesta proteica desencadenante en el periodo neonatal por bloqueo de la desintoxicación del nitrógeno.',
+        plausibilityRationale: 'Presentación neonatal con letargia progresiva y convulsiones tras tomas de leche, alcalosis respiratoria por hiperventilación central neurotóxica y urea sérica llamativamente disminuida.',
         isTargetDisease: true
       },
       {
@@ -745,14 +814,23 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'No evalúa la capacidad metabólica hepática del ciclo de la urea.'
       }
     ],
-    expertClinicalKey: 'Un nivel de Amonio Plasmático > 150 µmol/L con Urea muy baja o normal en un paciente encefalopático es patognomónico de un Defecto del Ciclo de la Urea.'
+    expertClinicalKey: 'Un nivel de Amonio Plasmático > 150 µmol/L con Urea muy baja o normal en un paciente encefalopático es patognomónico de un Defecto del Ciclo de la Urea.',
+    essentialBiomarkerIds: ['bm_amonio_plasmatico']
   },
 
   {
     id: 'case_renal_02',
-    title: 'Podagra Aguda y Tumefacción en Primera Metatarsofalángica en Varón de 52 Años',
+    title: 'Ricardo N.: Dolor agudo e inflamación roja en el dedo gordo del pie',
     system: 'renal',
     difficulty: 'intermedio',
+    studentSummary: 'Ricardo N., de 52 años, se despierta a medianoche con un dolor insoportable en la base del dedo gordo del pie (podagra) tras haber cenado carne roja, marisco y cerveza. La zona está roja, hinchada y caliente, tanto que ni la sábana puede rozarlo. El objetivo es comprobar que tiene el ácido úrico muy elevado en sangre y que este precipita en forma de microagujas en la articulación.',
+    clinicalGlossary: [
+      { term: 'Podagra', simpleDefinition: 'Inflamación aguda y extraordinariamente dolorosa de la articulación de la base del dedo gordo del pie (primera metatarsofalángica), típica del ataque agudo de gota.' },
+      { term: 'Ácido úrico', simpleDefinition: 'Sustancia de desecho producida al romper las purinas (del ADN de carnes, mariscos y cerveza). Si supera 7.0 mg/dL, se vuelve insoluble.' },
+      { term: 'Cristales de urato monosódico', simpleDefinition: 'Microcristales en forma de aguja que precipitan en la articulación y activan el inflamasoma de los glóbulos blancos, generando inflamación salvaje.' },
+      { term: 'Xantina oxidasa', simpleDefinition: 'Enzima que cataliza el paso final de formación de ácido úrico. Es la diana que bloquea el fármaco alopurinol.' }
+    ],
+    biochemicalConceptSimple: '1. Exceso de purinas en la dieta + fármacos tiazídicos -> 2. La xantina oxidasa sintetiza ácido úrico por encima del umbral de saturación (>7 mg/dL) -> 3. Precipitan cristales de urato con forma de aguja en la articulación más fría (el pie) -> 4. Los neutrófilos fagocitan los cristales y liberan citoquinas proinflamatorias (ataque agudo de gota).',
     clinicalHistory: {
       patientDemographics: {
         age: 52,
@@ -760,7 +838,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Empresario'
       },
       chiefComplaint: 'Dolor insoportable, eritema y calor en el dedo gordo del pie derecho.',
-      presentIllness: 'Paciente despierta a mitad de la noche con dolor insoportable (10/10) en la primera articulación metatarsofalángica derecha (podagra). El dolor le impide el contacto con las sábanas. Refiere ingesta abundante de carne roja y mariscos con alcohol el día previo.',
+      presentIllness: 'Ricardo N. despierta a mitad de la noche con dolor insoportable (10/10) en la primera articulación metatarsofalángica derecha (podagra). El dolor le impide el contacto con las sábanas. Refiere ingesta abundante de carne roja y mariscos con alcohol el día previo.',
       pastMedicalHistory: ['Hipertensión arterial', 'Dislipidemia'],
       medications: ['Hidroclorotiazida 25 mg/día'],
       lifestyle: 'Consumo regular de cerveza.'
@@ -778,15 +856,16 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Ácido Úrico Sérico', result: '9.8', unit: 'mg/dL', referenceRange: 'H: 3.5 - 7.0' },
+      { test: 'Leucocitos (Hemograma)', result: '11.800', unit: '/µL', referenceRange: '4.500 - 11.000', isAbnormal: true },
+      { test: 'Neutrófilos %', result: '76', unit: '%', referenceRange: '45 - 70', isAbnormal: true },
+      { test: 'Glucemia en Ayunas', result: '104', unit: 'mg/dL', referenceRange: '70 - 109' },
       { test: 'Urea Sérica', result: '38', unit: 'mg/dL', referenceRange: '20 - 50' },
-      { test: 'Creatinina Sérica', result: '1.0', unit: 'mg/dL', referenceRange: 'H: 0.7 - 1.3' },
-      { test: 'PCR', result: '22', unit: 'mg/L', referenceRange: '< 5' }
+      { test: 'Iones en Sangre', result: 'Sodio 141 mEq/L, Potasio 4.1 mEq/L', unit: '', referenceRange: 'Normal' }
     ],
     differentialDiagnoses: [
       {
         disease: 'Hiperuricemia Primaria con Crisis Aguda de Gota (Artropatía por Urato Monosódico)',
-        plausibilityRationale: 'Presentación típica de podagra aguda, hiperuricemia (9.8 mg/dL) favorecida por tiazidas y consumo de purinas/alcohol con función renal conservada.',
+        plausibilityRationale: 'Presentación típica de podagra aguda, desencadenada por tiazidas y consumo de purinas/alcohol con función renal conservada.',
         isTargetDisease: true
       },
       {
@@ -835,14 +914,23 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'Inespecífico para la artropatía cristalina.'
       }
     ],
-    expertClinicalKey: 'Un nivel de Ácido Úrico Sérico > 7.0 mg/dL en varones con monoartritis en 1ª metatarsofalángica (podagra) orienta al diagnóstico de Hiperuricemia Primaria y Gota.'
+    expertClinicalKey: 'Un nivel de Ácido Úrico Sérico > 7.0 mg/dL en varones con monoartritis en 1ª metatarsofalángica (podagra) orienta al diagnóstico de Hiperuricemia Primaria y Gota.',
+    essentialBiomarkerIds: ['bm_cristales_liquido_sinovial', 'bm_acido_urico']
   },
 
   {
     id: 'case_renal_03',
-    title: 'Oliguria e Hiperuricemia Severa tras Inicio de Quimioterapia en Linfoma de Alto Grado',
+    title: 'Gabriel V.: Disminución brusca de orina y debilidad tras quimioterapia',
     system: 'renal',
     difficulty: 'experto',
+    studentSummary: 'Gabriel V., de 61 años con un linfoma muy agresivo, recibe su primer ciclo de quimioterapia. A las 48 horas apenas puede orinar (oliguria), tiene calambres y debilidad extrema. La muerte masiva de millones de células tumorales ha liberado de golpe su ADN a la sangre, disparando el ácido úrico a 15.4 mg/dL y taponando los túbulos renales (síndrome de lisis tumoral).',
+    clinicalGlossary: [
+      { term: 'Síndrome de Lisis Tumoral', simpleDefinition: 'Emergencia médica causada por la destrucción simultánea de millones de células malignas tras la quimio, vertiendo su contenido celular (ácido úrico, fósforo, potasio y LDH) a la sangre.' },
+      { term: 'Oliguria', simpleDefinition: 'Expulsar muy poca cantidad de orina (menos de 400 mL al día), señal de que los riñones están sufriendo un fallo agudo.' },
+      { term: 'Nefropatía por cristales de urato', simpleDefinition: 'Obstrucción de los túbulos del riñón porque el ácido úrico es tan elevado que cristaliza dentro del propio riñón, impidiendo el paso de la orina.' },
+      { term: 'LDH (Lactato deshidrogenasa)', simpleDefinition: 'Enzima citosólica que se multiplica por diez (>2000 U/L) cuando mueren millones de células tumorales al mismo tiempo.' }
+    ],
+    biochemicalConceptSimple: '1. La quimioterapia destruye masivamente células cancerosas -> 2. Se rompe el ADN de millones de células liberando purinas -> 3. El ácido úrico se dispara (>15 mg/dL) junto con el potasio, fósforo y LDH -> 4. Los cristales de urato precipitan en los túbulos renales provocando fracaso renal agudo obstructivo.',
     clinicalHistory: {
       patientDemographics: {
         age: 61,
@@ -850,7 +938,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Contador'
       },
       chiefComplaint: 'Disminución drástica de la diuresis y debilidad extrema 48 horas post-quimioterapia.',
-      presentIllness: 'Paciente diagnosticado de Linfoma no Hodgkin difuso de células B grandes de alta masa tumoral que inicia esquema de quimioterapia CIT. A las 48 horas presenta oliguria (orina < 250 mL/24h), nauseas, calambres musculares y somnolencia.',
+      presentIllness: 'Gabriel V., diagnosticado de Linfoma difuso de células B grandes de alta masa tumoral, inicia esquema de quimioterapia. A las 48 horas presenta oliguria severa (orina < 250 mL/24h), náuseas, calambres musculares y somnolencia.',
       pastMedicalHistory: ['Linfoma no Hodgkin de reciente diagnóstico'],
       medications: ['Esquema de quimioterapia R-CHOP'],
       lifestyle: 'No fumador.'
@@ -868,16 +956,15 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Ácido Úrico Sérico', result: '15.4', unit: 'mg/dL', referenceRange: 'H: 3.5 - 7.0' },
-      { test: 'LDH', result: '2100', unit: 'U/L', referenceRange: '140 - 280' },
-      { test: 'Creatinina Sérica', result: '3.2', unit: 'mg/dL', referenceRange: 'H: 0.7 - 1.3' },
-      { test: 'Fósforo', result: '7.2', unit: 'mg/dL', referenceRange: '2,5 - 4,5' },
-      { test: 'Potasio', result: '6.1', unit: 'mmol/L', referenceRange: '3,5 - 5,0' }
+      { test: 'Hemograma Completo', result: 'Leucocitos 48.000 /µL (con blastos circulantes), Hb 8.4 g/dL, Plaquetas 38.000 /µL', unit: '', referenceRange: 'Normal' },
+      { test: 'Creatinina Sérica', result: '3.2', unit: 'mg/dL', referenceRange: 'H: 0.7 - 1.3 (Lesión Renal Aguda brusca post-quimioterapia)', isAbnormal: true },
+      { test: 'Diuresis en Urgencias', result: '< 10 mL/h en las últimas 4 horas (Oliguria crítica refractaria)', unit: 'mL/h', referenceRange: '> 40 mL/h', isAbnormal: true },
+      { test: 'Electrocardiograma (ECG)', result: 'Ondas T elevadas, puntiagudas y simétricas en derivaciones precordiales (Signo de alarma de hiperpotasemia crítica por rotura celular masiva)', unit: '-', referenceRange: 'Normal', isAbnormal: true }
     ],
     differentialDiagnoses: [
       {
         disease: 'Hiperuricemia Secundaria a Síndrome de Lisis Tumoral (Nefropatía por Cristales de Urato)',
-        plausibilityRationale: 'Lisis masiva celular tumoral post-quimioterapia que libera cantidades masivas de purinas (Ácido Úrico 15.4 mg/dL), LDH (2100 U/L), Potasio y Fósforo, provocando precipitación intraluminal tubular y Lesión Renal Aguda.',
+        plausibilityRationale: 'Lisis masiva celular tumoral post-quimioterapia en paciente con leucemia/linfoma de alta carga tumoral, con debut de insuficiencia renal aguda anúrica y signos ECG de toxicidad electrolítica por rotura celular.',
         isTargetDisease: true
       },
       {
@@ -926,7 +1013,8 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'Muestra el grado de insuficiencia renal pero no identifica la causa por uratos.'
       }
     ],
-    expertClinicalKey: 'La Hiperuricemia Secundaria en el Síndrome de Lisis Tumoral se diferencia de la primaria por niveles masivos de Ácido Úrico (>15 mg/dL) acompañados de elevación simultánea de LDH, Fósforo y Potasio con Lesión Renal Aguda.'
+    expertClinicalKey: 'La Hiperuricemia Secundaria en el Síndrome de Lisis Tumoral se diferencia de la primaria por niveles masivos de Ácido Úrico (>15 mg/dL) acompañados de elevación simultánea de LDH, Fósforo y Potasio con Lesión Renal Aguda.',
+    essentialBiomarkerIds: ['bm_acido_urico', 'bm_ldh']
   },
 
   // ==========================================
@@ -934,9 +1022,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   // ==========================================
   {
     id: 'case_pancreatic_01',
-    title: 'Dolor Epigástrico transfictivo en Cinturón y Suero Lactescente por Hipertrigliceridemia Extrema (>1800 mg/dL) en Varón de 44 Años',
+    title: 'Andrés K.: Dolor fuerte de estómago en cinturón y sangre lechosa',
     system: 'pancreatic',
     difficulty: 'avanzado',
+    studentSummary: 'Andrés K., transportista de 44 años con diabetes y triglicéridos descontrolados, llega retorciéndose con un dolor tremendo en la boca del estómago que le traspasa la espalda como un cinturón. Al sacarle sangre para los análisis, el tubo no es transparente sino blanco y espeso como leche desnatada (suero lechoso por triglicéridos > 1800 mg/dL). El objetivo es comprobar que este exceso extremo de grasa ha inflamado su páncreas (pancreatitis aguda) y medir la lipasa pancreática.',
+    clinicalGlossary: [
+      { term: 'Dolor en cinturón', simpleDefinition: 'Dolor punzante y continuo en la boca del estómago (epigastrio) que se extiende hacia ambos costados y la espalda, muy típico de la inflamación del páncreas.' },
+      { term: 'Suero lactescente / lipémico', simpleDefinition: 'Sangre con aspecto lechoso u opaco debido a la presencia masiva de quilomicrones y triglicéridos (>1000 mg/dL).' },
+      { term: 'Lipasa sérica', simpleDefinition: 'Enzima digestiva exclusiva del páncreas. Si el tejido pancreático se inflama, la lipasa se triplica o cuadruplica en sangre (>3 veces el límite normal).' },
+      { term: 'Interferencia por lipemia', simpleDefinition: 'Cuando la sangre es tan lechosa que las máquinas de laboratorio ópticas no pueden medir bien ciertas pruebas (como la amilasa, que puede salir falsamente baja).' }
+    ],
+    biochemicalConceptSimple: '1. Triglicéridos extremos (> 1800 mg/dL) saturan los vasos del páncreas -> 2. La lipasa rompe esos triglicéridos liberando ácidos grasos libres tóxicos -> 3. Los ácidos grasos destruyen las células del páncreas -> 4. Se desata una autodigestión e inflamación del órgano (pancreatitis) -> 5. La lipasa se escapa a la circulación en cifras altísimas (> 900 U/L).',
     clinicalHistory: {
       patientDemographics: {
         age: 44,
@@ -944,7 +1040,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Transportista'
       },
       chiefComplaint: 'Dolor atroz en boca del estómago irradiado a la espalda, náuseas, vómitos incesantes y suero sanguíneo de aspecto lechoso.',
-      presentIllness: 'Paciente acude a urgencias tras inicio súbito hace 10 horas de dolor epigástrico atroz (10/10) irradiado en cinturón hacia ambos flancos y región lumbar posterior. El dolor empeora en decúbito supino y mejora levemente en posición de plegaria maometana. Acompañado de náuseas y vómitos biliogástricos. En la extracción de sangre de urgencias, el analista destaca que la muestra presenta plasma marcadamente lechoso (opalescente/lactescente par excellence).',
+      presentIllness: 'Andrés K. acude a urgencias tras inicio súbito hace 10 horas de dolor epigástrico atroz (10/10) irradiado en cinturón hacia ambos flancos y región lumbar. En la extracción de sangre de urgencias, el analista constata que el plasma tiene aspecto lechoso opalescente.',
       pastMedicalHistory: ['Dislipidemia Mixta grave con deficiente adherencia farmacológica', 'Diabetes Mellitus Tipo 2 mal controlada (HbA1c 9.8%)', 'Esteatosis Hepática no alcohólica'],
       medications: ['Metformina 1000 mg/12h', 'Fenofibrato 160 mg (discontinuado voluntariamente hace 4 meses)'],
       lifestyle: 'Dieta rica en grasas saturadas y carbohidratos refinados. Sedentarismo. Sin consumo de alcohol.'
@@ -963,16 +1059,16 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Aspecto del Suero / Plasma', result: 'Lactescente (Lechoso / Lipémico intenso)', unit: '', referenceRange: 'Límpido / Transparente' },
-      { test: 'Triglicéridos Séricos en ayunas', result: '1840', unit: 'mg/dL', referenceRange: '< 150 (Riesgo severo pancreatitis > 1000)' },
-      { test: 'Lipasa Sérica', result: '980', unit: 'U/L', referenceRange: '10 - 140 (>3x LSN)' },
-      { test: 'Amilasa Sérica Total', result: '155 (Falsamente normal/baja por interferencia lipémica)', unit: 'U/L', referenceRange: '13 - 53' },
-      { test: 'Glucemia en ayunas', result: '245', unit: 'mg/dL', referenceRange: '70 - 109' }
+      { test: 'Inspección del Suero / Plasma', result: 'Francamente Lactescente (Aspecto lechoso / turbio "crema de leche" tras centrifugación de urgencias)', unit: '', referenceRange: 'Límpido / Transparente', isAbnormal: true },
+      { test: 'Hemograma', result: 'Leucocitos 15.400 /µL (Neutrofilia 84%), Hb 15.2 g/dL (hemoconcentración)', unit: '', referenceRange: 'Leucocitos 4.500 - 11.000', isAbnormal: true },
+      { test: 'Glucemia en Urgencias', result: '245', unit: 'mg/dL', referenceRange: '70 - 109 (Hiperglucemia reactiva por estrés)', isAbnormal: true },
+      { test: 'Creatinina Sérica', result: '1.1', unit: 'mg/dL', referenceRange: '0.7 - 1.3' },
+      { test: 'Radiografía Simple de Abdomen', result: 'Íleo paralítico reflejo en cuadrante superior izquierdo (asa centinela), sin neumoperitoneo', unit: '', referenceRange: 'Normal' }
     ],
     differentialDiagnoses: [
       {
         disease: 'Pancreatitis Aguda Secundaria a Hipertrigliceridemia Extrema (Síndrome de Quilomicronemia / Dislipidemia FVII)',
-        plausibilityRationale: 'Presentación típica de dolor epigástrico en cinturón tras acumulación masiva de triglicéridos (> 1000 mg/dL) con suero lechoso y lipasa > 3 veces LSN. La lipasa pancreática descompone el exceso de triglicéridos liberando ácidos grasos libres citotóxicos que inducen isquemia acinar.',
+        plausibilityRationale: 'Dolor epigástrico en cinturón tras trasgresión dietética en paciente con diabetes y xantomas eruptivos, con suero francamente lechoso a simple vista por quilomicrones masivos.',
         isTargetDisease: true
       },
       {
@@ -1021,13 +1117,22 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         whyOptimalOrSuboptimal: 'Puede arrojar un falso resultado normal o discretamente elevado en sueros marcadamente lipémicos.'
       }
     ],
-    expertClinicalKey: 'La Hipertrigliceridemia Extrema (> 1.000 mg/dL) representa la 3ª causa más frecuente de Pancreatitis Aguda. El mecanismo bioquímico patogénico radica en la hidrólisis acinar de triglicéridos con liberación masiva de Ácidos Grasos Libres (AGL) tóxicos que inducen isquemia y necrosis microvascular. La lipemia severa (suero lechoso) interfiere en la medición espectrofotométrica de Amilasa (causando falsos negativos), por lo que la Lipasa Sérica junta con los Triglicéridos es la prueba confirmatoria.'
+    expertClinicalKey: 'La Hipertrigliceridemia Extrema (> 1.000 mg/dL) representa la 3ª causa más frecuente de Pancreatitis Aguda. El mecanismo bioquímico patogénico radica en la hidrólisis acinar de triglicéridos con liberación masiva de Ácidos Grasos Libres (AGL) tóxicos que inducen isquemia y necrosis microvascular. La lipemia severa (suero lechoso) interfiere en la medición espectrofotométrica de Amilasa (causando falsos negativos), por lo que la Lipasa Sérica junta con los Triglicéridos es la prueba confirmatoria.',
+    essentialBiomarkerIds: ['bm_lipasa', 'bm_trigliceridos']
   },
   {
     id: 'case_pancreatic_02',
-    title: 'Astenia Profunda, Parestesias Dedo-Digitales y Anemia Macrocítica en Mujer de 67 Años con Uso Crónico de Omeprazol',
+    title: 'Dolores M.: Hormigueo en manos y pies con cansancio persistente',
     system: 'pancreatic',
     difficulty: 'avanzado',
+    studentSummary: 'Dolores M., mujer jubilada de 67 años, lleva 7 años tomando omeprazol todos los días para el ardor de estómago. Consulta por cansancio continuo, hormigueo como alfileres en manos y pies (parestesias) y calambres involuntarios. Al quitar por completo el ácido del estómago durante años, su cuerpo ha dejado de absorber la vitamina B12 (dando glóbulos rojos gigantes o macrocitosis) y el magnesio. El objetivo es identificar este doble déficit nutricional.',
+    clinicalGlossary: [
+      { term: 'Aclorhidria / Falta de ácido gástrico', simpleDefinition: 'Ausencia de ácido clorhídrico en el estómago por el bloqueo continuado del omeprazol. Sin ácido, la vitamina B12 no puede soltarse de los alimentos para absorberse.' },
+      { term: 'Anemia macrocítica (VCM > 100 fL)', simpleDefinition: 'Anemia con glóbulos rojos de tamaño anormalmente grande producida por la falta de vitamina B12, necesaria para duplicar el ADN celular.' },
+      { term: 'Parestesias', simpleDefinition: 'Sensación de adormecimiento, acorchamiento u hormigueo en manos y pies por daño en las vainas de mielina de los nervios.' },
+      { term: 'Hipomagnesemia por IBP', simpleDefinition: 'Baja concentración de magnesio en sangre porque el omeprazol bloquea los canales intestinales TRPM6 encargados de absorberlo.' }
+    ],
+    biochemicalConceptSimple: '1. Omeprazol crónico bloquea la bomba de protones -> 2. Cero ácido gástrico: la pepsina no libera la vitamina B12 -> 3. Se altera la síntesis de ADN en la médula ósea dando anemia megaloblástica y afectación neurológica -> 4. Se bloquean los canales de magnesio TRPM6 causando calambres musculares (tetania).',
     clinicalHistory: {
       patientDemographics: {
         age: 67,
@@ -1035,7 +1140,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Jubilada'
       },
       chiefComplaint: 'Calambres dolorosos en manos y pies, adormecimiento peribucal, astenia progresiva y palpitaciones.',
-      presentIllness: 'Paciente tratada de forma continuada con Omeprazol 40 mg/día desde hace 7 años por enfermedad por reflujo gastroesofágico (ERGE). Acude a consulta por cuadro de 4 meses de evolución caracterizado por fatiga marcada, debilidad generalizada, entumecimiento simétrico en manos y pies y calambres involuntarios en pantorrillas. No refiere melenas ni sangrado digestivo visible.',
+      presentIllness: 'Dolores M., tratada de forma ininterrumpida con Omeprazol 40 mg/día desde hace 7 años por reflujo, consulta por 4 meses de cansancio marcado, debilidad generalizada, entumecimiento simétrico en manos y pies y calambres involuntarios en pantorrillas.',
       pastMedicalHistory: ['Enfermedad por Reflujo Gastroesofágico (ERGE)', 'Osteopenia senil'],
       medications: ['Omeprazol 40 mg/24h (sin interrupción durante 7 años)', 'Carbonato de Calcio 500 mg/24h'],
       lifestyle: 'No fumadora. Dieta mediterránea equilibrada.'
@@ -1115,9 +1220,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   },
   {
     id: 'case_pancreatic_03',
-    title: 'Anemia Ferropénica Refractaria, Diarrea Crónica y Distensión Abdominal en Joven de 29 Años',
+    title: 'Laura C.: Cansancio continuo, tripa hinchada y digestiones pesadas',
     system: 'pancreatic',
     difficulty: 'intermedio',
+    studentSummary: 'Laura C., abogada de 29 años con antecedentes de tiroiditis autoinmune, consulta porque lleva meses con anemia por falta de hierro que no mejora con pastillas, digestiones muy pesadas tras comer pan o pasta, diarreas frecuentes y llagas en la boca (aftas). El objetivo es sospechar enfermedad celíaca: el gluten inflama y aplana las vellosidades del intestino impidiendo absorber el hierro.',
+    clinicalGlossary: [
+      { term: 'Anemia refractaria al hierro oral', simpleDefinition: 'Tener el hierro y la hemoglobina bajos a pesar de tomar suplementos de hierro en pastillas durante meses. Significa que el problema no es la falta de hierro, sino que el intestino no puede absorberlo.' },
+      { term: 'Atrofia de vellosidades intestinales', simpleDefinition: 'Pérdida de los "pelitos" microscópicos del intestino delgado (vellosidades) donde se absorben los nutrientes, provocada por una reacción autoinmune al gluten.' },
+      { term: 'Anticuerpos Anti-Transglutaminasa (tTG-IgA)', simpleDefinition: 'Anticuerpo que produce el sistema inmune contra la enzima transglutaminasa en presencia de gluten. Es la prueba reina para diagnosticar celiaquía.' },
+      { term: 'Ferritina sérica', simpleDefinition: 'Proteína que almacena el hierro en el cuerpo. Cifras inferiores a 15 ng/mL demuestran que las reservas de hierro están vacías.' }
+    ],
+    biochemicalConceptSimple: '1. Ingesta de gluten (gliadina) -> 2. La enzima tisular transglutaminasa modifica la gliadina -> 3. El sistema inmune ataca la mucosa del duodeno destruyendo las vellosidades -> 4. Se bloquea la absorción del hierro y vitaminas liposolubles -> 5. Se produce anemia ferropénica refractaria y distensión abdominal.',
     clinicalHistory: {
       patientDemographics: {
         age: 29,
@@ -1125,7 +1238,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Abogada'
       },
       chiefComplaint: 'Heces blandas frecuentes, distensión abdominal postprandial, aftas bucales y astenia marcadas.',
-      presentIllness: 'Paciente derivada por el servicio de Hematología tras 6 meses de tratamiento oral con sulfato ferroso por Anemia Ferropénica sin respuesta ni elevación de hemoglobina/ferritina. Refiere desde hace más de 1 año cuadros fluctuantes de diarrea (3-5 deposiciones diarias pastosas y fétidas), meteorismo intenso tras ingerir pan y pastas, pérdida involuntaria de 5 kg de peso y estomatitis aftosa recurrente.',
+      presentIllness: 'Laura C. es derivada tras 6 meses de tratamiento oral con hierro por anemia sin conseguir que suba su ferritina ni hemoglobina. Refiere desde hace más de 1 año hinchazón de barriga, digestiones pesadas tras comer pan y pastas, diarreas y llagas en la boca.',
       pastMedicalHistory: ['Tiroiditis de Hashimoto (en tratamiento sustitutivo)', 'Dermatitis leve'],
       medications: ['Levotiroxina 75 mcg/24h', 'Sulfato Ferroso 80 mg/12h (sin respuesta)'],
       lifestyle: 'Alimentación variada. Nulo consumo de tabaco y alcohol.'
@@ -1208,9 +1321,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   // ==========================================
   {
     id: 'case_neuromuscular_01',
-    title: 'La residente que no puede mantener los ojos abiertos',
+    title: 'Dra. Sofía R.: Párpados caídos y visión doble al final de la jornada',
     system: 'neuromuscular',
     difficulty: 'intermedio',
+    studentSummary: 'La Dra. Sofía R., médico residente de 28 años, consulta porque al final de sus guardias de 24 horas no puede mantener los ojos abiertos (párpados caídos o ptosis) y ve doble. Al masticar alimentos duros se le cansa la mandíbula, pero tras dormir se levanta con fuerza normal. Sus propios anticuerpos están destruyendo los receptores de acetilcolina en sus músculos (miastenia gravis).',
+    clinicalGlossary: [
+      { term: 'Ptosis y Diplopía', simpleDefinition: 'Caída de los párpados superiores y visión doble causada por la fatiga de los músculos que mueven los ojos.' },
+      { term: 'Receptor nicotínico de acetilcolina', simpleDefinition: 'Canal iónico activado por ligando. Cuando la acetilcolina se une a él, se abre y deja entrar iones sodio para que el músculo se contraiga.' },
+      { term: 'Anticuerpos Anti-AChR', simpleDefinition: 'Autoanticuerpos que se pegan a los receptores musculares bloqueándolos y destruyéndolos.' },
+      { term: 'Prueba del hielo', simpleDefinition: 'Poner una bolsa de hielo sobre el ojo caído durante 2 minutos: el frío frena la enzima que destruye la acetilcolina, abriendo el párpado de forma inmediata.' }
+    ],
+    biochemicalConceptSimple: '1. El nervio libera acetilcolina a la placa motora -> 2. Los autoanticuerpos anti-AChR han destruido la mayoría de receptores nicotínicos -> 3. No entra suficiente sodio a la célula muscular para generar potencial de acción -> 4. El músculo se agota rápidamente con el uso repetido.',
     categoryDocente: 'cell_signaling',
     signalingType: 'ligand_gated_ion_channel',
     molecularPathway: 'Acetilcolina → receptor nicotínico → entrada de cationes → despolarización',
@@ -1222,7 +1343,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Médico Residente (R1 de Medicina Interna)'
       },
       chiefComplaint: 'Ptosis palpebral bilateral asimétrica y diplopía fluctuante de empeoramiento vespertino tras las guardias.',
-      presentIllness: 'Médico residente de 28 años que consulta por cuadro de fatiga ocular y debilidad muscular progresiva de 6 semanas de evolución. Refiere que por las mañanas se despierta asintomática, pero al final de la jornada laboral o durante las guardias médicas de 24 horas no puede mantener los ojos abiertos (ptosis bilateral de predominio derecho) y experimenta visión doble (diplopía binocular horizontal). En las últimas semanas refiere además fatiga en los músculos maseteros al masticar alimentos consistentes y dificultad transitoria para mantener los brazos elevados al asearse o explorar pacientes. Los síntomas mejoran notablemente tras el reposo o periodos de sueño.',
+      presentIllness: 'La Dra. Sofía R. consulta por fatiga ocular y debilidad muscular progresiva de 6 semanas de evolución. Por las mañanas se despierta asintomática, pero al final de la jornada laboral o durante guardias no puede mantener los ojos abiertos (ptosis) y ve doble (diplopía). Los síntomas mejoran notablemente tras el reposo o periodos de sueño.',
       pastMedicalHistory: ['Tiroiditis autoinmune de Hashimoto en tratamiento sustitutivo', 'Sin antecedentes de esclerosis múltiple ni traumatismos craneales'],
       medications: ['Levotiroxina 75 μg/día en ayunas'],
       lifestyle: 'No fumadora. Consumo ocasional de café durante las guardias. Jornadas con elevado estrés físico y turnos prolongados.'
@@ -1247,9 +1368,9 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'TSH Sérica', result: '2.10', unit: 'mUI/L', referenceRange: '0.40 - 4.00' },
+      { test: 'TSH Sérica', result: '2.10', unit: 'mUI/L', referenceRange: '0.40 - 4.00 (Descarta hipotiroidismo o tiroiditis autoinmune activa)' },
       { test: 'T4 Libre', result: '1.24', unit: 'ng/dL', referenceRange: '0.80 - 1.80' },
-      { test: 'Creatina Quinasa (CK Total)', result: '82', unit: 'U/L', referenceRange: '26 - 192 (Normal, descarta necrosis muscular)' },
+      { test: 'Hemograma Completo', result: 'Leucocitos 6.400 /µL, Hemoglobina 13.8 g/dL', unit: '', referenceRange: 'Normal' },
       { test: 'Electromiografía (Estimulación Repetitiva a 3 Hz)', result: 'Decremento patológico > 12% en la amplitud del potencial de acción muscular compuesto (CMAP)', unit: '%', referenceRange: '< 10% de decremento' },
       { test: 'TC Torácica con Contraste', result: 'Hiperplasia tímica linfoide sin evidencia de timoma invasivo ni masas mediastínicas', unit: '-', referenceRange: 'Normal' }
     ],
@@ -1315,9 +1436,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   },
   {
     id: 'case_metabolic_signaling_01',
-    title: 'Diarrea secretora profusa "en agua de arroz" y deshidratación grave en un cooperante',
+    title: 'Carlos D.: Diarrea líquida abundante como agua de arroz y sed extrema',
     system: 'metabolic',
     difficulty: 'intermedio',
+    studentSummary: 'Carlos D., médico cooperante de 34 años de regreso de una misión humanitaria, sufre una diarrea acuosa blanquecina masiva e inagotable (aspecto en "agua de arroz") que le hace perder litros de agua en pocas horas. Llega en estado de shock por deshidratación crítica. La toxina del cólera ha modificado químicamente una proteína de señalización celular (proteína Gs), dejándola permanentemente "encendida" y obligando a las células del intestino a verter agua y sales sin control.',
+    clinicalGlossary: [
+      { term: 'Diarrea en "agua de arroz"', simpleDefinition: 'Diarrea líquida, blanquecina, no sanguinolenta y con pequeños grumos mucosos, característica inequívoca del cólera epidémico.' },
+      { term: 'Proteína G estimuladora (Gs) y AMPc', simpleDefinition: 'Interruptor molecular dentro de la célula. Cuando la toxina del cólera lo bloquea en posición "ON", la célula fabrica cantidades desorbitadas de AMP cíclico (AMPc).' },
+      { term: 'Canal CFTR de cloruro', simpleDefinition: 'Túnel en la membrana del enterocito que, al ser activado continuamente por el AMPc, bombea cloruro, sodio y agua hacia la luz del intestino sin parar.' },
+      { term: 'Hidratación con glucosa y sodio (SRO)', simpleDefinition: 'Tratamiento que salva vidas: como el transportador de glucosa SGLT1 no depende de la toxina, darle al paciente agua con azúcar y sal permite que el intestino vuelva a absorber agua.' }
+    ],
+    biochemicalConceptSimple: '1. La bacteria Vibrio cholerae secreta su toxina -> 2. La subunidad A1 de la toxina transfiere ADP-ribosa a la proteína Gαs -> 3. Gαs pierde la capacidad de apagarse y activa constitutivamente a la adenilato ciclasa -> 4. Se dispara el AMPc y se abren los canales CFTR -> 5. Se pierden hasta 1 litro de agua y electrolitos por hora.',
     categoryDocente: 'cell_signaling',
     signalingType: 'gpcr_gs_camp_pka',
     molecularPathway: 'Toxina colérica (subunidad A1) → ADP-ribosilación irreversible de Gαs → bloqueo de GTPasa → activación constitutiva de Adenilato Ciclasa → elevación de AMPc → PKA → apertura mantenida de CFTR → hipersecreción luminal de Cl- y H2O',
@@ -1329,7 +1458,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Médico Cooperante en Emergencias Sanitarias'
       },
       chiefComplaint: 'Diarrea líquida inagotable blanquecina de 12 horas de evolución, vómitos repetidos, calambres musculares generalizados y sed abrasadora.',
-      presentIllness: 'Cooperante internacional de 34 años que regresa de un campo de refugiados tras inundaciones tropicales. Inició súbitamente hace 12 horas un cuadro de deposiciones acuosas muy abundantes y frecuentes (más de 15 evacuaciones de aspecto líquido blanquecino no sanguinolento, con grumos mucosos en "agua de arroz" y olor ligeramente dulzón), sin dolor abdominal cólico ni tenesmo. En las últimas 4 horas se agregan náuseas y vómitos biliosos, calambres musculares intensos en pantorrillas y postración extrema por deshidratación aguda.',
+      presentIllness: 'Carlos D., cooperante internacional de 34 años de regreso de un campo de refugiados tras inundaciones, inicia bruscamente un cuadro de evacuaciones acuosas masivas y continuas en "agua de arroz", con náuseas, vómitos, calambres y deshidratación severa.',
       pastMedicalHistory: ['Sin patologías crónicas de interés', 'Vacunación rutinaria al día; sin profilaxis colérica oral'],
       medications: ['Ninguna'],
       lifestyle: 'Estancia de 4 semanas en zona con red de agua potable colapsada. Consumo involuntario de bebidas locales sin hervir en las últimas 48 horas.'
@@ -1422,9 +1551,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   },
   {
     id: 'case_cardiac_signaling_01',
-    title: 'Cefalea pulsátil, diaforesis e hipertensión paroxística: La tormenta adrenérgica',
+    title: 'Beatriz L.: Ataques repentinos de dolor de cabeza, taquicardia y sudor frío',
     system: 'cardiac',
     difficulty: 'intermedio',
+    studentSummary: 'Beatriz L., arquitecta de 44 años, sufre crisis repentinas y aterradoras de 20 minutos donde el corazón se le desboca (124 lpm), la cabeza le estalla de dolor, rompe a sudar frío empapando la ropa y su tensión se dispara a niveles peligrosísimos (230/125 mmHg). Un pequeño tumor benigno en su glándula suprarrenal (feocromocitoma) libera ráfagas descontroladas de adrenalina y noradrenalina, sobreestimulando las vías de señalización de la presión arterial y del corazón.',
+    clinicalGlossary: [
+      { term: 'Crisis paroxística adrenérgica', simpleDefinition: 'Ataques bruscos y repetidos de taquicardia, dolor de cabeza explosivo y sudoración profusa desencadenados por una descarga masiva de adrenalina.' },
+      { term: 'Feocromocitoma', simpleDefinition: 'Tumor de las células cromafines de la médula suprarrenal que fabrica y libera catecolaminas (adrenalina y noradrenalina) sin control.' },
+      { term: 'Vía Gq (Vasoconstricción)', simpleDefinition: 'Ruta de señalización celular en las arterias: la noradrenalina activa el receptor alfa-1 -> sube el calcio intracelular -> las arterias se cierran con fuerza extrema disparando la presión arterial.' },
+      { term: 'Metanefrinas libres en plasma', simpleDefinition: 'Productos en los que el tumor transforma la adrenalina. Como el tumor las libera continuamente a la sangre, son la mejor prueba de laboratorio para cazar el tumor.' }
+    ],
+    biochemicalConceptSimple: '1. El tumor suprarrenal vierte adrenalina y noradrenalina -> 2. La noradrenalina activa receptores α1 (vía Gq/PLC/IP3/Calcio) contrayendo las arterias -> 3. La adrenalina activa receptores β1 en el corazón (vía Gs/AMPc) acelerando los latidos -> 4. Se genera la tríada típica de cefalea, palpitaciones y sudoración con hipertensión crítica.',
     categoryDocente: 'cell_signaling',
     signalingType: 'gpcr_gq_plc_ip3_dag',
     molecularPathway: 'Noradrenalina/Adrenalina → receptor α1 vascular (Gq/PLC/IP3/Ca2+) y receptor β1 cardíaco (Gs/AC/AMPc/PKA) → vasoconstricción sistémica extrema y taquicardia desregulada',
@@ -1436,7 +1573,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Arquitecta'
       },
       chiefComplaint: 'Crisis bruscas recurrentes de dolor de cabeza explosivo, sudoración en sábana, palpitaciones torácicas rápidas y palidez cutánea cadavérica.',
-      presentIllness: 'Mujer de 44 años sin antecedentes de hipertensión crónica que es remitida a urgencias por presentar episodios paroxísticos de 15 a 30 minutos de duración, autolimitados, que se repiten 2 o 3 veces por semana desde hace 2 meses. Durante las crisis refiere cefalea occipital pulsátil 10/10 acompañada de sudoración profusa generalizada, taquicardia desbocada con sensación de muerte inminente, temblor fino en las manos y palidez facial extrema que posteriormente da paso a rubefacción. En un episodio previo en su centro de salud se constató TA de 230/125 mmHg. Niega ingesta de drogas estimulantes, simpaticomiméticos o descongestionantes.',
+      presentIllness: 'Beatriz L., de 44 años sin hipertensión previa, acude por crisis súbitas de 15 a 30 minutos autolimitadas. Refiere cefalea occipital pulsátil 10/10 con sudoración profusa generalizada, taquicardia y palidez facial extrema. En una crisis previa se constató TA de 230/125 mmHg.',
       pastMedicalHistory: ['Colecistectomía laparoscópica hace 5 años', 'Sin antecedentes familiares de neoplasias endocrinas múltiples conocidas'],
       medications: ['Ninguna habitual; toma paracetamol ocasional sin mejoría de la cefalea'],
       lifestyle: 'No fumadora. Dieta normosódica. No consume café ni alcohol.'
@@ -1461,11 +1598,11 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Glucemia en Ayunas', result: '142', unit: 'mg/dL', referenceRange: '70 - 109 (Hiperglucemia inducida por gluconeogénesis y glucogenólisis adrenérgica mediada por receptores beta-2 y alfa-1)' },
-      { test: 'Troponina Cardíaca Ultrasensible (hs-cTn)', result: '19', unit: 'ng/L', referenceRange: '< 50 (Sin necrosis miocárdica irreversible aguda)' },
+      { test: 'Glucemia en Ayunas', result: '142', unit: 'mg/dL', referenceRange: '70 - 109 (Hiperglucemia reactiva inducida por gluconeogénesis adrenérgica)', isAbnormal: true },
       { test: 'Creatinina Sérica', result: '0.88', unit: 'mg/dL', referenceRange: '0.5 - 1.1' },
-      { test: 'Electrocardiograma (ECG)', result: 'Taquicardia sinusal a 122 lpm sin alteraciones isquémicas del segmento ST ni ondas Q patológicas', unit: '-', referenceRange: 'Normal' },
-      { test: 'Ecografía / TC Abdominal con Contraste', result: 'Masa nodular heterogénea hipercaptante de 4.3 x 3.8 cm en la glándula suprarrenal izquierda con áreas centrales quísticas necróticas', unit: 'cm', referenceRange: 'Sin nódulos' }
+      { test: 'Iones en Sangre', result: 'Sodio 140 mEq/L, Potasio 4.1 mEq/L', unit: '', referenceRange: 'Normal' },
+      { test: 'Electrocardiograma (ECG)', result: 'Taquicardia sinusal a 122 lpm sin alteraciones isquémicas agudas del segmento ST ni ondas Q patológicas', unit: '-', referenceRange: 'Normal', isAbnormal: true },
+      { test: 'Ecografía / TC Abdominal con Contraste', result: 'Masa nodular heterogénea hipercaptante de 4.3 x 3.8 cm en la glándula suprarrenal izquierda con áreas centrales quísticas necróticas', unit: 'cm', referenceRange: 'Sin nódulos', isAbnormal: true }
     ],
     differentialDiagnoses: [
       {
@@ -1529,9 +1666,17 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
   },
   {
     id: 'case_metabolic_signaling_02',
-    title: 'Acantosis nigricans severa, hiperinsulinismo extremo y oligomenorrea en una joven no obesa',
+    title: 'Irene G.: Manchas oscuras aterciopeladas en el cuello y reglas irregulares',
     system: 'metabolic',
     difficulty: 'avanzado',
+    studentSummary: 'Irene G., una gimnasta delgada de 17 años que entrena a diario, consulta porque le han salido manchas oscuras, rugosas y aterciopeladas muy llamativas en la nuca y las axilas (acantosis nigricans severa), y sus reglas son muy infrecuentes. A pesar de no tener sobrepeso ni comer dulces, su insulina en sangre es astronómicamente alta (> 200 µUI/mL). Una mutación genética en el receptor tirosina quinasa de la insulina impide que sus células capten glucosa normalmente.',
+    clinicalGlossary: [
+      { term: 'Receptor Tirosina Quinasa (RTK)', simpleDefinition: 'Tipo de receptor en la superficie de la célula que, al unirse la insulina, se autofosforila y pone en marcha la maquinaria para meter glucosa mediante GLUT4.' },
+      { term: 'Resistencia a la insulina tipo A', simpleDefinition: 'Trastorno genético raro en el que el receptor de insulina no funciona desde el nacimiento, cursando con niveles brutales de insulina en personas jóvenes y delgadas.' },
+      { term: 'Acantosis por reacción cruzada', simpleDefinition: 'Al haber tanta insulina en la sangre, esta se confunde y activa los receptores de IGF-1 de la piel, haciendo crecer queratinocitos y oscureciendo los pliegues.' },
+      { term: 'Hiperandrogenismo ovárico', simpleDefinition: 'Aumento de testosterona en la mujer provocado porque la insulina excesiva estimula directamente a las células del ovario, alterando la regla.' }
+    ],
+    biochemicalConceptSimple: '1. Mutación inactivadora en el dominio tirosina quinasa del receptor de insulina -> 2. Falla la activación de la vía PI3K-Akt y los transportadores GLUT4 no suben a la membrana -> 3. El páncreas secreta cantidades gigantescas de insulina de rescate -> 4. Esta insulina estimula por reacción cruzada a los receptores de IGF-1 en la piel (acantosis nigricans) y el ovario (aumento de vello y reglas irregulares).',
     categoryDocente: 'cell_signaling',
     signalingType: 'receptor_tyrosine_kinase',
     molecularPathway: 'Insulina → subunidad α del INSR → autofosforilación de tirosinas en subunidad β → IRS-1 → PI3K → PIP3 → Akt/PKB → translocación vesicular de GLUT4',
@@ -1543,7 +1688,7 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
         occupation: 'Estudiante de Bachillerato y Gimnasta'
       },
       chiefComplaint: 'Aparición progresiva de pigmentación oscura aterciopelada en pliegues cutáneos (acantosis nigricans severa), reglas muy irregulares y aumento del vello facial a pesar de ser deportista y delgada.',
-      presentIllness: 'Adolescente de 17 años, deportista de competición con complexión delgada (IMC 20.4 kg/m²), que es remitida desde dermatología por lesiones cutáneas de 18 meses de evolución consistentes en placas hiperpigmentadas, rugosas y aterciopeladas en la cara posterior del cuello, ambas axilas, pliegues inframamarios e ingles (acantosis nigricans florida). Presenta asimismo oligomenorrea severa con ciclos de 90 a 120 días e hirsutismo progresivo en mentón y patillas. En analíticas de medicina deportiva previas llamó la atención una cifra de insulina basal desmesuradamente alta en presencia de glucemias normales-altas, sin sobrepeso ni antecedentes familiares de diabetes mellitus tipo 2 común.',
+      presentIllness: 'Irene G., adolescente de 17 años deportista de competición con complexión delgada (IMC 20.4 kg/m²), consulta por placas hiperpigmentadas, rugosas y aterciopeladas en la nuca y axilas de 18 meses de evolución. Presenta reglas muy irregulares cada 3-4 meses y aumento de vello facial, con cifras de insulina basal desmesuradamente altas sin sobrepeso.',
       pastMedicalHistory: ['Nacimiento a término con peso adecuado', 'Sin consumo de corticoides ni anabolizantes'],
       medications: ['Ninguna'],
       lifestyle: 'Dieta mediterránea estricta equilibrada sin exceso de carbohidratos refinados. Entrenamiento físico aeróbico diario.'
@@ -1568,9 +1713,9 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
       ]
     },
     initialLabWork: [
-      { test: 'Glucosa Basal en Ayunas', result: '114', unit: 'mg/dL', referenceRange: '70 - 109 (Glucemia basal alterada / prediabetes)' },
-      { test: 'Hemoglobina Glicosilada (HbA1c)', result: '5.9', unit: '%', referenceRange: '< 5.7% (Prediabetes moderada a pesar de hiperinsulinemia masiva)' },
-      { test: 'Testosterona Total Sérica', result: '98', unit: 'ng/dL', referenceRange: '15 - 70 (Hiperandrogenismo ovárico secundario)' },
+      { test: 'Glucosa Basal en Ayunas', result: '114', unit: 'mg/dL', referenceRange: '70 - 109 (Glucemia basal alterada / prediabetes)', isAbnormal: true },
+      { test: 'TSH Sérica', result: '1.80', unit: 'mUI/L', referenceRange: '0.40 - 4.00 (Descarta hipotiroidismo como causa de oligomenorrea)' },
+      { test: 'Testosterona Total Sérica', result: '98', unit: 'ng/dL', referenceRange: '15 - 70 (Hiperandrogenismo ovárico secundario)', isAbnormal: true },
       { test: 'DHEA-Sulfato (DHEA-S)', result: '190', unit: 'μg/dL', referenceRange: '65 - 380 (Normal, excluye hiperplasia suprarrenal congénita o tumor adrenal)' },
       { test: 'Anticuerpos Anti-GAD65 y Anti-IA2', result: 'Negativos', unit: '-', referenceRange: 'Negativos (Descarta Diabetes Mellitus Tipo 1 o autoinmune)' }
     ],
@@ -1633,5 +1778,449 @@ export const CLINICAL_CASES_DATABASE: ClinicalCase[] = [
     ],
     expertClinicalKey: 'Perla de Señalización Molecular (Receptor Tirosina Quinasa - RTK): El receptor de insulina bifurca su señal en dos ramas principales: 1) La vía metabólica PI3K-Akt (responsable de la captación de glucosa vía GLUT4, síntesis de glucógeno y supresión de lipólisis) y 2) La vía mitogénica MAPK / Ras-Raf-MEK-ERK (responsable de la proliferación y diferenciación celular). Cuando el dominio tirosina quinasa presenta una mutación inactivadora, la captación metabólica de glucosa fracasa estrepitosamente, obligando a una hiperinsulinemia masiva de rescate. Sin embargo, a concentraciones suprafisiológicas de cientos de µUI/mL, la insulina interactúa con los receptores intactos de IGF-1 y promueve la vía mitogénica MAPK en la piel y el ovario, generando respectivamente la acantosis nigricans florida y el hiperandrogenismo severo.',
     essentialBiomarkerIds: ['bm_fasting_insulin']
+  },
+
+  // ==========================================
+  // BLOQUE 1: TRASTORNOS ENZIMÁTICOS, TOXICOLOGÍA Y ENZIMOPATÍAS (CASOS ADAPTADOS DIDÁCTICOS)
+  // ==========================================
+  {
+    id: 'case_marks_gota_01',
+    title: 'Matilde C.: Dolor agudo e inflamación en el dedo gordo tras una cena abundante',
+    system: 'renal',
+    difficulty: 'intermedio',
+    studentSummary: 'Matilde C., mujer de 57 años, se despierta de madrugada con dolor insoportable, enrojecimiento e hinchazón en la articulación del dedo gordo del pie derecho (podagra) tras una cena abundante en marisco y vino. El ácido úrico de su sangre superó el límite en que puede mantenerse disuelto y precipitó formando cristales microscópicos en forma de aguja dentro de la articulación, desatando un ataque inflamatorio agudo.',
+    clinicalGlossary: [
+      { term: 'Podagra', simpleDefinition: 'Nombre médico tradicional que describe la inflamación aguda, enrojecida, caliente y extremadamente dolorosa de la articulación del dedo gordo del pie.' },
+      { term: 'Hiperuricemia', simpleDefinition: 'Nivel elevado de ácido úrico en sangre (superior a 6.0 mg/dL en mujeres o 7.0 mg/dL en hombres).' },
+      { term: 'Cristales de UMS (Urato Monosódico)', simpleDefinition: 'Sales de ácido úrico que forman pequeñas "agujas" cristalinas cuando su concentración en sangre o líquido articular supera los 6.8 mg/dL.' },
+      { term: 'Microscopía de luz polarizada', simpleDefinition: 'Técnica de laboratorio donde los cristales de urato brillan con un color amarillo característico (birrefringencia negativa) cuando se alinean con la luz.' },
+      { term: 'Colchicina vs Alopurinol', simpleDefinition: 'La colchicina frena la inflamación aguda desarmando a los glóbulos blancos. El alopurinol bloquea la enzima que fabrica ácido úrico, pero solo debe iniciarse semanas DESPUÉS de la crisis para no empeorar el ataque.' }
+    ],
+    biochemicalConceptSimple: '1. Alimentos ricos en purinas (mariscos, carnes rojas) + alcohol -> 2. La enzima Xantina Oxidasa degrada las purinas en Ácido Úrico -> 3. Si se supera el límite de solubilidad (~6.8 mg/dL), el ácido úrico precipita formando cristales de urato sódico (agujas) -> 4. Los glóbulos blancos (neutrófilos) intentan fagocitar los cristales, pero se rompen sus lisosomas y desatan una inflamación articular fulminante.',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 57,
+        gender: 'Femenino',
+        occupation: 'Restauradora de Bienes Culturales'
+      },
+      chiefComplaint: 'Dolor lacerante insoportable, calor e hinchazón en el dedo gordo del pie derecho que la despertó a mitad de la noche.',
+      presentIllness: 'Paciente de 57 años acude a urgencias cojeando y sin poder apoyar el pie por dolor muy severo (intensidad 9/10) de 8 horas de evolución en la articulación de la base del dedo gordo del pie derecho (podagra). Refiere una hipersensibilidad extrema: el simple roce de la sábana de la cama le resultaba insoportable. Cuenta que la noche anterior fue a una cena donde consumió mariscos, paté y varias copas de vino blanco. No ha sufrido ningún golpe ni traumatismo previo.',
+      pastMedicalHistory: ['Hipertensión arterial esencial controlada', 'Colesterol elevado (dislipidemia)', 'Menopausia a los 51 años'],
+      medications: ['Hidroclorotiazida 25 mg/día (diurético que disminuye la eliminación de ácido úrico por el riñón)', 'Atorvastatina 20 mg/día'],
+      lifestyle: 'Consumo ocasional de alcohol; dieta rica en alimentos proteicos de origen animal.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '142/88 mmHg',
+        hr: '92 lpm',
+        rr: '18 rpm',
+        temp: '37.4 °C (febrícula inflamatoria reactiva)',
+        sao2: '98%'
+      },
+      findings: [
+        { systemName: 'Articulación del pie', description: 'Base del dedo gordo derecho muy enrojecida (eritematosa), caliente al tacto, hinchada (edema) y con dolor extremo ante cualquier roce.' },
+        { systemName: 'Piel general', description: 'Sin presencia de nódulos blanquecinos de ácido úrico bajo la piel (tofos). Sin signos de infección de la piel (sin celulitis bacteriana).' }
+      ]
+    },
+    initialLabWork: [
+      { test: 'Glóbulos blancos (Leucocitos)', result: '12.400', unit: '/µL', referenceRange: '4.500 - 11.000', isAbnormal: true },
+      { test: 'Neutrófilos %', result: '78', unit: '%', referenceRange: '45 - 70', isAbnormal: true },
+      { test: 'Glucemia en Urgencias', result: '102', unit: 'mg/dL', referenceRange: '70 - 109' },
+      { test: 'Iones en Sangre', result: 'Sodio 139 mEq/L, Potasio 4.2 mEq/L', unit: '', referenceRange: 'Normal' },
+      { test: 'Radiografía de pie derecho', result: 'Tumefacción de partes blandas periarticular en 1ª articulación metatarsofalángica; sin fracturas ni lesiones óseas líticas ("en sacabocados")', unit: '-', referenceRange: 'Normal' }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Artritis Gotosa Aguda por Cristales de Monourato Sódico (Gota)',
+        plausibilityRationale: 'Aparición súbita nocturna en la primera articulación metatarsofalángica (podagra), tras cena copiosa con marisco y vino en una mujer tratada con diuréticos tiazídicos, con signos de inflamación aguda sin traumatismo previo.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Artritis Séptica (Infección Bacteriana en la Articulación)',
+        plausibilityRationale: 'Produce hinchazón y dolor agudo en una articulación, pero no hay herida previa, no hay fiebre alta ni bacterias en el análisis.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Pseudogota (Artropatía por Pirofosfato de Calcio)',
+        plausibilityRationale: 'Otra enfermedad por cristales pero suele atacar a rodillas y muñecas, y sus cristales tienen forma de rombo en vez de agujas.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Celulitis (Infección de la Piel del Pie)',
+        plausibilityRationale: 'La piel se pone roja y caliente, pero el dolor de la celulitis no está centrado específicamente en el interior de la articulación.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Artritis Gotosa Aguda por Cristales de Monourato Sódico (Gota)',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_cristales_ums_correct',
+        biomarkerId: 'bm_cristales_liquido_sinovial',
+        biomarkerName: 'Análisis de Líquido Articular con Microscopio Polarizado (Cristales de Urato)',
+        isCorrect: true,
+        biochemicalRationale: 'Al extraer una gota de líquido de la articulación inflamada con una pequeña aguja (artrocentesis) y mirarla al microscopio polarizado, se observan directamente los cristales de urato en forma de aguja dentro de los glóbulos blancos. Como brillan con birrefringencia negativa amarilla, dan el diagnóstico de certeza absoluta al 100%.',
+        whyOptimalOrSuboptimal: 'Es la prueba estándar de oro (Gold Standard) indiscutible: permite ver con los propios ojos los cristales de ácido úrico causantes del ataque y descarta al mismo tiempo que haya bacterias (artritis séptica).'
+      },
+      {
+        id: 'bm_opt_acido_urico_distractor',
+        biomarkerId: 'bm_acido_urico',
+        biomarkerName: 'Ácido Úrico en Sangre (Uricemia aislada)',
+        isCorrect: false,
+        biochemicalRationale: 'Aunque el ácido úrico esté alto en esta paciente, durante un ataque agudo hasta el 30% de los enfermos puede tener un ácido úrico engañosamente normal en sangre, porque gran parte de ese ácido úrico ha salido de la sangre para formar cristales dentro de la articulación.',
+        whyOptimalOrSuboptimal: 'Orientativo pero insuficiente por sí solo: un ácido úrico normal en sangre no descarta un ataque de gota en plena fase aguda.'
+      },
+      {
+        id: 'bm_opt_pcr_distractor',
+        biomarkerId: 'bm_pcr',
+        biomarkerName: 'Proteína C Reactiva (PCR)',
+        isCorrect: false,
+        biochemicalRationale: 'Proteína fabricada por el hígado que sube ante cualquier inflamación o infección en el organismo.',
+        whyOptimalOrSuboptimal: 'Es inespecífica: nos dice que hay inflamación en el cuerpo, pero no nos dice si la causa son cristales de gota o una bacteria peligrosa.'
+      },
+      {
+        id: 'bm_opt_creatinina_distractor',
+        biomarkerId: 'bm_creatinina',
+        biomarkerName: 'Creatinina Sérica (Función Renal)',
+        isCorrect: false,
+        biochemicalRationale: 'Parámetro habitual para comprobar si los riñones filtran correctamente la sangre.',
+        whyOptimalOrSuboptimal: 'Nos sirve para comprobar la salud del riñón del paciente, pero no diagnostica el dolor articular.'
+      }
+    ],
+    expertClinicalKey: 'Perla Terapéutica para Estudiantes: En un ataque agudo de gota se utiliza Colchicina o antiinflamatorios para frenar a los glóbulos blancos. NUNCA se debe empezar a dar Alopurinol en pleno ataque agudo: si bajamos bruscamente el ácido úrico en sangre, los depósitos de cristales se disuelven de golpe y desprenden microagujas que reactivan y multiplican el dolor.',
+    essentialBiomarkerIds: ['bm_cristales_liquido_sinovial', 'bm_acido_urico'],
+    categoryDocente: 'Enzimopatías y Metabolismo de Purinas',
+    molecularPathway: 'Purinas de la Dieta -> Enzima Xantina Oxidasa -> Ácido Úrico -> Cristales en Articulación -> Inflamación',
+    molecularAlteration: 'El ácido úrico supera 6.8 mg/dL y forma cristales insolubles en las articulaciones más frías (dedo del pie)'
+  },
+  {
+    id: 'case_marks_miastenia_01',
+    title: 'Lucía M.: Cansancio al masticar y párpados caídos al final del día',
+    system: 'neuromuscular',
+    difficulty: 'avanzado',
+    studentSummary: 'Lucía M., traductora e intérprete de 36 años, consulta porque a medida que avanza la jornada laboral nota que los músculos de la mandíbula se le cansan al masticar, le cuesta articular las palabras (voz nasal) y los párpados se le caen involuntariamente al atardecer. Tras dormir o descansar unos minutos, recupera la fuerza. Su sistema inmunitario ha producido anticuerpos que atacan y destruyen los receptores de acetilcolina en sus músculos.',
+    clinicalGlossary: [
+      { term: 'Ptosis palpebral', simpleDefinition: 'Caída anormal e involuntaria de uno o ambos párpados superiores por debilidad muscular.' },
+      { term: 'Fatigabilidad muscular', simpleDefinition: 'Debilidad que aparece o empeora conforme se repite un movimiento (hablar, masticar, parpadear) y que mejora notablemente tras unos minutos de reposo.' },
+      { term: 'Disartria / Disfonía', simpleDefinition: 'Dificultad para vocalizar claramente o pérdida de potencia y tono de la voz por debilidad de las cuerdas vocales, lengua y paladar.' },
+      { term: 'Placa motora neuromuscular', simpleDefinition: 'Punto de contacto donde el nervio se comunica con la fibra muscular a través del neurotransmisor acetilcolina.' },
+      { term: 'Anticuerpos Anti-AChR', simpleDefinition: 'Proteínas del sistema inmunitario que se equivocan y se pegan a los receptores del músculo, bloqueándolos y enviándolos a destruir.' }
+    ],
+    biochemicalConceptSimple: '1. Fisiología normal: El nervio libera Acetilcolina -> Se une al receptor nicotínico en el músculo -> Se abre el canal de sodio -> El músculo se contrae. 2. En la Miastenia: Autoanticuerpos destruyen los receptores de acetilcolina -> Cada vez quedan menos receptores disponibles -> El nervio sigue enviando acetilcolina, pero no encuentra receptores suficientes para abrir el paso al sodio -> El músculo se agota rápidamente (fatiga).',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 36,
+        gender: 'Femenino',
+        occupation: 'Intérprete de Conferencias'
+      },
+      chiefComplaint: 'Cansancio para masticar la comida, dificultad para pronunciar palabras al final de su jornada y caída de los párpados al anochecer.',
+      presentIllness: 'Valeria, de 36 años, acude a consulta por debilidad muscular en la cara y el cuello desde hace 3 meses. Explica que cuando lleva más de 15 minutos hablando de forma continuada en cabina de traducción, la voz se le vuelve nasal y le cuesta pronunciar las consonantes (disartria fatigable). Al comer alimentos como carne o pan duro, los músculos de la mandíbula se le agotan a mitad del plato y necesita descansar 10 minutos con la mano apoyada en la barbilla para poder terminar de masticar. Por las tardes, sus párpados se caen involuntariamente (ptosis), tapándole parte de los ojos. Tras descansar o dormir una siesta, se despierta con fuerza muscular normal.',
+      pastMedicalHistory: ['Tiroiditis autoinmune (de Hashimoto) tratada con hormona tiroidea', 'Sin antecedentes neurológicos'],
+      medications: ['Levotiroxina 50 µg/día'],
+      lifestyle: 'No fumadora, no consume alcohol, vida sedentaria activa.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '118/74 mmHg',
+        hr: '72 lpm',
+        rr: '14 rpm',
+        temp: '36.6 °C',
+        sao2: '99%'
+      },
+      findings: [
+        { systemName: 'Examen de ojos y cara', description: 'Prueba de mirada fija hacia arriba: tras mantener la vista elevada durante 60 segundos, los párpados superiores caen progresivamente tapando la pupila (prueba de fatiga positiva). Pérdida de fuerza en la sonrisa.' },
+        { systemName: 'Fuerza en brazos y piernas', description: 'Al mantener los brazos levantados en cruz, empiezan a descender por cansancio a los 2 minutos. Los reflejos con el martillo de exploración son normales y simétricos.' }
+      ]
+    },
+    initialLabWork: [
+      { test: 'Hemograma Completo', result: 'Leucocitos 6.200 /µL, Hemoglobina 13.5 g/dL', unit: '', referenceRange: 'Normal' },
+      { test: 'Hormona Tiroidea (TSH)', result: '2.1', unit: 'mUI/L', referenceRange: '0.4 - 4.0 (Tiroides normal)' },
+      { test: 'Electromiograma (EMG) con estímulos repetidos', result: 'Caída progresiva (decremento del 24%) de la respuesta del músculo ante estímulos seguidos', unit: '%', referenceRange: 'Caída < 10%', isAbnormal: true },
+      { test: 'Prueba del Hielo en los Párpados', result: 'Colocar hielo en el párpado caído durante 2 minutos eleva y abre el párpado al enfriar la zona y frenar la degradación de acetilcolina', unit: '-', referenceRange: 'Negativo', isAbnormal: true }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Miastenia Gravis Autoinmune (Defecto en el Receptor del Músculo)',
+        plausibilityRationale: 'Debilidad que fluctúa a lo largo del día, empeora con el uso repetido del músculo, afecta a párpados/voz/masticación y mejora con el reposo; prueba de electromiografía con caída de señal.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Síndrome de Lambert-Eaton (Defecto en el Nervio Presináptico)',
+        plausibilityRationale: 'Enfermedad similar pero donde la fuerza del músculo PARADÓJICAMENTE MEJORA tras hacer ejercicio unos segundos, y los reflejos están ausentes.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Miopatía Inflamatoria / Polimiositis',
+        plausibilityRationale: 'Produce debilidad muscular fija (no cambia a lo largo del día) y las células musculares se rompen, disparando la enzima CK a más de 1.000 U/L.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Esclerosis Múltiple',
+        plausibilityRationale: 'Afecta al cerebro y la médula espinal, provocando hormigueos, pérdida de visión en un ojo y reflejos exagerados con reflejo de Babinski.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Miastenia Gravis Autoinmune (Defecto en el Receptor del Músculo)',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_achr_correct',
+        biomarkerId: 'bm_achr_ab',
+        biomarkerName: 'Anticuerpos Anti-Receptor de Acetilcolina (AChR-Ab en Sangre)',
+        isCorrect: true,
+        biochemicalRationale: 'El receptor de acetilcolina en el músculo es un poro que se abre cuando llega la acetilcolina. En la Miastenia Gravis, el sistema inmunitario fabrica autoanticuerpos dirigidos contra este receptor. Estos anticuerpos lo bloquean y provocan que la célula muscular lo internalice y lo destruya en los lisosomas. Detectar estos anticuerpos en la sangre confirma la Miastenia con más del 99% de certeza médica.',
+        whyOptimalOrSuboptimal: 'Es el biomarcador específico y definitivo: demuestra exactamente el mecanismo autoinmune que está destruyendo la comunicación nervio-músculo.'
+      },
+      {
+        id: 'bm_opt_anti_vgcc_distractor',
+        biomarkerId: 'bm_anti_vgcc',
+        biomarkerName: 'Anticuerpos Anti-Canales de Calcio (Anti-VGCC)',
+        isCorrect: false,
+        biochemicalRationale: 'Estos anticuerpos atacan a los canales de calcio del nervio antes de que se libere la acetilcolina (defecto presináptico).',
+        whyOptimalOrSuboptimal: 'Solo sirve para diagnosticar el Síndrome de Lambert-Eaton (asociado muchas veces a tumores de pulmón), no la Miastenia Gravis clásica.'
+      },
+      {
+        id: 'bm_opt_ck_distractor',
+        biomarkerId: 'bm_ck_total',
+        biomarkerName: 'Creatina Quinasa Total (CK en Sangre)',
+        isCorrect: false,
+        biochemicalRationale: 'La CK es una enzima que está dentro del músculo y se escapa cuando la fibra muscular se rompe físicamente (necrosis o desgarro).',
+        whyOptimalOrSuboptimal: 'Es totalmente normal en la Miastenia Gravis: el músculo está intacto por dentro, lo único que falla es el receptor de la superficie.'
+      },
+      {
+        id: 'bm_opt_lactato_distractor',
+        biomarkerId: 'bm_lactato',
+        biomarkerName: 'Lactato Plasmático',
+        isCorrect: false,
+        biochemicalRationale: 'Ácido que se acumula cuando los tejidos no reciben suficiente oxígeno (falta de riego o shock).',
+        whyOptimalOrSuboptimal: 'Completamente normal; no aporta información sobre la unión neuromuscular.'
+      }
+    ],
+    expertClinicalKey: 'Tratamiento Bioquímico Explicado Fácil: El fármaco principal es la Piridostigmina. Este medicamento frena a la enzima Acetilcolinesterasa (la encargada de degradar la acetilcolina). Al tardar más en romperse, la acetilcolina permanece más tiempo esperando en la sinapsis y tiene muchas más oportunidades de encontrar los pocos receptores que aún no han sido destruidos por los anticuerpos.',
+    essentialBiomarkerIds: ['bm_achr_ab'],
+    categoryDocente: 'Receptores de Membrana, Neurotransmisión y Autoinmunidad',
+    signalingType: 'Canal Iónico de la Placa Motora (Receptor Nicotínico de Acetilcolina)',
+    molecularPathway: 'Nervio libera Acetilcolina -> Hendidura Sináptica -> Receptor Nicotínico en Músculo -> Entrada de Sodio -> Contracción',
+    molecularAlteration: 'Autoanticuerpos bloquean y envían a degradar a los receptores nicotínicos de la superficie del músculo'
+  },
+  {
+    id: 'case_marks_organofosforados_01',
+    title: 'Lucas G. (4 años): Salivación excesiva, temblores y pupilas muy pequeñas',
+    system: 'neuromuscular',
+    difficulty: 'experto',
+    studentSummary: 'Lucas G., un niño de 4 años, entra en contacto accidental con un envase de insecticida agrícola organofosforado en una finca. En menos de una hora presenta babeo continuo, vómitos, diarrea, ojos con pupilas contraídas al mínimo (miosis), corazón muy lento (bradicardia) y temblores o sacudidas musculares. El veneno anula la enzima que destruye la acetilcolina, dejando a su organismo en un estado de sobreestimulación colinérgica masiva y peligrosa.',
+    clinicalGlossary: [
+      { term: 'Miosis puntiforme', simpleDefinition: 'Pupilas extraordinariamente contraídas y diminutas, semejantes a la cabeza de un alfiler, que no aumentan de tamaño con la luz ni en la oscuridad.' },
+      { term: 'Sialorrea y Broncorrea', simpleDefinition: 'Producción masiva e incontrolable de saliva en la boca y de líquido/moco en los bronquios, que dificulta gravemente la entrada de aire a los pulmones.' },
+      { term: 'Fasciculaciones musculares', simpleDefinition: 'Temblores, sacudidas o pequeñas contracciones visibles bajo la piel producidas porque el músculo recibe órdenes continuas de contraerse.' },
+      { term: 'Acetilcolinesterasa (AChE)', simpleDefinition: 'Enzima imprescindible que actúa como un "interruptor de apagado", destruyendo la acetilcolina para que el cuerpo pueda relajarse.' },
+      { term: 'Envejecimiento enzimático (Aging)', simpleDefinition: 'Proceso químico por el cual la unión entre el veneno y la enzima pierde un grupo molecular con el paso de las horas, volviéndose irreversible para siempre.' }
+    ],
+    biochemicalConceptSimple: '1. Situación normal: El nervio envía acetilcolina -> El órgano o músculo se activa -> La enzima Acetilcolinesterasa corta la acetilcolina en milisegundos -> El órgano descansa. 2. En la intoxicación: El insecticida se une con un enlace covalente (químicamente inseparable) a la serina del centro activo de la enzima y la destruye -> La acetilcolina no puede degradarse y se acumula -> Todas las glándulas sudan y babean sin freno, el corazón se frena al extremo y los músculos sufren temblores incesantes.',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 4,
+        gender: 'Masculino',
+        occupation: 'Preescolar'
+      },
+      chiefComplaint: 'Babeo incesante, vómitos, diarrea líquida explosiva, temblores en brazos y piernas y respiración con ruidos de moco.',
+      presentIllness: 'Niño de 4 años acude trasladado en ambulancia medicalizada tras jugar en el trastero de una finca donde manipuló una botella abierta de insecticida agrícola (organofosforado). A los 40 minutos comienza a llorar con dolor de barriga, vómitos repetidos, diarrea líquida incontrolable, sudoración fría que empapa la ropa y exceso de saliva que le cae por la boca (sialorrea). Su madre nota que el niño tiembla, tiene sacudidas en los músculos de las piernas y respira haciendo ruidos húmedos en el pecho.',
+      pastMedicalHistory: ['Vacunación al día', 'Niño previamente sano sin enfermedades'],
+      medications: ['Ninguno'],
+      lifestyle: 'Visita de fin de semana a una casa de campo familiar.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '74/42 mmHg (presión arterial baja / hipotensión)',
+        hr: '46 latidos por minuto (corazón peligrosamente lento / bradicardia)',
+        rr: '34 respiraciones por minuto con esfuerzo para respirar',
+        temp: '35.8 °C (cuerpo frío por exceso de sudor)',
+        sao2: '88% con aire ambiente (mejora a 94% con mascarilla de oxígeno)'
+      },
+      findings: [
+        { systemName: 'Ojos y Cara', description: 'Pupilas muy pequeñas como cabezas de alfiler (miosis puntiforme bilateral). Exceso continuo de saliva en la boca y lágrimas en los ojos.' },
+        { systemName: 'Pulmones y Respiración', description: 'Ruidos de moco y burbujas en ambos pulmones a la auscultación (broncorrea colinérgica masiva). Riesgo de ahogo si no se aspira y medica de urgencia.' },
+        { systemName: 'Músculos', description: 'Pequeñas sacudidas y temblores involuntarios bajo la piel de brazos, muslos y lengua (fasciculaciones musculares).' }
+      ]
+    },
+    initialLabWork: [
+      { test: 'pH de la Sangre Arterial', result: '7.26', unit: '-', referenceRange: '7.35 - 7.45 (Acidosis respiratoria y metabólica)', isAbnormal: true },
+      { test: 'Bicarbonato en Sangre', result: '15.2', unit: 'mEq/L', referenceRange: '22 - 26', isAbnormal: true },
+      { test: 'pCO2 en Sangre', result: '52', unit: 'mmHg', referenceRange: '35 - 45 (Retención de CO2 por broncoespasmo y debilidad diafragmática)', isAbnormal: true },
+      { test: 'Glucemia en Urgencias', result: '148', unit: 'mg/dL', referenceRange: '70 - 110 (Hiperglucemia reactiva por estrés)', isAbnormal: true },
+      { test: 'Potasio en Sangre', result: '3.6', unit: 'mEq/L', referenceRange: '3.5 - 5.1' }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Intoxicación Aguda por Insecticida Organofosforado (Síndrome Colinérgico)',
+        plausibilityRationale: 'Reúne todos los signos típicos de exceso de acetilcolina: exceso de secreciones (saliva, sudor, moco), corazón lento, pupilas diminutas y temblores musculares tras contacto con pesticida.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Intoxicación por Plaguicidas Carbamatos',
+        plausibilityRationale: 'Produce los mismos síntomas pero la unión del carbamato a la enzima se deshace sola de forma espontánea en 24 a 48 horas sin dejar la enzima dañada para siempre.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Sobredosis por Medicamentos Opiáceos (Morfina/Fentanilo)',
+        plausibilityRationale: 'También produce pupilas muy pequeñas y presión baja, pero el paciente con opioides tiene la boca y los pulmones completamente secos y no tiene diarrea ni temblores.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Gastroenteritis Infecciosa Aguda con Deshidratación',
+        plausibilityRationale: 'Puede dar vómitos y diarrea, pero nunca produce pupilas puntiformes, bradicardia extrema de 46 lpm ni temblores en los músculos.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Intoxicación Aguda por Insecticida Organofosforado (Síndrome Colinérgico)',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_colinesterasa_correct',
+        biomarkerId: 'bm_colinesterasa',
+        biomarkerName: 'Medición de la Actividad de la Enzima Acetilcolinesterasa en Sangre (AChE)',
+        isCorrect: true,
+        biochemicalRationale: 'La prueba clave en el laboratorio es medir cuánta capacidad le queda a la enzima acetilcolinesterasa para romper acetilcolina. En este niño, la actividad enzimática ha caído a menos del 20% de su valor normal porque el pesticida ha inutilizado químicamente casi todas sus moléculas de enzima.',
+        whyOptimalOrSuboptimal: 'Es el biomarcador definitivo: demuestra la inhibición directa de la enzima y avisa a los médicos de que deben administrar el antídoto antes de que el enlace químico sea irreversible.'
+      },
+      {
+        id: 'bm_opt_ck_organo_distractor',
+        biomarkerId: 'bm_ck_total',
+        biomarkerName: 'Creatina Quinasa Total (CK)',
+        isCorrect: false,
+        biochemicalRationale: 'Enzima que sube si los músculos sufren rotura por ejercicio extremo o golpes.',
+        whyOptimalOrSuboptimal: 'No mide el veneno ni la función del nervio; puede subir algo por las contracciones musculares pero no sirve para diagnosticar la intoxicación.'
+      },
+      {
+        id: 'bm_opt_achr_organo_distractor',
+        biomarkerId: 'bm_achr_ab',
+        biomarkerName: 'Anticuerpos Anti-Receptor de Acetilcolina (AChR-Ab)',
+        isCorrect: false,
+        biochemicalRationale: 'Anticuerpos del sistema inmunitario de la Miastenia Gravis.',
+        whyOptimalOrSuboptimal: 'Es una prueba de enfermedad autoinmune crónica; es completamente inútil en una intoxicación tóxica aguda de urgencias.'
+      },
+      {
+        id: 'bm_opt_lactato_organo_distractor',
+        biomarkerId: 'bm_lactato',
+        biomarkerName: 'Lactato Plasmático',
+        isCorrect: false,
+        biochemicalRationale: 'Indica que los tejidos están sufriendo por falta de oxígeno debido a la presión baja.',
+        whyOptimalOrSuboptimal: 'Avisa de que el paciente está grave, pero no nos dice qué sustancia o veneno ha causado el problema.'
+      }
+    ],
+    expertClinicalKey: 'Los Dos Antídotos que Salvan la Vida: 1) Atropina IV: medicamento que tapa los receptores de acetilcolina para secar de inmediato el moco de los pulmones y hacer que el corazón vuelva a latir rápido; 2) Pralidoxima (2-PAM): molécula que arranca el insecticida pegado a la enzima acetilcolinesterasa para reactivarla. ¡Debe darse en las primeras 24-48 horas antes de que ocurra el fenómeno de envejecimiento (aging), tras el cual la enzima queda destruida para siempre!',
+    essentialBiomarkerIds: ['bm_colinesterasa'],
+    categoryDocente: 'Inhibición Enzimática Covalente y Toxicología Bioquímica',
+    molecularPathway: 'Plaguicida -> Bloqueo Covalente de Serina en Acetilcolinesterasa -> Acumulación de Acetilcolina -> Crisis Colinérgica',
+    molecularAlteration: 'Inhibición química irreversible de la enzima que degrada el neurotransmisor acetilcolina en las sinapsis'
+  },
+  {
+    id: 'case_marks_colera_01',
+    title: 'Samuel F. (6 años): Pérdida rápida de líquidos y diarrea como agua de arroz',
+    system: 'metabolic',
+    difficulty: 'avanzado',
+    studentSummary: 'Samuel F., un niño de 6 años, sufre una diarrea acuosa blanquecina masiva (típica en "agua de arroz") pocas horas después de comer mariscos al vapor durante un viaje costero. Pierde más de 1.5 litros de líquido en una sola mañana y entra en deshidratación crítica. La toxina de la bacteria Vibrio cholerae bloquea el "interruptor" molecular que regula la salida de sales y agua en el intestino, provocando una fuga incontrolable de líquido hacia las heces.',
+    clinicalGlossary: [
+      { term: 'Diarrea en "agua de arroz"', simpleDefinition: 'Diarrea completamente líquida, transparente o blanquecina con pequeñas partículas de moco flotando, sin olor fétido y sin restos fecales normales ni sangre.' },
+      { term: 'Signo del pliegue cutáneo', simpleDefinition: 'Al pellizcar suavemente la piel del abdomen, esta queda arrugada y tarda varios segundos en volver a su posición habitual, indicando deshidratación grave.' },
+      { term: 'Azoemia prerrenal', simpleDefinition: 'Subida de los niveles de urea y creatinina en sangre provocada porque la deshidratación hace que llegue muy poca sangre a los riñones para filtrar.' },
+      { term: 'Canal CFTR', simpleDefinition: 'Túnel o canal en la membrana de las células intestinales que bombea cloruro y agua hacia el interior del intestino.' },
+      { term: 'Cotransportador SGLT-1', simpleDefinition: 'Transportador que mete a la vez sodio y glucosa al interior de la célula intestinal, arrastrando agua consigo.' }
+    ],
+    biochemicalConceptSimple: '1. La bacteria Vibrio cholerae produce la Toxina Colérica -> 2. La toxina entra al enterocito y pega una molécula de ADP-ribosa a la proteína reguladora Gαs -> 3. La proteína Gαs pierde la capacidad de apagarse y queda encendida de forma permanente -> 4. Se fabrica una cantidad masiva de AMPc intracelular -> 5. El AMPc mantiene abierto sin descanso el canal de cloruro CFTR -> El cloruro, el sodio y el agua salen en tromba al intestino (hasta 1 litro/hora).',
+    clinicalHistory: {
+      patientDemographics: {
+        age: 6,
+        gender: 'Masculino',
+        occupation: 'Escolar'
+      },
+      chiefComplaint: 'Diarrea líquida blanquecina incesante en "agua de arroz", vómitos continuos y decaimiento extremo con incapacidad para ponerse de pie.',
+      presentIllness: 'Niño de 6 años es traído a urgencias en brazos de sus padres, casi inconsciente por deshidratación crítica. El día anterior, la familia estuvo comiendo almejas y cangrejos al vapor en un puesto costero. A las 5:00 de la madrugada el niño empezó con vómitos y, poco después, con una diarrea líquida continua de color blanquecino sin sangre ni dolor de tripa, con un aspecto idéntico al agua en la que se lava el arroz. Ha realizado más de 12 deposiciones abundantes en 6 horas (más de 1,5 litros de líquido perdidos). Lleva 7 horas sin hacer nada de pis (anuria).',
+      pastMedicalHistory: ['Vacunación infantil en regla', 'Previamente sano'],
+      medications: ['Ninguno'],
+      lifestyle: 'Viaje reciente a zona costera de veraneo.'
+    },
+    physicalExam: {
+      vitalSigns: {
+        bp: '68/38 mmHg (presión arterial peligrosamente baja / shock hipovolémico)',
+        hr: '148 latidos por minuto (corazón acelerado para intentar mantener el riego)',
+        rr: '30 respiraciones por minuto (respiración rápida para compensar la acidez)',
+        temp: '36.1 °C',
+        sao2: '96%'
+      },
+      findings: [
+        { systemName: 'Aspecto e Hidratación', description: 'Niño muy dormido y apático (letárgico). Ojos profundamente hundidos en las cuencas (enoftalmos). Lengua y labios secos como papel de lija. El pellizco en la piel del abdomen tarda más de 3 segundos en desaparecer (deshidratación severa > 10% de su peso).' },
+        { systemName: 'Circulación periférica', description: 'Manos y pies fríos al tacto, pálidos y con un relleno capilar muy lento (tarda 5 segundos en volver el color tras presionar la uña).' }
+      ]
+    },
+    initialLabWork: [
+      { test: 'Hematocrito (concentración de la sangre)', result: '51', unit: '%', referenceRange: '35 - 45 (Sangre muy espesa por falta de agua)', isAbnormal: true },
+      { test: 'Sodio en Sangre (Na+)', result: '132', unit: 'mEq/L', referenceRange: '135 - 145', isAbnormal: true },
+      { test: 'Potasio en Sangre (K+)', result: '2.6', unit: 'mEq/L', referenceRange: '3.5 - 5.0 (Peligrosamente bajo por pérdida en diarrea)', isAbnormal: true },
+      { test: 'Bicarbonato en Sangre (HCO3-)', result: '9.8', unit: 'mEq/L', referenceRange: '21 - 28 (Acidosis metabólica grave)', isAbnormal: true },
+      { test: 'pH de la Sangre', result: '7.18', unit: '-', referenceRange: '7.35 - 7.45 (Sangre muy ácida)', isAbnormal: true },
+      { test: 'Urea en Sangre', result: '78', unit: 'mg/dL', referenceRange: '15 - 40 (Elevación prerrenal por hemoconcentración y choque)', isAbnormal: true },
+      { test: 'Cloro en Sangre (Cl-)', result: '108', unit: 'mEq/L', referenceRange: '96 - 106', isAbnormal: true }
+    ],
+    differentialDiagnoses: [
+      {
+        disease: 'Infección por Vibrio cholerae Productor de Toxina (Cólera Epidémico)',
+        plausibilityRationale: 'Diarrea líquida secretora enorme en agua de arroz sin dolor de tripa ni sangre tras comer mariscos, con colapso de la presión y pérdida masiva de potasio y bicarbonato.',
+        isTargetDisease: true
+      },
+      {
+        disease: 'Infección Bacteriana Invasiva (por Shigella o Salmonella)',
+        plausibilityRationale: 'Cursa con fiebre muy alta, cólicos fuertes de barriga y heces con moco y sangre (disentería), que están totalmente ausentes en este niño.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Gastroenteritis Infantil por Rotavirus',
+        plausibilityRationale: 'Causa diarrea líquida en niños, pero suele empezar con fiebre y catarro previo, y no produce la pérdida de litros de agua tan repentina del cólera.',
+        isTargetDisease: false
+      },
+      {
+        disease: 'Síndrome Urémico Hemolítico (E. coli O157:H7)',
+        plausibilityRationale: 'Causa fallo del riñón, pero siempre empieza con diarrea con abundante sangre fresca y destruye las plaquetas y los glóbulos rojos.',
+        isTargetDisease: false
+      }
+    ],
+    targetDisease: 'Infección por Vibrio cholerae Productor de Toxina (Cólera Epidémico)',
+    biomarkerOptions: [
+      {
+        id: 'bm_opt_cholera_correct',
+        biomarkerId: 'bm_cholera_toxin',
+        biomarkerName: 'Detección de la Toxina Colérica y Cultivo en Agar TCBS',
+        isCorrect: true,
+        biochemicalRationale: 'La enterotoxina colérica es la responsable directa del cuadro: bloquea la proteína Gαs y deja encendido el canal CFTR, forzando la salida masiva de cloruro y agua. En el laboratorio, cultivar las heces en el medio especial agar TCBS (donde la bacteria forma colonias amarillas) y detectar la presencia de la toxina confirma de forma irrefutable que el paciente padece cólera.',
+        whyOptimalOrSuboptimal: 'Es la prueba microbiológica y bioquímica de elección: identifica con precisión al microorganismo responsable y su toxina secretora.'
+      },
+      {
+        id: 'bm_opt_lactato_cholera_distractor',
+        biomarkerId: 'bm_lactato',
+        biomarkerName: 'Lactato Plasmático',
+        isCorrect: false,
+        biochemicalRationale: 'Ácido que se acumula cuando los órganos no reciben suficiente sangre oxigenada debido a la deshidratación y presión baja.',
+        whyOptimalOrSuboptimal: 'Inespecífico: avisa de que el niño está en shock hipovolémico, pero no identifica la causa de la diarrea.'
+      },
+      {
+        id: 'bm_opt_creatinina_cholera_distractor',
+        biomarkerId: 'bm_creatinina',
+        biomarkerName: 'Creatinina Sérica y Tasa de Filtrado',
+        isCorrect: false,
+        biochemicalRationale: 'Medida del daño que están sufriendo los riñones por no recibir sangre.',
+        whyOptimalOrSuboptimal: 'Nos indica que hay un fracaso renal agudo por falta de líquidos (prerrenal), pero no señala la bacteria causante.'
+      },
+      {
+        id: 'bm_opt_beta_ohb_cholera_distractor',
+        biomarkerId: 'bm_beta_hidroxibutirato',
+        biomarkerName: 'Beta-Hidroxibutirato en Sangre (Cuerpos Cetónicos)',
+        isCorrect: false,
+        biochemicalRationale: 'Sustancia que fabrica el hígado cuando una persona lleva muchas horas sin comer o en la diabetes descompensada.',
+        whyOptimalOrSuboptimal: 'No guarda relación con el mecanismo de la diarrea secretora bacteriana.'
+      }
+    ],
+    expertClinicalKey: 'La Maravilla Bioquímica de la Rehidratación Oral (TRO): La toxina del cólera inutiliza la absorción normal de agua pero deja totalmente INTACTO al cotransportador SGLT-1 (que mete sodio junto con glucosa a las células). Por eso, darle al paciente una solución con la proporción exacta de azúcar y sal (suero oral) hace que el intestino reabsorba agua a gran velocidad, salvando millones de vidas en todo el mundo sin necesidad de sueros intravenosos.',
+    essentialBiomarkerIds: ['bm_cholera_toxin'],
+    categoryDocente: 'Señalización por Proteínas G Heterotriméricas y Transportadores de Membrana',
+    signalingType: 'Proteína Gαs -> Adenilato Ciclasa -> Mensajero AMPc -> Apertura Canal CFTR',
+    molecularPathway: 'Toxina de Cólera -> Deja a Gαs encendida sin poder apagarse -> AMPc masivo -> Canal CFTR abierto -> Pérdida de 1L/h de agua',
+    molecularAlteration: 'Modificación con ADP-ribosa en la proteína Gαs que le impide hidrolizar GTP a GDP'
   }
 ];

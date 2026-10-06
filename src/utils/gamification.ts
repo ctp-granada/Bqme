@@ -159,7 +159,15 @@ export function getBudgetInfo(budget: number): {
   barColor: string;
   badgeBg: string;
 } {
-  if (budget <= 30) {
+  if (budget <= 0) {
+    return {
+      statusText: "Fondos de Guardia Agotados (0%)",
+      isRedAlert: true,
+      colorClass: "text-red-600 font-bold animate-pulse",
+      barColor: "bg-red-600",
+      badgeBg: "bg-red-100 text-red-800 border-red-300"
+    };
+  } else if (budget <= 30) {
     return {
       statusText: "ZONA ROJA: Alarma Presupuestaria",
       isRedAlert: true,
@@ -174,6 +182,14 @@ export function getBudgetInfo(budget: number): {
       colorClass: "text-amber-600 font-semibold",
       barColor: "bg-amber-500",
       badgeBg: "bg-amber-100 text-amber-800 border-amber-300"
+    };
+  } else if (budget > 100) {
+    return {
+      statusText: "Superávit de Fondos (Ganado en Parque)",
+      isRedAlert: false,
+      colorClass: "text-emerald-600 font-bold",
+      barColor: "bg-emerald-500",
+      badgeBg: "bg-emerald-100 text-emerald-800 border-emerald-300"
     };
   } else {
     return {

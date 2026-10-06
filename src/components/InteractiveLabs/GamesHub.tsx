@@ -20,13 +20,16 @@ import {
   HelpCircle,
   ArrowRight,
   Clock,
-  Sparkle
+  Sparkle,
+  Coins,
+  Wallet
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface GamesHubProps {
   userProgress: UserProgress;
-  onRechargeLife: (amount?: number) => void;
+  onEarnBudget?: (amount?: number) => void;
+  onRechargeLife?: (amount?: number) => void;
   onAddBonusXP: (amount: number, reason: string) => void;
   onNavigate: (module: ActiveModule) => void;
 }
@@ -227,6 +230,7 @@ const MEMORY_PAIRS: MemoryPair[] = [
 
 export const GamesHub: React.FC<GamesHubProps> = ({
   userProgress,
+  onEarnBudget,
   onRechargeLife,
   onAddBonusXP,
   onNavigate
@@ -236,19 +240,23 @@ export const GamesHub: React.FC<GamesHubProps> = ({
     show: boolean;
     title: string;
     description: string;
-    heartsGained: number;
+    budgetGained: number;
     xpGained: number;
   }>({
     show: false,
     title: '',
     description: '',
-    heartsGained: 0,
+    budgetGained: 0,
     xpGained: 0
   });
 
-  const triggerReward = (hearts: number, xp: number, title: string, description: string) => {
-    if (hearts > 0) {
-      onRechargeLife(hearts);
+  const triggerReward = (budgetAmount: number, xp: number, title: string, description: string) => {
+    if (budgetAmount > 0) {
+      if (onEarnBudget) {
+        onEarnBudget(budgetAmount);
+      } else if (onRechargeLife) {
+        onRechargeLife(1);
+      }
     }
     if (xp > 0) {
       onAddBonusXP(xp, title);
@@ -257,7 +265,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
       show: true,
       title,
       description,
-      heartsGained: hearts,
+      budgetGained: budgetAmount,
       xpGained: xp
     });
 
@@ -315,12 +323,12 @@ export const GamesHub: React.FC<GamesHubProps> = ({
       setTriviaFinished(true);
       const totalCorrect = triviaCorrectCount + (selectedTriviaOption === triviaQuestions[triviaIdx].correctIndex ? 0 : 0);
       if (totalCorrect >= 2) {
-        // Success reward: recharge 1 life + 60 XP
+        // Success reward: +20% budget + 60-80 XP
         triggerReward(
-          1,
+          20,
           totalCorrect === 3 ? 80 : 60,
           '¡Reanimación Exitosa!',
-          `Has respondido correctamente ${totalCorrect}/3 casos de urgencia bioquímica. ¡+1 Vida y +${totalCorrect === 3 ? 80 : 60} XP acreditados!`
+          `Has respondido correctamente ${totalCorrect}/3 casos de urgencia bioquímica. ¡+20% Presupuesto Hospitalario 💰 y +${totalCorrect === 3 ? 80 : 60} XP acreditados!`
         );
       }
     }
@@ -373,11 +381,12 @@ export const GamesHub: React.FC<GamesHubProps> = ({
   useEffect(() => {
     if (classifierFinished && classifierScore >= 4) {
       const bonusXP = classifierScore * 15;
+      const bonusBudget = Math.min(35, 15 + classifierScore * 3);
       triggerReward(
-        1,
+        bonusBudget,
         bonusXP,
         '¡Triage Analítico Completado!',
-        `Has clasificado ${classifierScore} biomarcadores correctamente bajo presión temporal. ¡+1 Vida y +${bonusXP} XP conseguidos!`
+        `Has clasificado ${classifierScore} biomarcadores correctamente bajo presión temporal. ¡+${bonusBudget}% Fondos Sanitarios 💰 y +${bonusXP} XP conseguidos!`
       );
     }
   }, [classifierFinished]);
@@ -495,10 +504,10 @@ export const GamesHub: React.FC<GamesHubProps> = ({
             if (nextCount === 4) {
               setMemoryFinished(true);
               triggerReward(
-                1,
+                25,
                 80,
                 '¡Memoria Diagnóstica Perfecta!',
-                'Has emparejado todos los biomarcadores con sus dianas clínicas. ¡+1 Vida y +80 XP conseguidos!'
+                'Has emparejado todos los biomarcadores con sus dianas clínicas. ¡+25% Presupuesto de Guardia 💰 y +80 XP conseguidos!'
               );
             }
             return nextCount;
@@ -520,11 +529,6 @@ export const GamesHub: React.FC<GamesHubProps> = ({
     }
   };
 
-  // Calculate lives visual status
-  const currentLives = userProgress.lives;
-  const maxLives = userProgress.maxLives || 3;
-  const isFullLives = currentLives >= maxLives;
-
   return (
     <div className="space-y-6">
       {/* CELEBRATION TOAST / REWARD BANNER */}
@@ -537,18 +541,18 @@ export const GamesHub: React.FC<GamesHubProps> = ({
             className="p-4 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-slate-950 text-white border border-emerald-500/50 shadow-xl flex items-center justify-between gap-4"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
-                <Heart className="w-6 h-6 fill-rose-500 text-rose-500 animate-pulse" />
+              <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0">
+                <Coins className="w-6 h-6 text-amber-400 animate-bounce" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
                     {celebrationToast.title}
                   </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                    +{celebrationToast.heartsGained} Vida ❤️
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    +{celebrationToast.budgetGained}% Dinero 💰
                   </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">
                     +{celebrationToast.xpGained} XP
                   </span>
                 </div>
@@ -562,7 +566,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
               onClick={() => onNavigate('desafio')}
               className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shrink-0 shadow-xs cursor-pointer transition-all"
             >
-              <span>Ir a la Guardia</span>
+              <span>Ir al Hospital</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </motion.div>
@@ -579,49 +583,37 @@ export const GamesHub: React.FC<GamesHubProps> = ({
                 Zona Lúdica del Parque Biomédico
               </span>
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
-                Kiosco de Recuperación Clínica
+                Kiosco de Financiación de Guardia
               </span>
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <span>Minijuegos & Recarga de Vidas</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-800">
-                Puntos Extra & Salud
+              <span>Minijuegos & Ganancia de Dinero</span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-amber-100 text-amber-800 border border-amber-200">
+                +Fondos Sanitarios 💰 & XP
               </span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
-              Supera pequeños retos bioquímicos para reabastecer tus corazones de guardia (<strong className="text-slate-900">vidas de paciente</strong>) y sumar puntos extra (<strong className="text-slate-900 font-mono">XP</strong>) a tu expediente facultativo.
+              Supera pequeños retos bioquímicos para ganar más dinero y fondos hospitalarios (<strong className="text-slate-900 font-mono">presupuesto de guardia</strong>) y sumar puntos extra (<strong className="text-slate-900 font-mono">XP</strong>) a tu expediente facultativo.
             </p>
           </div>
 
-          {/* STATUS CARDS: LIVES & XP */}
+          {/* STATUS CARDS: BUDGET & XP */}
           <div className="flex items-center gap-3 w-full lg:w-auto">
-            {/* Lives status card */}
+            {/* Budget status card */}
             <div className={`p-3.5 rounded-xl border flex-1 lg:flex-initial flex items-center gap-3 transition-all ${
-              isFullLives 
-                ? 'bg-slate-50 border-slate-200' 
-                : 'bg-rose-50 border-rose-200 ring-2 ring-rose-500/10'
+              userProgress.budget < 30 
+                ? 'bg-rose-50 border-rose-200 ring-2 ring-rose-500/10' 
+                : 'bg-amber-50/70 border-amber-200'
             }`}>
-              <div className="flex items-center gap-1.5">
-                {[1, 2, 3].map((heartNum) => {
-                  const isHeartActive = heartNum <= currentLives;
-                  return (
-                    <Heart
-                      key={heartNum}
-                      className={`w-6 h-6 transition-all ${
-                        isHeartActive
-                          ? 'text-rose-500 fill-rose-500 filter drop-shadow-xs'
-                          : 'text-slate-300 fill-slate-200'
-                      }`}
-                    />
-                  );
-                })}
+              <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 shadow-2xs">
+                <Coins className="w-5 h-5 text-amber-600" />
               </div>
               <div className="text-left">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
-                  Vidas de Guardia
+                  Fondos Hospitalarios
                 </span>
-                <span className={`text-xs font-bold ${isFullLives ? 'text-slate-900' : 'text-rose-700'}`}>
-                  {currentLives}/{maxLives} Disponibles
+                <span className={`text-xs font-black font-mono ${userProgress.budget < 30 ? 'text-rose-700' : 'text-slate-900'}`}>
+                  {userProgress.budget}% Disponible
                 </span>
               </div>
             </div>
@@ -643,28 +635,23 @@ export const GamesHub: React.FC<GamesHubProps> = ({
           </div>
         </div>
 
-        {/* LIVES NOTICE BANNER */}
+        {/* BUDGET NOTICE BANNER */}
         <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2">
-            {isFullLives ? (
-              <span className="inline-flex items-center gap-1.5 text-emerald-700 font-semibold">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Tienes todas tus vidas al máximo (3/3). Cada minijuego completado te otorgará <strong className="text-emerald-900 font-bold">Bonificación Doble de XP (+80 a +120 XP)</strong> para subir en el ranking.</span>
+            <span className="inline-flex items-center gap-1.5 text-emerald-800 font-semibold">
+              <Coins className="w-4 h-4 text-amber-500 shrink-0" />
+              <span>
+                ¡Gana más dinero jugando en el Parque! Cada minijuego superado añade entre <strong className="text-emerald-950 font-bold">+15% y +30% de Fondos de Presupuesto (💰)</strong> para financiar las analíticas de los pacientes en el hospital.
               </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 text-rose-700 font-semibold">
-                <Heart className="w-4 h-4 text-rose-600 fill-rose-600 shrink-0 animate-pulse" />
-                <span>¡Tienes vidas por recargar ({currentLives}/3)! Cada minijuego que ganes te restaurará <strong className="text-rose-900 font-bold">+1 Vida de Guardia ❤️</strong> de inmediato.</span>
-              </span>
-            )}
+            </span>
           </div>
 
           <button
             onClick={() => onNavigate('desafio')}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors cursor-pointer shrink-0"
           >
-            <Stethoscope className="w-3.5 h-3.5 text-rose-600" />
-            <span>Volver a Casos / Guardia</span>
+            <Stethoscope className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Volver al Hospital / Casos</span>
           </button>
         </div>
       </div>
@@ -683,8 +670,8 @@ export const GamesHub: React.FC<GamesHubProps> = ({
             <span className="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">
               ⚡
             </span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
-              +1 Vida ❤️ • +60 XP
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+              +20% Dinero 💰 • +60 XP
             </span>
           </div>
           <h3 className="font-bold text-sm text-slate-900">1. Reanimador Bioquímico</h3>
@@ -692,7 +679,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
             Ronda de 3 casos de urgencia con razonamiento fisiopatológico inmediato.
           </p>
           {activeTab === 'trivia' && (
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-rose-600" />
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-600" />
           )}
         </button>
 
@@ -709,7 +696,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
               ⏱️
             </span>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +1 Vida ❤️ • +100 XP
+              +25% Dinero 💰 • +100 XP
             </span>
           </div>
           <h3 className="font-bold text-sm text-slate-900">2. Clasificador Flash 30s</h3>
@@ -734,7 +721,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
               🧬
             </span>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-              +1 Vida ❤️ • +80 XP
+              +25% Dinero 💰 • +80 XP
             </span>
           </div>
           <h3 className="font-bold text-sm text-slate-900">3. Parejas Diagnósticas</h3>
@@ -870,14 +857,14 @@ export const GamesHub: React.FC<GamesHubProps> = ({
                   className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs"
                 >
                   <RotateCcw className="w-4 h-4 text-emerald-400" />
-                  <span>Jugar otra Ronda (+Vidas / XP)</span>
+                  <span>Jugar otra Ronda (+Dinero 💰 / XP)</span>
                 </button>
                 <button
                   onClick={() => onNavigate('desafio')}
-                  className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs"
+                  className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs"
                 >
                   <Stethoscope className="w-4 h-4" />
-                  <span>Ir a la Guardia con mis Vidas</span>
+                  <span>Volver al Hospital con mis Fondos</span>
                 </button>
               </div>
             </div>
@@ -923,7 +910,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
                 Aparecerán biomarcadores clínicos en pantalla. Tu misión como facultativo es asociar cada analítica con su sistema fisiológico correspondiente lo más rápido posible.
               </p>
               <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 font-medium text-left">
-                🎯 <strong>Objetivo de Reabastecimiento:</strong> Acierta al menos 4 biomarcadores antes de que acabe el tiempo para <strong className="text-emerald-950 font-bold">recargar +1 Vida ❤️ y ganar puntos extra de XP</strong>.
+                🎯 <strong>Objetivo de Fondos:</strong> Acierta al menos 4 biomarcadores antes de que acabe el tiempo para <strong className="text-emerald-950 font-bold">ganar hasta +35% de Presupuesto 💰 y puntos extra de XP</strong>.
               </div>
               <button
                 onClick={startClassifierGame}
@@ -1045,7 +1032,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
                   className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs"
                 >
                   <RotateCcw className="w-4 h-4" />
-                  <span>Jugar de Nuevo (+Vidas / XP)</span>
+                  <span>Jugar de Nuevo (+Dinero 💰 / XP)</span>
                 </button>
                 <button
                   onClick={() => onNavigate('desafio')}
@@ -1146,7 +1133,7 @@ export const GamesHub: React.FC<GamesHubProps> = ({
                 ¡Tablero Diagnóstico Resuelto!
               </h3>
               <p className="text-xs text-slate-600 max-w-md mx-auto">
-                Has emparejado todas las dianas en <strong className="text-slate-900 font-bold">{memoryMoves} intentos</strong>. ¡+1 Vida y +80 XP asignados a tu expediente!
+                Has emparejado todas las dianas en <strong className="text-slate-900 font-bold">{memoryMoves} intentos</strong>. ¡+25% Fondos 💰 y +80 XP asignados a tu expediente!
               </p>
               <div className="flex items-center justify-center gap-3 pt-2">
                 <button

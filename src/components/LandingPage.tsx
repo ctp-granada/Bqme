@@ -95,7 +95,7 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
       },
       {
         label: 'Guardia Médica 24h (Modo Desafío)',
-        sublabel: 'Casos contrarreloj con 3 vidas y multiplicador de racha',
+        sublabel: 'Casos contrarreloj con presupuesto analítico y racha',
         target: 'desafio',
         icon: Flame
       },
@@ -168,11 +168,11 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
   parque: {
     id: 'parque',
     name: 'Parque Biomédico & Laboratorios Virtuales',
-    tagline: 'Espacio lúdico de gamificación, simuladores metabólicos y minijuegos para recargar vidas',
+    tagline: 'Espacio lúdico de gamificación, simuladores metabólicos y minijuegos para ganar dinero',
     badge: 'ZONA LÚDICA • JUEGOS Y SIMULADORES',
     image: '/park_section.jpg',
     description:
-      'Área lúdica interactiva orientada al aprendizaje dinámico. Juega a minijuegos clínicos (Reanimador Bioquímico, Clasificador Flash 30s y Parejas Diagnósticas) para recuperar vidas perdidas en guardia médica (+1 Vida ❤️) y conseguir puntos extra (+50 a +120 XP). Experimenta además con los simuladores del Ciclo de Randle, Ictericias y Hemostasia, o compite en el Reto Diario con bonificador 2.0x XP.',
+      'Área lúdica interactiva orientada al aprendizaje dinámico. Juega a minijuegos clínicos (Reanimador Bioquímico, Clasificador Flash 30s y Parejas Diagnósticas) para ganar más dinero y presupuesto de guardia (+15% a +30% Fondos 💰) y conseguir puntos extra (+50 a +120 XP). Experimenta además con los simuladores del Ciclo de Randle, Ictericias y Hemostasia, o compite en el Reto Diario con bonificador 2.0x XP.',
     primaryAction: {
       label: 'Entrar al Parque (Ir a Actividades y Juegos)',
       target: 'laboratorios',
@@ -180,8 +180,8 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
     },
     secondaryActions: [
       {
-        label: 'Minijuegos & Recarga de Vidas (+1 ❤️ / Extra XP)',
-        sublabel: 'Supera retos rápidos para reabastecer tus vidas y sumar puntos extra',
+        label: 'Minijuegos & Ganancia de Dinero (+💰 Fondos / Extra XP)',
+        sublabel: 'Supera retos rápidos para ganar más dinero y sumar puntos extra',
         target: 'laboratorios',
         labType: 'juegos',
         icon: Gamepad2
@@ -207,8 +207,8 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
         icon: Zap
       }
     ],
-    facilities: ['Kiosco de Minijuegos & Vidas', 'Pabellón de Laboratorios Virtuales', 'Glorieta del Reto Diario', 'Simulador Fisiopatológico'],
-    stats: 'Minijuegos de Recarga (+1 ❤️) • 3 Labs • 2.0x XP',
+    facilities: ['Kiosco de Minijuegos & Fondos', 'Pabellón de Laboratorios Virtuales', 'Glorieta del Reto Diario', 'Simulador Fisiopatológico'],
+    stats: 'Minijuegos (+💰 Fondos) • 3 Labs • 2.0x XP',
     themeColor: {
       accent: 'emerald-500',
       border: 'border-emerald-500/50',
@@ -332,63 +332,60 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   const currentModalData = selectedDistrictModal ? DISTRICT_DETAILS[selectedDistrictModal] : null;
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-300 pb-12">
+    <div className="space-y-6 animate-in fade-in duration-300 pb-8">
       {/* 1. INSTITUTIONAL HERO HEADER: Medical Gold / Clinical Modern Aesthetic */}
-      <div className="bg-gradient-to-br from-amber-50/60 via-white to-amber-50/30 rounded-3xl border border-amber-200/80 shadow-xs p-6 sm:p-8 relative overflow-hidden transition-all">
+      <div className="bg-gradient-to-br from-amber-50/70 via-white to-amber-50/40 rounded-3xl border border-amber-200/80 shadow-xs p-5 sm:p-6 relative overflow-hidden transition-all">
         {/* Soft medical amber radial accents */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-amber-100/50 via-amber-50/20 to-transparent rounded-full blur-2xl pointer-events-none -mr-20 -mt-20" />
         
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-3 max-w-3xl">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase bg-amber-600 text-white flex items-center gap-1.5 shadow-2xs">
+              <span className="px-3 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-amber-600 text-white flex items-center gap-1.5 shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-amber-200 animate-pulse" />
                 Facultad de Medicina • Universidad de Granada
               </span>
-              <span className="px-3 py-1 rounded-full text-[11px] font-semibold text-amber-900 bg-amber-100/70 border border-amber-200/80">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-amber-900 bg-amber-100/70 border border-amber-200/80">
                 Campus de la Salud (PTS) • Curso 2025/2026
-              </span>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-950 bg-amber-100/90 border border-amber-300">
-                Departamento de Bioquímica y Biología Molecular III e Inmunología
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 leading-tight">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-slate-900 leading-tight">
               Plano de la Ciudad Biomédica UGR
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
-              Explora el plano interactivo de la asignatura. Haz clic directamente en el <strong className="text-slate-900 font-semibold">Hospital</strong> (para resolver casos), en la <strong className="text-slate-900 font-semibold">Biblioteca</strong> (para consultar materiales y vademécum) o en el <strong className="text-slate-900 font-semibold">Parque</strong> (para experimentar con simuladores y actividades lúdicas).
+            <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
+              Haz clic directamente en el <strong className="text-slate-900 font-semibold">Hospital</strong> (para resolver casos clínicos), en la <strong className="text-slate-900 font-semibold">Biblioteca</strong> (para consultar temario y vademécum) o en el <strong className="text-slate-900 font-semibold">Parque</strong> (para minijuegos de ganar dinero y simuladores).
             </p>
           </div>
 
           {/* Quick Metrics Capsule in Modern Clinical Warm Style */}
-          <div className="flex items-center gap-3 shrink-0 self-start lg:self-center">
-            <div className="bg-white border border-amber-200/80 rounded-2xl p-3.5 flex items-center gap-3 shadow-2xs">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-300/80 text-amber-700 flex items-center justify-center font-bold text-sm shadow-xs">
-                <Sparkles className="w-5 h-5 text-amber-600" />
+          <div className="flex items-center gap-3 shrink-0 self-start md:self-center">
+            <div className="bg-white border border-amber-200/80 rounded-2xl p-3 flex items-center gap-2.5 shadow-2xs">
+              <div className="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-300/80 text-amber-700 flex items-center justify-center font-bold text-sm shadow-xs">
+                <Sparkles className="w-4 h-4 text-amber-600" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                   Experiencia Alumno
                 </span>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-lg font-black text-slate-900">{userXP}</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-base font-black text-slate-900">{userXP}</span>
                   <span className="text-xs font-semibold text-amber-700">XP</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white border border-amber-200/80 rounded-2xl p-3.5 flex items-center gap-3 shadow-2xs">
-              <div className="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-300/80 text-rose-700 flex items-center justify-center font-bold text-sm shadow-xs">
-                <CheckCircle2 className="w-5 h-5 text-rose-600" />
+            <div className="bg-white border border-amber-200/80 rounded-2xl p-3 flex items-center gap-2.5 shadow-2xs">
+              <div className="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-300/80 text-rose-700 flex items-center justify-center font-bold text-sm shadow-xs">
+                <CheckCircle2 className="w-4 h-4 text-rose-600" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                   Casos Superados
                 </span>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-lg font-black text-slate-900">{completedCasesCount}</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-base font-black text-slate-900">{completedCasesCount}</span>
                   <span className="text-xs font-semibold text-slate-500">/ 16</span>
                 </div>
               </div>
@@ -397,31 +394,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </div>
 
-      {/* 2. THE PROMINENT CITY MAP (EL PLANO DE LA CIUDAD QUE LE GUSTABA AL USUARIO) */}
+      {/* 2. THE PROMINENT CITY MAP (SOLO EL MAPA EN PANTALLA PRINCIPAL) */}
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Mapa Interactivo del Campus
-              </span>
-              <span className="text-xs text-slate-500 font-medium hidden sm:inline">
-                Haz clic sobre cualquier zona para abrir sus instalaciones con su ilustración y accesos
-              </span>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              Selecciona tu destino en el plano de la ciudad
-            </h2>
-          </div>
-
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            <span className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 border border-slate-200">
-              3 Lugares Clave: Hospital • Biblioteca • Parque
-            </span>
-          </div>
-        </div>
-
         {/* MAP CONTAINER WITH HOTSPOTS */}
         <div className="relative rounded-3xl overflow-hidden border-2 border-slate-800 bg-slate-950 shadow-2xl group">
           <div className="relative aspect-16/9 w-full overflow-hidden bg-slate-900 select-none">
@@ -575,7 +549,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
                 <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/90 text-white text-xs font-black shadow-lg border border-emerald-500/60 backdrop-blur-md">
                   <span className="text-emerald-400 font-extrabold">PARQUE</span>
-                  <span className="text-[10px] text-slate-300 font-medium">(Juegos, Vidas & Labs)</span>
+                  <span className="text-[10px] text-slate-300 font-medium">(Juegos, Dinero 💰 & Labs)</span>
                 </span>
               </div>
 
@@ -594,7 +568,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     />
                     <div className="truncate">
                       <div className="font-bold text-emerald-300 truncate">Parque Lúdico</div>
-                      <div className="text-[10px] text-slate-300">Minijuegos (+1 ❤️), Labs y Reto</div>
+                      <div className="text-[10px] text-slate-300">Minijuegos (+Dinero 💰), Labs y Reto</div>
                     </div>
                   </div>
                   <span className="text-[10px] bg-emerald-600 px-2.5 py-1 rounded-lg font-black text-white shrink-0 flex items-center gap-1">
@@ -607,8 +581,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {/* Bottom HUD Bar on image */}
             <div className="absolute bottom-3 left-4 right-4 z-10 hidden sm:flex items-center justify-between text-xs text-white/90 bg-slate-950/85 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/10 pointer-events-none">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span>Haz clic sobre el Hospital, la Biblioteca o el Parque para ver su ilustración y accesos</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Haz clic sobre el Hospital, la Biblioteca o el Parque para acceder a sus instalaciones</span>
               </span>
               <span className="text-[11px] text-slate-300 font-mono">
                 [1] Hospital Clínico • [2] Biblioteca • [3] Parque de Actividades
@@ -616,266 +590,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
           </div>
         </div>
-
-        {/* 3 FAST CARDS BELOW THE MAP (CON MINI-ILUSTRACIÓN Y ACCIÓN DIRECTA) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {/* HOSPITAL CARD */}
-          <div
-            onMouseEnter={() => setHoveredSpot('hospital')}
-            onMouseLeave={() => setHoveredSpot(null)}
-            onClick={() => setSelectedDistrictModal('hospital')}
-            className={`group bg-white rounded-2xl p-5 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-xs hover:shadow-xl ${
-              hoveredSpot === 'hospital'
-                ? 'border-rose-500 ring-4 ring-rose-500/15 -translate-y-1'
-                : 'border-slate-200/90 hover:border-rose-400'
-            }`}
-          >
-            <div className="space-y-3.5">
-              <div className="relative h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-950">
-                <img
-                  src="/hospital_section.jpg"
-                  alt="Hospital Clínico"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-rose-600 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
-                  Hospital
-                </span>
-                <span className="absolute bottom-2 left-2.5 text-white text-xs font-bold">
-                  Resolución de Casos Clínicos
-                </span>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-rose-600 group-hover:text-white transition-colors">
-                    <Stethoscope className="w-4 h-4" />
-                  </div>
-                  <h3 className="text-base font-black text-slate-900 group-hover:text-rose-600 transition-colors">
-                    1. El Hospital Clínico
-                  </h3>
-                </div>
-                <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                  Atiende a pacientes en urgencias, solicita biomarcadores diagnósticos y administra costes.
-                </p>
-              </div>
-            </div>
-
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-rose-600 group-hover:text-rose-700">
-              <span>Abrir Instalaciones del Hospital</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-
-          {/* BIBLIOTECA CARD */}
-          <div
-            onMouseEnter={() => setHoveredSpot('biblioteca')}
-            onMouseLeave={() => setHoveredSpot(null)}
-            onClick={() => setSelectedDistrictModal('biblioteca')}
-            className={`group bg-white rounded-2xl p-5 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-xs hover:shadow-xl ${
-              hoveredSpot === 'biblioteca'
-                ? 'border-blue-500 ring-4 ring-blue-500/15 -translate-y-1'
-                : 'border-slate-200/90 hover:border-blue-400'
-            }`}
-          >
-            <div className="space-y-3.5">
-              <div className="relative h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-950">
-                <img
-                  src="/library_section.jpg"
-                  alt="Biblioteca Biomédica"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-blue-600 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
-                  Biblioteca
-                </span>
-                <span className="absolute bottom-2 left-2.5 text-white text-xs font-bold">
-                  Material Docente & Vademécum
-                </span>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    <BookOpen className="w-4 h-4" />
-                  </div>
-                  <h3 className="text-base font-black text-slate-900 group-hover:text-blue-600 transition-colors">
-                    2. La Biblioteca Central
-                  </h3>
-                </div>
-                <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                  Temario oficial de Bioquímica Médica UGR, fichas de biomarcadores y preguntas MIR.
-                </p>
-              </div>
-            </div>
-
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600 group-hover:text-blue-700">
-              <span>Abrir Instalaciones de la Biblioteca</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-
-          {/* PARQUE CARD */}
-          <div
-            onMouseEnter={() => setHoveredSpot('parque')}
-            onMouseLeave={() => setHoveredSpot(null)}
-            onClick={() => setSelectedDistrictModal('parque')}
-            className={`group bg-white rounded-2xl p-5 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-xs hover:shadow-xl ${
-              hoveredSpot === 'parque'
-                ? 'border-emerald-500 ring-4 ring-emerald-500/15 -translate-y-1'
-                : 'border-slate-200/90 hover:border-emerald-400'
-            }`}
-          >
-            <div className="space-y-3.5">
-              <div className="relative h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-950">
-                <img
-                  src="/park_section.jpg"
-                  alt="Parque Lúdico"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
-                  Zona de Juegos & Vidas
-                </span>
-                <span className="absolute bottom-2 left-2.5 text-white text-xs font-bold flex items-center gap-1">
-                  <span>Minijuegos (+1 ❤️) • Labs • Reto Diario</span>
-                </span>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                    <Dices className="w-4 h-4" />
-                  </div>
-                  <h3 className="text-base font-black text-slate-900 group-hover:text-emerald-600 transition-colors">
-                    3. El Parque Biomédico
-                  </h3>
-                </div>
-                <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                  Minijuegos para recargar vidas (+1 ❤️) y ganar XP, simuladores cinéticos y reto contrarreloj.
-                </p>
-              </div>
-            </div>
-
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600 group-hover:text-emerald-700">
-              <span>Abrir Instalaciones del Parque</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. AVISOS DE NUEVO MATERIAL DISPONIBLE (CON AVISO AL SUBIR NUEVO MATERIAL) */}
-      <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">
-                Tablón de Materiales Actualizados
-              </span>
-            </div>
-            <h3 className="text-lg sm:text-xl font-black text-slate-900 mt-1">
-              Avisos de Nuevo Material Disponible
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Si el equipo docente sube nuevo material didáctico o casos clínicos, aparecerá un aviso inmediato aquí.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2.5 shrink-0">
-            <button
-              onClick={() => setShowUploadModal(true)}
-              className="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-2 cursor-pointer"
-            >
-              <UploadCloud className="w-4 h-4 text-amber-100" />
-              <span>Notificar Nuevo Material</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Upload Success Alert Banner */}
-        {uploadSuccessToast && (
-          <div className="mt-4 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between animate-in fade-in slide-in-from-top-1">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>{uploadSuccessToast}</span>
-            </div>
-            <button
-              onClick={() => setUploadSuccessToast(null)}
-              className="text-emerald-700 hover:text-emerald-900 cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        )}
-
-        {/* Notices Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          {notices.map((notice) => (
-            <div
-              key={notice.id}
-              className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-amber-300 hover:bg-white transition-all flex flex-col justify-between group shadow-2xs"
-            >
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span
-                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide ${
-                      notice.type === 'caso'
-                        ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                        : notice.type === 'guia'
-                        ? 'bg-blue-100 text-blue-800 border border-blue-200'
-                        : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                    }`}
-                  >
-                    {notice.badge}
-                  </span>
-                  <span className="text-[10px] font-medium text-slate-400">
-                    {notice.date}
-                  </span>
-                </div>
-
-                <div className="flex items-start gap-2">
-                  {notice.type === 'caso' && (
-                    <Stethoscope className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-                  )}
-                  {notice.type === 'guia' && (
-                    <BookOpen className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-                  )}
-                  {notice.type === 'laboratorio' && (
-                    <FlaskConical className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  )}
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-amber-800 transition-colors line-clamp-2">
-                    {notice.title}
-                  </h4>
-                </div>
-
-                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                  {notice.description}
-                </p>
-              </div>
-
-              <div className="pt-4 mt-4 border-t border-slate-200/60 flex items-center justify-between">
-                <button
-                  onClick={() => {
-                    if (notice.labType && onOpenLab) {
-                      onOpenLab(notice.labType);
-                    }
-                    onNavigate(notice.targetModule);
-                  }}
-                  className="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1.5 cursor-pointer group/btn"
-                >
-                  <span>Acceder a este material</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* 4. MODAL / ENTRANCE DRAWER CUANDO SE ELIGE EN EL MAPA (HOSPITAL/BIBLIO/PARQUE) */}
+      {/* 3. MODAL / ENTRANCE DRAWER CUANDO SE ELIGE EN EL MAPA (HOSPITAL/BIBLIO/PARQUE) */}
       {/* ========================================================================= */}
       {currentModalData && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
@@ -977,6 +695,100 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       </button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* District Notices / Actualizaciones y Materiales del Distrito */}
+              <div className="pt-4 border-t border-slate-100 space-y-3">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                      Materiales y Novedades del {currentModalData.name.split(' ')[0]}
+                    </h4>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setNewMaterialType(
+                        selectedDistrictModal === 'hospital'
+                          ? 'caso'
+                          : selectedDistrictModal === 'biblioteca'
+                          ? 'guia'
+                          : 'laboratorio'
+                      );
+                      setShowUploadModal(true);
+                    }}
+                    className="text-[11px] font-bold text-amber-800 hover:text-amber-900 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200 hover:bg-amber-100 transition-colors cursor-pointer"
+                  >
+                    <UploadCloud className="w-3.5 h-3.5 text-amber-700" />
+                    <span>Notificar Nuevo Material</span>
+                  </button>
+                </div>
+
+                {uploadSuccessToast && (
+                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between animate-in fade-in">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{uploadSuccessToast}</span>
+                    </div>
+                    <button
+                      onClick={() => setUploadSuccessToast(null)}
+                      className="text-emerald-700 hover:text-emerald-900 cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  {notices.filter((n) => {
+                    if (selectedDistrictModal === 'hospital') return n.type === 'caso';
+                    if (selectedDistrictModal === 'biblioteca') return n.type === 'guia';
+                    if (selectedDistrictModal === 'parque') return n.type === 'laboratorio';
+                    return true;
+                  }).length > 0 ? (
+                    notices
+                      .filter((n) => {
+                        if (selectedDistrictModal === 'hospital') return n.type === 'caso';
+                        if (selectedDistrictModal === 'biblioteca') return n.type === 'guia';
+                        if (selectedDistrictModal === 'parque') return n.type === 'laboratorio';
+                        return true;
+                      })
+                      .map((notice) => (
+                        <div
+                          key={notice.id}
+                          className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-100/70 transition-colors"
+                        >
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-100 text-amber-900 border border-amber-200">
+                                {notice.badge}
+                              </span>
+                              <span className="text-[10px] font-medium text-slate-400">{notice.date}</span>
+                            </div>
+                            <div className="text-xs font-bold text-slate-900">{notice.title}</div>
+                            <p className="text-[11px] text-slate-600 line-clamp-2">{notice.description}</p>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setSelectedDistrictModal(null);
+                              if (notice.labType && onOpenLab) {
+                                onOpenLab(notice.labType);
+                              }
+                              onNavigate(notice.targetModule);
+                            }}
+                            className="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-800 text-xs font-bold shrink-0 flex items-center gap-1.5 shadow-2xs cursor-pointer self-start sm:self-auto"
+                          >
+                            <span>Acceder</span>
+                            <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+                          </button>
+                        </div>
+                      ))
+                  ) : (
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-center text-xs text-slate-400">
+                      No hay avisos pendientes en esta área.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

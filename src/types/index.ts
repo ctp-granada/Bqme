@@ -149,6 +149,9 @@ export interface ClinicalCase {
   signalingType?: string;
   molecularPathway?: string;
   molecularAlteration?: string;
+  studentSummary?: string;
+  clinicalGlossary?: { term: string; simpleDefinition: string }[];
+  biochemicalConceptSimple?: string;
 }
 
 export interface CaseAttemptRecord {

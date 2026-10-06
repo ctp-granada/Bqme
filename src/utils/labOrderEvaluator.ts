@@ -1,25 +1,29 @@
-import { Biomarker, ClinicalCase, LabOrderEvaluation, OrganSystem } from '../types';
+import { Biomarker, BiomarkerOption, ClinicalCase, LabOrderEvaluation, OrganSystem } from '../types';
 import { BIOMARKERS_DATABASE } from '../data/biomarkers';
 
 // Known target essential biomarker mapping per case ID for gold-standard precision
 const CASE_ESSENTIAL_MAP: Record<string, string[]> = {
   case_cardiac_01: ['bm_troponin_c'],
-  case_hepatic_01: ['bm_bilirrubina_total', 'bm_bilirrubina_directa'],
-  case_hepatic_02: ['bm_bilirrubina_directa', 'bm_ggt', 'bm_fosfatasa_alcalina'],
-  case_hepatic_03: ['bm_ast', 'bm_alt'],
-  case_metabolic_01: ['bm_hba1c', 'bm_glucosa'],
-  case_metabolic_02: ['bm_perfil_acilcarnitinas', 'bm_carnitina_libre'],
-  case_metabolic_03: ['bm_beta_hidroxibutirato', 'bm_glucosa'],
+  case_hepatic_01: ['bm_ldh'],
+  case_hepatic_02: ['bm_ggt', 'bm_fosfatasa_alcalina'],
+  case_hepatic_03: ['bm_alt', 'bm_ast'],
+  case_metabolic_01: ['bm_trigliceridos', 'bm_fasting_insulin'],
+  case_metabolic_02: ['bm_beta_hidroxibutirato'],
+  case_metabolic_03: ['bm_relacion_acilcarnitina_carnitina', 'bm_perfil_acilcarnitinas'],
   case_renal_01: ['bm_amonio_plasmatico'],
-  case_renal_02: ['bm_acido_urico'],
-  case_renal_03: ['bm_creatinina', 'bm_urea'],
+  case_renal_02: ['bm_cristales_liquido_sinovial', 'bm_acido_urico'],
+  case_renal_03: ['bm_acido_urico', 'bm_ldh'],
   case_pancreatic_01: ['bm_lipasa', 'bm_trigliceridos'],
   case_pancreatic_02: ['bm_vitamina_b12', 'bm_magnesio'],
   case_pancreatic_03: ['bm_ttg_iga'],
   case_neuromuscular_01: ['bm_achr_ab'],
   case_metabolic_signaling_01: ['bm_cholera_toxin'],
   case_cardiac_signaling_01: ['bm_metanephrines_plasma'],
-  case_metabolic_signaling_02: ['bm_fasting_insulin']
+  case_metabolic_signaling_02: ['bm_fasting_insulin'],
+  case_marks_gota_01: ['bm_cristales_liquido_sinovial', 'bm_acido_urico'],
+  case_marks_miastenia_01: ['bm_achr_ab'],
+  case_marks_organofosforados_01: ['bm_colinesterasa'],
+  case_marks_colera_01: ['bm_cholera_toxin']
 };
 
 // Unit cost in budget percentage per test category (realistic clinical laboratory economics)
@@ -50,6 +54,50 @@ export const getEssentialBiomarkerIdsForCase = (caseData: ClinicalCase): string[
     }
   });
   return ids.length > 0 ? ids : ['bm_troponin_c'];
+};
+
+/**
+ * Determines if a biomarker is patognomonic, confirmatory, or fundamental
+ * for the active clinical case. These biomarkers are filtered/hidden from
+ * the initial selection list to avoid trivializing the diagnostic challenge.
+ */
+export const isBiomarkerPathognomonicOrEssential = (
+  biomarkerId: string,
+  caseData: ClinicalCase
+): boolean => {
+  const essentialIds = getEssentialBiomarkerIdsForCase(caseData);
+  if (essentialIds.includes(biomarkerId)) return true;
+
+  const correctOption = caseData.biomarkerOptions.find((o) => o.isCorrect);
+  if (correctOption && correctOption.biomarkerId === biomarkerId) {
+    return true;
+  }
+
+  return false;
+};
+
+/**
+ * Filters the initial options list for a clinical case, hiding patognomonic
+ * or fundamental biomarkers to prevent trivializing the diagnostic exercise.
+ */
+export const getInitialBiomarkerOptions = (caseData: ClinicalCase): BiomarkerOption[] => {
+  const filtered = caseData.biomarkerOptions.filter(
+    (opt) => !isBiomarkerPathognomonicOrEssential(opt.biomarkerId, caseData)
+  );
+  // Ensure we always have at least 2 differential options
+  return filtered.length > 0 ? filtered : caseData.biomarkerOptions.slice(1);
+};
+
+/**
+ * Returns the patognomonic / fundamental confirmatory options for a clinical case.
+ */
+export const getPathognomonicConfirmatoryOptions = (caseData: ClinicalCase): BiomarkerOption[] => {
+  const pathognomonic = caseData.biomarkerOptions.filter((opt) =>
+    isBiomarkerPathognomonicOrEssential(opt.biomarkerId, caseData)
+  );
+  return pathognomonic.length > 0
+    ? pathognomonic
+    : caseData.biomarkerOptions.filter((o) => o.isCorrect);
 };
 
 export const evaluateLabOrder = (

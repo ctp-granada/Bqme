@@ -20,7 +20,10 @@ import {
   CheckSquare,
   Square,
   ShieldCheck,
-  Loader2
+  Loader2,
+  HelpCircle,
+  BookOpen,
+  Info
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -28,6 +31,8 @@ interface MultiBiomarkerLabPanelProps {
   currentCase: ClinicalCase;
   userBudget: number;
   onSubmitLabOrder: (orderedBiomarkerIds: string[]) => void;
+  consultedBiomarkerIds?: string[];
+  onConsultBiomarker?: (biomarkerId: string, cost?: number) => boolean;
 }
 
 const SYSTEM_TABS: { id: OrganSystem | 'all'; label: string; icon: string }[] = [
@@ -96,12 +101,16 @@ const PRESET_BATTERIES: PresetBattery[] = [
 export const MultiBiomarkerLabPanel: React.FC<MultiBiomarkerLabPanelProps> = ({
   currentCase,
   userBudget,
-  onSubmitLabOrder
+  onSubmitLabOrder,
+  consultedBiomarkerIds = [],
+  onConsultBiomarker
 }) => {
   const [selectedBiomarkerIds, setSelectedBiomarkerIds] = useState<string[]>([]);
   const [selectedSystem, setSelectedSystem] = useState<OrganSystem | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isProcessingOrder, setIsProcessingOrder] = useState(false);
+  const [biomarkerPendingConsultation, setBiomarkerPendingConsultation] = useState<Biomarker | null>(null);
+  const [consultationToast, setConsultationToast] = useState<string | null>(null);
 
   // Total cost calculation
   const selectedBiomarkers = useMemo(() => {
@@ -115,20 +124,35 @@ export const MultiBiomarkerLabPanel: React.FC<MultiBiomarkerLabPanelProps> = ({
   const projectedRemainingBudget = Math.max(0, userBudget - totalCost);
   const isOverBudget = totalCost > userBudget;
 
-  // Filtered biomarkers database
+  // Filtered biomarkers database (prevents matching hidden indications unless already unlocked)
   const filteredBiomarkers = useMemo(() => {
     return BIOMARKERS_DATABASE.filter((b) => {
       const matchSystem = selectedSystem === 'all' || b.system === selectedSystem;
       const q = searchQuery.toLowerCase().trim();
+      const isUnlocked = consultedBiomarkerIds.includes(b.id);
       const matchSearch =
         !q ||
         b.name.toLowerCase().includes(q) ||
         b.abbreviation.toLowerCase().includes(q) ||
-        b.diagnosticIndication.toLowerCase().includes(q) ||
-        b.clinicalRelevance.toLowerCase().includes(q);
+        (isUnlocked && (
+          b.diagnosticIndication.toLowerCase().includes(q) ||
+          b.clinicalRelevance.toLowerCase().includes(q)
+        ));
       return matchSystem && matchSearch;
     });
-  }, [selectedSystem, searchQuery]);
+  }, [selectedSystem, searchQuery, consultedBiomarkerIds]);
+
+  const handleConfirmConsultation = (b: Biomarker) => {
+    if (userBudget < 5) return;
+    const ok = onConsultBiomarker ? onConsultBiomarker(b.id, 5) : true;
+    if (ok) {
+      setBiomarkerPendingConsultation(null);
+      setConsultationToast(`Ficha clínica desbloqueada para ${b.name} (-5% Presupuesto Sanitario).`);
+      setTimeout(() => {
+        setConsultationToast(null);
+      }, 4000);
+    }
+  };
 
   const essentialIds = useMemo(() => {
     return getEssentialBiomarkerIdsForCase(currentCase);
@@ -347,17 +371,51 @@ export const MultiBiomarkerLabPanel: React.FC<MultiBiomarkerLabPanelProps> = ({
                           <span className="text-[10px] font-semibold text-slate-400 uppercase">
                             • {biomarker.system}
                           </span>
-                          {essentialIds.includes(biomarker.id) && userBudget <= 40 && (
-                            <span className="px-2 py-0.5 rounded text-[9px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
-                              <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                              <span>Costo-Efectivo Clave</span>
-                            </span>
-                          )}
                         </div>
 
-                        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                          {biomarker.diagnosticIndication}
-                        </p>
+                        {/* Parameter Clinical Utility: hidden by default to test clinical knowledge; consultable at cost of budget */}
+                        {consultedBiomarkerIds.includes(biomarker.id) ? (
+                          <div className="mt-2.5 p-3 rounded-xl bg-slate-50 border border-emerald-200 text-xs space-y-1.5 shadow-2xs">
+                            <div className="flex items-center justify-between text-[11px] font-bold text-emerald-900">
+                              <span className="flex items-center gap-1.5">
+                                <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+                                Ficha Diagnóstica Consultada
+                              </span>
+                              <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-semibold border border-emerald-200">
+                                -5% Presupuesto Aplicado
+                              </span>
+                            </div>
+                            <div className="text-slate-800 leading-relaxed">
+                              <span className="font-semibold text-slate-900">Para qué sirve / Indicación: </span>
+                              <span className="text-slate-700">{biomarker.diagnosticIndication}</span>
+                            </div>
+                            <div className="text-[11px] text-slate-600 border-t border-slate-200/80 pt-1 leading-relaxed">
+                              <span className="font-semibold text-slate-700">Mecanismo fisiopatológico: </span>
+                              <span>{biomarker.clinicalRelevance}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="mt-2 flex flex-wrap items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setBiomarkerPendingConsultation(biomarker);
+                              }}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200/90 border border-slate-300 transition-colors cursor-pointer group shadow-2xs"
+                              title="Consultar indicación y para qué sirve este parámetro (-5% presupuesto)"
+                            >
+                              <HelpCircle className="w-3.5 h-3.5 text-blue-600 group-hover:scale-110 transition-transform" />
+                              <span>¿Para qué sirve este parámetro?</span>
+                              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold ml-0.5">
+                                -5% Presupuesto
+                              </span>
+                            </button>
+                            <span className="text-[11px] text-slate-400 italic">
+                              (Oculto para evaluar criterio clínico)
+                            </span>
+                          </div>
+                        )}
 
                         <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 mt-2 font-medium">
                           <span>Ref: {biomarker.referenceValues.conventional}</span>
@@ -540,6 +598,119 @@ export const MultiBiomarkerLabPanel: React.FC<MultiBiomarkerLabPanelProps> = ({
             currentCase={currentCase}
             onComplete={handleProcessingComplete}
           />
+        )}
+      </AnimatePresence>
+
+      {/* Consultation Confirmation Modal */}
+      <AnimatePresence>
+        {biomarkerPendingConsultation && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-200 text-slate-900 space-y-4"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
+                    <BookOpen className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900">Interconsulta de Parámetro</h4>
+                    <p className="text-[11px] text-slate-500 font-medium">Acceso a la utilidad diagnóstica</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setBiomarkerPendingConsultation(null)}
+                  className="text-slate-400 hover:text-slate-600 text-sm font-bold p-1 rounded-lg hover:bg-slate-100 transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="space-y-3 text-xs">
+                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/90">
+                  <div className="font-bold text-slate-900 text-sm">{biomarkerPendingConsultation.name}</div>
+                  <div className="text-slate-500 font-mono text-[11px] mt-0.5">
+                    {biomarkerPendingConsultation.abbreviation} • Sistema {biomarkerPendingConsultation.system}
+                  </div>
+                </div>
+
+                <p className="text-slate-600 leading-relaxed">
+                  ¿Deseas consultar para qué sirve este parámetro clínico y su mecanismo fisiopatológico?
+                </p>
+
+                <div className="p-3.5 bg-amber-50/80 border border-amber-200/90 rounded-xl space-y-2 text-[11px] text-amber-950">
+                  <div className="flex justify-between items-center font-bold">
+                    <span className="flex items-center gap-1.5">
+                      <Wallet className="w-3.5 h-3.5 text-amber-700" />
+                      Coste de Interconsulta:
+                    </span>
+                    <span className="font-mono text-amber-800 font-extrabold text-xs">-5% Presupuesto</span>
+                  </div>
+                  <div className="flex justify-between items-center text-slate-700 border-t border-amber-200/60 pt-1.5">
+                    <span>Presupuesto actual:</span>
+                    <span className="font-mono font-semibold">{userBudget}%</span>
+                  </div>
+                  <div className="flex justify-between items-center text-slate-700">
+                    <span>Presupuesto tras consulta:</span>
+                    <span className={`font-mono font-bold ${userBudget - 5 < 20 ? 'text-rose-600' : 'text-slate-900'}`}>
+                      {Math.max(0, userBudget - 5)}%
+                    </span>
+                  </div>
+                </div>
+
+                {userBudget < 5 && (
+                  <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-[11px] flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-600 mt-0.5" />
+                    <span>Presupuesto insuficiente (&lt;5%). No dispones de fondos de guardia suficientes para consultar este parámetro.</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setBiomarkerPendingConsultation(null)}
+                  className="px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  disabled={userBudget < 5}
+                  onClick={() => handleConfirmConsultation(biomarkerPendingConsultation)}
+                  className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-xs ${
+                    userBudget >= 5
+                      ? 'bg-slate-900 hover:bg-slate-800 text-white active:scale-[0.98]'
+                      : 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300'
+                  }`}
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Confirmar e Interconsultar (-5%)</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {consultationToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 text-xs font-semibold flex items-center gap-2.5"
+          >
+            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+              <Check className="w-3.5 h-3.5" />
+            </div>
+            <span>{consultationToast}</span>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

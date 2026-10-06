@@ -62,7 +62,6 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
   const userXp = userProgress.xp || userProgress.score;
 
   const rank = getPlayerRank(userXp);
-  const health = getPatientHealth(userProgress.lives);
   const budgetInfo = getBudgetInfo(userProgress.budget);
 
   // Evaluate all badges
@@ -241,12 +240,12 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
           {/* Global Stat Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-              <div className="p-3 bg-red-100 text-red-800 rounded-xl">
-                <Heart className="w-6 h-6 fill-red-500 text-red-500" />
+              <div className="p-3 bg-purple-100 text-purple-800 rounded-xl">
+                <Award className="w-6 h-6 text-purple-600" />
               </div>
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase block">Vidas Restantes</span>
-                <span className="text-2xl font-bold text-slate-900">{userProgress.lives}/3 Corazones</span>
+                <span className="text-xs font-bold text-slate-400 uppercase block">Experiencia Médica</span>
+                <span className="text-2xl font-bold text-slate-900 font-mono">{userXp} XP</span>
               </div>
             </div>
 
@@ -447,23 +446,28 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
           {/* System Performance Grid with Badge Status */}
           <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500">
-                Desglose por Sistema Orgánico y Maestría (≥90%)
-              </h2>
+              <div>
+                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500">
+                  Especialidades por Sistema Orgánico (Meta: 5 casos por medalla)
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Completa 5 casos de un sistema para desbloquear su Medalla de Especialidad oficial.
+                </p>
+              </div>
               <button
                 onClick={() => setActiveTab('insignias')}
-                className="text-xs font-bold text-purple-700 hover:text-purple-900 flex items-center gap-1 cursor-pointer"
+                className="text-xs font-bold text-amber-700 hover:text-amber-900 flex items-center gap-1 cursor-pointer bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200 hover:bg-amber-100 transition-colors"
               >
-                <span>Ver Insignias de Especialidad</span>
+                <span>Ver Medallas</span>
                 <Award className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
               {(Object.keys(systemNames) as OrganSystem[]).map((sys) => {
                 const stats = userProgress.systemStats?.[sys] || { attempted: 0, correct: 0 };
                 const sysAcc = stats.attempted > 0 ? Math.round((stats.correct / stats.attempted) * 100) : 0;
-                const isMastered = stats.attempted >= 3 && sysAcc >= 90;
+                const isMastered = stats.correct >= 5 || (userProgress.unlockedBadges || []).includes(`badge_${sys}`);
 
                 return (
                   <div 
@@ -475,25 +479,25 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900 block">{systemNames[sys]}</span>
+                      <span className="font-bold text-slate-900 block truncate">{systemNames[sys]}</span>
                       {isMastered ? (
-                        <span className="px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 font-extrabold text-[9px] uppercase tracking-wider flex items-center gap-0.5">
-                          <Crown className="w-2.5 h-2.5" /> Experto
+                        <span className="px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 font-extrabold text-[9px] uppercase tracking-wider flex items-center gap-0.5 shrink-0">
+                          <Crown className="w-2.5 h-2.5" /> Medalla
                         </span>
                       ) : (
-                        <span className="text-[10px] text-slate-400 font-medium">
-                          Meta: 90%
+                        <span className="text-[10px] text-slate-400 font-mono font-medium shrink-0">
+                          {stats.correct}/5
                         </span>
                       )}
                     </div>
                     <div className="flex justify-between text-slate-500 text-[11px]">
-                      <span>Casos: {stats.attempted}</span>
+                      <span>Aciertos: {stats.correct}/{stats.attempted}</span>
                       <span className={`font-bold ${isMastered ? 'text-amber-700' : 'text-slate-900'}`}>{sysAcc}%</span>
                     </div>
                     <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1">
                       <div
-                        className={`h-full transition-all ${isMastered ? 'bg-amber-500' : 'bg-purple-600'}`}
-                        style={{ width: `${stats.attempted > 0 ? sysAcc : 0}%` }}
+                        className={`h-full transition-all ${isMastered ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                        style={{ width: `${Math.min(100, Math.round((stats.correct / 5) * 100))}%` }}
                       />
                     </div>
                   </div>
@@ -586,10 +590,10 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
                 <span>Cuadro de Acreditación Departamental</span>
               </div>
               <h2 className="text-xl font-bold text-white tracking-tight">
-                Insignias de Maestría y Competencias Clínicas
+                Medallas de Especialidad Clínica y Logros de Guardia
               </h2>
               <p className="text-xs text-amber-100 max-w-xl mt-1 leading-relaxed">
-                Desbloquea insignias de perito alcanzando al menos un <strong className="text-amber-200">90% de precisión diagnóstica</strong> en casos de cada sistema orgánico específico (mínimo 3 casos evaluados).
+                Consigue el título de especialista oficial (ej. <strong className="text-amber-200">Especialista Renal</strong>, Cardíaco, Hepático...) al completar <strong className="text-amber-200">5 casos clínicos</strong> de cada sistema orgánico.
               </p>
             </div>
 
@@ -724,9 +728,9 @@ export const UserStatsView: React.FC<UserStatsViewProps> = ({
                     <div className="flex justify-between text-xs font-bold">
                       <span className="text-slate-500 text-[11px]">
                         {badge.category === 'system' 
-                          ? `Precisión: ${badge.currentAccuracy}% (Mín. 90%) • ${badge.currentAttempted}/${badge.minCasesRequired} casos`
+                          ? `Casos Resueltos: ${badge.currentCorrect}/${badge.minCasesRequired} • Precisión: ${badge.currentAccuracy}%`
                           : badge.id === 'badge_grandmaster'
-                          ? `Sistemas Dominados: ${badge.currentAttempted}/5`
+                          ? `Sistemas Dominados: ${badge.currentAttempted}/6`
                           : badge.id === 'badge_streak_legend'
                           ? `Racha Actual: ${badge.currentAttempted} casos`
                           : `Presupuesto: ${badge.currentAccuracy}% • ${badge.currentAttempted} casos`}

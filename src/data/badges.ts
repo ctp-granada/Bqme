@@ -19,115 +19,115 @@ export interface BadgeDefinition {
 
 export const SYSTEM_BADGE_DEFINITIONS: BadgeDefinition[] = [
   {
-    id: 'badge_pancreatic',
-    system: 'pancreatic',
-    title: 'Experto en Pancreático',
-    shortTitle: 'Pancreático',
-    category: 'system',
-    description: 'Dominio de la pancreatitis aguda/crónica, lipemia analítica, malabsorción y patología digestiva.',
-    requirementDescription: 'Alcanza ≥90% de precisión en casos del sistema pancreático-digestivo (mín. 3 casos).',
-    icon: '🔬',
-    themeColor: 'from-blue-600 to-cyan-700',
-    badgeBg: 'bg-cyan-50',
-    badgeBorder: 'border-cyan-400',
-    badgeTextColor: 'text-cyan-900',
-    minCasesRequired: 3,
-    targetAccuracy: 90
-  },
-  {
-    id: 'badge_cardiac',
-    system: 'cardiac',
-    title: 'Experto en Cardíaco',
-    shortTitle: 'Cardíaco',
-    category: 'system',
-    description: 'Discriminación de necrosis miocárdica (hs-cTn), reinfartos (CK-MB) e insuficiencia cardíaca (NT-proBNP).',
-    requirementDescription: 'Alcanza ≥90% de precisión en casos de patología cardiovascular e infartos (mín. 3 casos).',
-    icon: '🫀',
-    themeColor: 'from-rose-600 to-red-700',
-    badgeBg: 'bg-rose-50',
-    badgeBorder: 'border-rose-400',
-    badgeTextColor: 'text-rose-900',
-    minCasesRequired: 3,
-    targetAccuracy: 90
-  },
-  {
-    id: 'badge_hepatic',
-    system: 'hepatic',
-    title: 'Experto en Hepático',
-    shortTitle: 'Hepático',
-    category: 'system',
-    description: 'Diagnóstico diferencial de ictericias pre/intra/posthepáticas, colestasis y citólisis aguda.',
-    requirementDescription: 'Alcanza ≥90% de precisión en casos hepatobiliares e ictericias (mín. 3 casos).',
-    icon: '🪵',
-    themeColor: 'from-amber-600 to-orange-700',
-    badgeBg: 'bg-amber-50',
-    badgeBorder: 'border-amber-400',
-    badgeTextColor: 'text-amber-900',
-    minCasesRequired: 3,
-    targetAccuracy: 90
-  },
-  {
-    id: 'badge_metabolic',
-    system: 'metabolic',
-    title: 'Experto en Metabólico',
-    shortTitle: 'Metabólico',
-    category: 'system',
-    description: 'Identificación de defectos de β-oxidación (MCADD), cetoacidosis y dislipidemias aterogénicas.',
-    requirementDescription: 'Alcanza ≥90% de precisión en casos de metabolismo y β-oxidación (mín. 3 casos).',
-    icon: '⚡',
-    themeColor: 'from-yellow-500 to-amber-600',
-    badgeBg: 'bg-yellow-50',
-    badgeBorder: 'border-yellow-400',
-    badgeTextColor: 'text-yellow-950',
-    minCasesRequired: 3,
-    targetAccuracy: 90
-  },
-  {
     id: 'badge_renal',
     system: 'renal',
-    title: 'Experto en Renal',
-    shortTitle: 'Renal',
+    title: 'Especialista Renal',
+    shortTitle: 'Especialista Renal',
     category: 'system',
-    description: 'Manejo de hiperamonemias del ciclo de la urea (OTC), hiperuricemia gotosa y lisis tumoral.',
-    requirementDescription: 'Alcanza ≥90% de precisión en casos renales, urea y purinas (mín. 3 casos).',
+    description: 'Dominio de la patología nefrológica, aclaramiento de creatinina, proteinuria, ciclo de la urea y metabolismo de purinas.',
+    requirementDescription: 'Resuelve 5 casos clínicos del sistema renal y excreción nitrogenada.',
     icon: '🫘',
     themeColor: 'from-indigo-600 to-purple-700',
     badgeBg: 'bg-indigo-50',
     badgeBorder: 'border-indigo-400',
     badgeTextColor: 'text-indigo-950',
-    minCasesRequired: 3,
-    targetAccuracy: 90
+    minCasesRequired: 5,
+    targetAccuracy: 80
+  },
+  {
+    id: 'badge_cardiac',
+    system: 'cardiac',
+    title: 'Especialista Cardíaco',
+    shortTitle: 'Especialista Cardíaco',
+    category: 'system',
+    description: 'Discriminación de necrosis miocárdica (hs-cTn), reinfarto precoz (CK-MB) e insuficiencia cardíaca aguda (NT-proBNP).',
+    requirementDescription: 'Resuelve 5 casos clínicos del sistema cardiovascular e isquemia miocárdica.',
+    icon: '🫀',
+    themeColor: 'from-rose-600 to-red-700',
+    badgeBg: 'bg-rose-50',
+    badgeBorder: 'border-rose-400',
+    badgeTextColor: 'text-rose-900',
+    minCasesRequired: 5,
+    targetAccuracy: 80
+  },
+  {
+    id: 'badge_hepatic',
+    system: 'hepatic',
+    title: 'Especialista Hepático',
+    shortTitle: 'Especialista Hepático',
+    category: 'system',
+    description: 'Diagnóstico diferencial de ictericias pre/intra/posthepáticas, colestasis biliar y citólisis aguda.',
+    requirementDescription: 'Resuelve 5 casos clínicos del sistema hepatobiliar e ictericias.',
+    icon: '🪵',
+    themeColor: 'from-amber-600 to-orange-700',
+    badgeBg: 'bg-amber-50',
+    badgeBorder: 'border-amber-400',
+    badgeTextColor: 'text-amber-900',
+    minCasesRequired: 5,
+    targetAccuracy: 80
+  },
+  {
+    id: 'badge_metabolic',
+    system: 'metabolic',
+    title: 'Especialista Metabólico',
+    shortTitle: 'Especialista Metabólico',
+    category: 'system',
+    description: 'Identificación de defectos de β-oxidación (MCADD), cetoacidosis, perfil lipídico aterogénico y resistencia insulínica.',
+    requirementDescription: 'Resuelve 5 casos clínicos de metabolismo energético y β-oxidación.',
+    icon: '⚡',
+    themeColor: 'from-yellow-500 to-amber-600',
+    badgeBg: 'bg-yellow-50',
+    badgeBorder: 'border-yellow-400',
+    badgeTextColor: 'text-yellow-950',
+    minCasesRequired: 5,
+    targetAccuracy: 80
+  },
+  {
+    id: 'badge_pancreatic',
+    system: 'pancreatic',
+    title: 'Especialista Pancreático',
+    shortTitle: 'Especialista Pancreático',
+    category: 'system',
+    description: 'Dominio de la pancreatitis aguda/crónica, lipasa sérica de alta especificidad, malabsorción y celíaca.',
+    requirementDescription: 'Resuelve 5 casos clínicos del sistema pancreático-digestivo.',
+    icon: '🔬',
+    themeColor: 'from-blue-600 to-cyan-700',
+    badgeBg: 'bg-cyan-50',
+    badgeBorder: 'border-cyan-400',
+    badgeTextColor: 'text-cyan-900',
+    minCasesRequired: 5,
+    targetAccuracy: 80
   },
   {
     id: 'badge_neuromuscular',
     system: 'neuromuscular',
-    title: 'Experto en Neuromuscular & Señalización',
-    shortTitle: 'Neuromuscular',
+    title: 'Especialista Neuromuscular',
+    shortTitle: 'Especialista Neuromuscular',
     category: 'system',
-    description: 'Dominio de la neurotransmisión colinérgica, receptores acoplados a canales iónicos y patología de la placa motora.',
-    requirementDescription: 'Alcanza ≥90% de precisión en casos neuromusculares y señalización (mín. 1 caso).',
+    description: 'Dominio de la neurotransmisión colinérgica, receptores acoplados a canales iónicos, miastenia gravis y placa motora.',
+    requirementDescription: 'Resuelve 5 casos clínicos del sistema neuromuscular y señalización celular.',
     icon: '🧠',
     themeColor: 'from-violet-600 to-purple-700',
     badgeBg: 'bg-purple-50',
     badgeBorder: 'border-purple-400',
     badgeTextColor: 'text-purple-950',
-    minCasesRequired: 1,
-    targetAccuracy: 90
+    minCasesRequired: 5,
+    targetAccuracy: 80
   },
   {
     id: 'badge_grandmaster',
-    title: 'Gran Maestro de Bioquímica',
+    title: 'Especialista Clínico Multidisciplinar',
     shortTitle: 'Gran Maestro',
     category: 'special',
-    description: 'Máxima distinción académica por conquistar la maestría clínica en todos los sistemas orgánicos.',
-    requirementDescription: 'Desbloquea las 5 insignias de experto de todos los sistemas orgánicos.',
+    description: 'Máxima distinción académica por conquistar la maestría clínica en todos los sistemas orgánicos de la medicina interna.',
+    requirementDescription: 'Desbloquea las 6 Medallas de Especialidad completando al menos 5 casos en cada sistema.',
     icon: '👑',
     themeColor: 'from-amber-400 via-yellow-500 to-amber-600',
     badgeBg: 'bg-amber-100',
     badgeBorder: 'border-amber-500',
     badgeTextColor: 'text-amber-950',
-    minCasesRequired: 15,
-    targetAccuracy: 90
+    minCasesRequired: 6,
+    targetAccuracy: 80
   },
   {
     id: 'badge_streak_legend',
@@ -167,48 +167,48 @@ export const SYSTEM_BADGE_DEFINITIONS: BadgeDefinition[] = [
 export function evaluateUserBadges(userProgress: UserProgress): SystemBadge[] {
   const evaluatedBadges: SystemBadge[] = [];
 
-  // First evaluate the 5 organ system badges
+  // First evaluate the 6 organ system specialty medals
   const systemBadgesUnlocked: string[] = [];
 
   for (const def of SYSTEM_BADGE_DEFINITIONS) {
     if (def.category === 'system' && def.system) {
       const stats = userProgress.systemStats?.[def.system] || { attempted: 0, correct: 0 };
-      const currentAccuracy = stats.attempted > 0 ? Math.round((stats.correct / stats.attempted) * 100) : 0;
-      const isUnlocked = stats.attempted >= def.minCasesRequired && currentAccuracy >= def.targetAccuracy;
+      const currentResolved = stats.correct || 0;
+      const isUnlocked = currentResolved >= def.minCasesRequired || (userProgress.unlockedBadges || []).includes(def.id);
 
       if (isUnlocked) {
         systemBadgesUnlocked.push(def.id);
       }
 
-      // Calculate progress towards unlocking:
-      // Weight: 50% case count (up to minCasesRequired), 50% accuracy (up to targetAccuracy)
-      const caseRatio = Math.min(1, stats.attempted / def.minCasesRequired);
-      const accRatio = stats.attempted > 0 ? Math.min(1, currentAccuracy / def.targetAccuracy) : 0;
-      const progressPct = isUnlocked ? 100 : Math.round((caseRatio * 0.5 + accRatio * 0.5) * 100);
+      // Progress based on cases completed towards the specialty requirement (5 cases)
+      const progressPct = isUnlocked 
+        ? 100 
+        : Math.min(100, Math.round((currentResolved / def.minCasesRequired) * 100));
 
       evaluatedBadges.push({
         ...def,
         isUnlocked,
-        currentAccuracy,
+        currentAccuracy: stats.attempted > 0 ? Math.round((stats.correct / stats.attempted) * 100) : 0,
         currentAttempted: stats.attempted,
-        currentCorrect: stats.correct,
+        currentCorrect: currentResolved,
         progressPct
       });
     }
   }
 
   // Evaluate Special Badges
-  // 1. Grandmaster (Requires all 5 system badges)
+  // 1. Multidisciplinary Specialist (Requires all 6 system specialty badges)
   const grandmasterDef = SYSTEM_BADGE_DEFINITIONS.find((b) => b.id === 'badge_grandmaster')!;
   const systemBadgesCount = systemBadgesUnlocked.length;
-  const isGrandmasterUnlocked = systemBadgesCount >= 5;
+  const isGrandmasterUnlocked = systemBadgesCount >= 6 || (userProgress.unlockedBadges || []).includes('badge_grandmaster');
+  const grandmasterProgress = isGrandmasterUnlocked ? 100 : Math.min(100, Math.round((systemBadgesCount / 6) * 100));
   evaluatedBadges.push({
     ...grandmasterDef,
     isUnlocked: isGrandmasterUnlocked,
-    currentAccuracy: Math.round((systemBadgesCount / 5) * 100),
+    currentAccuracy: Math.round((systemBadgesCount / 6) * 100),
     currentAttempted: systemBadgesCount,
     currentCorrect: systemBadgesCount,
-    progressPct: Math.round((systemBadgesCount / 5) * 100)
+    progressPct: grandmasterProgress
   });
 
   // 2. Streak Legend (Streak > 3)

@@ -1399,5 +1399,69 @@ export const BIOMARKERS_DATABASE: Biomarker[] = [
     discriminatoryContexts: [
       'Identifica de forma inequívoca el cólera epidémico mediado por la vía Gs-AMPc frente a diarreas invasivas (Shigella, Salmonella) o diarreas osmóticas.'
     ]
+  },
+  {
+    id: 'bm_colinesterasa',
+    name: 'Actividad de Acetilcolinesterasa Eritrocitaria (AChE) y Pseudocolinesterasa',
+    abbreviation: 'AChE / Colinesterasa',
+    isoforms: 'Acetilcolinesterasa eritrocitaria (verdadera, anclada a membrana celular) y Butirilcolinesterasa plasmática (pseudocolinesterasa hepática)',
+    system: 'neuromuscular',
+    referenceValues: {
+      conventional: 'AChE eritrocitaria: 30–40 U/g Hb; Butirilcolinesterasa: 5.300–12.900 U/L',
+      si: 'AChE: 30–40 U/g Hb; BChE: 5.3–12.9 kU/L',
+      genderAgeVariations: 'Estable en adultos; disminuye fisiológicamente en el tercer trimestre de gestación.'
+    },
+    temporalWindow: {
+      elevationStart: 'Inhibición inmediata (< 30 min tras absorción del tóxico)',
+      peakWindow: 'Fase aguda de intoxicación colinérgica',
+      normalizationWindow: 'Butirilcolinesterasa: 15–30 días (regeneración hepática); AChE: 90–120 días (requiere recambio eritrocitario si ocurre aging)',
+      halfLife: 'AChE ligada a supervivencia del hematíe'
+    },
+    diagnosticParams: {
+      sensitivity: '98% para intoxicación aguda por insecticidas organofosforados o carbamatos',
+      specificity: '96% (descenso > 50% confirma toxicidad colinérgica moderada-grave)',
+      optimalCutoff: 'Inhibición enzimática > 50% respecto al valor de referencia basal'
+    },
+    clinicalRelevance: 'Mecanismo molecular de inhibición enzimática covalente: La acetilcolinesterasa es una serina-hidrolasa especializada que finaliza la neurotransmisión en la hendidura sináptica desdoblando la acetilcolina en colina y acetato. Los organofosforados, tras su bioactivación oxidativa a derivados oxón por el citocromo P450, fosforilan covalentemente el residuo de serina catalítica en el centro activo de la AChE. Esta unión impide la degradación de acetilcolina, provocando su sobreacumulación tóxica en los receptores muscarínicos (bradicardia, miosis, sialorrea, broncorrea) y nicotínicos (fasciculaciones, espasmos y parálisis muscular). Si no se administra precozmente una oxima nucleófila como la pralidoxima (2-PAM), se produce el "envejecimiento" o aging de la enzima (desalquilación del grupo fosforilo), transformando la inhibición en irreversible.',
+    diagnosticIndication: 'Diagnóstico urgente de intoxicación por plaguicidas organofosforados o carbamatos ante síndrome colinérgico con fasciculaciones y fallo respiratorio.',
+    falsePositivesNegatives: {
+      falsePositives: ['Variantes genéticas de pseudocolinesterasa atípica', 'Hepatopatía crónica severa con fallo de síntesis proteica'],
+      falseNegatives: ['Toma de muestra muy tardía tras recambio globular o terapia intensiva previa con oximas']
+    },
+    discriminatoryContexts: [
+      'Biomarcador enzimático cuantitativo patognomónico que confirma la inhibición covalente de la colinesterasa y guía el uso urgente de oximas y atropina.'
+    ]
+  },
+  {
+    id: 'bm_cristales_liquido_sinovial',
+    name: 'Microscopía de Luz Polarizada en Líquido Sinovial (Cristales de UMS)',
+    abbreviation: 'Cristales UMS Sinovial',
+    isoforms: 'Cristales de monourato sódico (UMS) intra y extracelulares con birrefringencia negativa compensada',
+    system: 'renal',
+    referenceValues: {
+      conventional: 'Ausencia de cristales birrefringentes',
+      si: 'Negativo',
+      genderAgeVariations: 'Estándar en ambos sexos.'
+    },
+    temporalWindow: {
+      elevationStart: 'Presente desde el inicio agudo del ataque inflamatorio gotoso (podagra)',
+      peakWindow: 'Primeras 6 a 24 horas del dolor e inflamación articular',
+      normalizationWindow: 'Pueden persistir cristales extracelulares intercríticos asintomáticos si la uricemia permanece sobresaturada',
+      halfLife: 'No aplica'
+    },
+    diagnosticParams: {
+      sensitivity: '96% durante el brote agudo de podagra',
+      specificity: '100% (patognomónico de Gota articular)',
+      optimalCutoff: 'Presencia inequívoca de agujas birrefringentes intracelulares con birrefringencia negativa fuerte'
+    },
+    clinicalRelevance: 'Fundamento biofísico y fisiopatológico: A pH fisiológico de 7.4 (con pKa del ácido úrico de 5.4), el urato se encuentra ionizado. Cuando los niveles plasmáticos o del líquido articular superan el límite de solubilidad físico-química (~6.8 mg/dL a 37 °C, disminuyendo en extremidades distales frías como la primera articulación metatarsofalángica), precipita formando cristales de monourato sódico (UMS). Los leucocitos polimorfonucleares (neutrófilos) fagocitan los cristales; las hidrolasas ácidas lisosómicas no pueden degradarlos y se produce la rotura de la membrana lisosómica con activación masiva del inflamasoma NLRP3, liberación de IL-1β y leucotrieno B4, reclutando más neutrófilos y perpetuando la sinovitis destructiva aguda.',
+    diagnosticIndication: 'Diagnóstico confirmatorio de certeza (Gold Standard) ante monoartritis aguda severa en primera articulación metatarsofalángica o rodilla.',
+    falsePositivesNegatives: {
+      falsePositives: ['Ninguno ante operador experimentado en microscopía de luz polarizada con compensador rojo de primer orden'],
+      falseNegatives: ['Artrocentesis fallida con aspiración de volumen insuficiente o lavado articular previo']
+    },
+    discriminatoryContexts: [
+      'Diferencia categóricamente la Gota (agujas con birrefringencia negativa intensa) de la Pseudogota (cristales romboidales de pirofosfato cálcico dihidratado con birrefringencia positiva débil) y de la Artritis Séptica.'
+    ]
   }
 ];

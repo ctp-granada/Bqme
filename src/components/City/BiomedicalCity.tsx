@@ -28,7 +28,9 @@ import {
   ChevronRight,
   ExternalLink,
   Play,
-  Gamepad2
+  Gamepad2,
+  Coins,
+  Wallet
 } from 'lucide-react';
 
 interface BiomedicalCityProps {
@@ -39,6 +41,7 @@ interface BiomedicalCityProps {
   userProgress: UserProgress;
   cases: ClinicalCase[];
   onAddXP?: (amount: number) => void;
+  onEarnBudget?: (amount?: number) => void;
   onRechargeLife?: (amount?: number) => void;
 }
 
@@ -91,6 +94,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
   userProgress,
   cases,
   onAddXP,
+  onEarnBudget,
   onRechargeLife
 }) => {
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictId>(null);
@@ -206,9 +210,9 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
 
             {/* Quick Status Pill */}
             <div className="bg-slate-800/90 border border-slate-700/80 rounded-xl px-3.5 py-2 flex items-center gap-3 text-xs text-slate-200">
-              <div className="flex items-center gap-1.5">
-                <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
-                <span className="font-bold text-white">{userProgress.lives}/{userProgress.maxLives}</span>
+              <div className="flex items-center gap-1.5" title="Fondos y Presupuesto de Guardia">
+                <Coins className="w-3.5 h-3.5 text-amber-400" />
+                <span className="font-bold text-white">{userProgress.budget}% Fondos</span>
               </div>
               <div className="h-3 w-px bg-slate-700" />
               <div className="flex items-center gap-1.5">

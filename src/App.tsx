@@ -233,7 +233,7 @@ export default function App() {
   // Game over state
   const [isGuardiaOver, setIsGuardiaOver] = useState(false);
 
-  // Reset Guardia (restore hearts & budget)
+  // Reset Guardia (restore budget to initial funds)
   const handleResetGuardia = () => {
     setUserProgress((prev) => ({
       ...prev,
@@ -244,16 +244,18 @@ export default function App() {
     setIsGuardiaOver(false);
   };
 
-  // Recharge lives through park minigames
-  const handleRechargeLife = (amount: number = 1) => {
-    setUserProgress((prev) => {
-      const maxL = prev.maxLives || 3;
-      return {
-        ...prev,
-        lives: Math.min(maxL, prev.lives + amount)
-      };
-    });
+  // Earn budget/money through park minigames
+  const handleEarnBudget = (amount: number = 20) => {
+    setUserProgress((prev) => ({
+      ...prev,
+      budget: Math.min(200, prev.budget + amount)
+    }));
     setIsGuardiaOver(false);
+  };
+
+  // Backward compatibility alias
+  const handleRechargeLife = (amount: number = 1) => {
+    handleEarnBudget(amount * 20);
   };
 
   // Add bonus XP from park minigames and extra activities
@@ -275,6 +277,16 @@ export default function App() {
       }));
     }
     setIsLibraryOverlayOpen(true);
+  };
+
+  // Deduct budget for parameter consultation during challenge
+  const handleDeductBudget = (amount: number, _reason?: string) => {
+    setUserProgress((prev) => ({
+      ...prev,
+      budget: Math.max(0, prev.budget - amount),
+      libraryConsultations: prev.libraryConsultations + 1
+    }));
+    setConsultedLibraryInCurrentChallenge(true);
   };
 
   // Handle challenge answer submission
@@ -312,7 +324,7 @@ export default function App() {
       earned = Math.max(0, earned - 10);
     }
 
-    let livesAfter = userProgress.lives;
+    let budgetAfter = userProgress.budget;
     let newlyEarnedBadge: SystemBadge | null = null;
 
     // Update progress state
@@ -325,16 +337,13 @@ export default function App() {
       const newScore = prev.score + earned;
       const newXP = (prev.xp || prev.score) + earned;
 
-      // Lives and budget changes
-      const newLives = isCorrect ? prev.lives : Math.max(0, prev.lives - 1);
-      livesAfter = newLives;
-
       let newBudget = prev.budget;
       if (isCorrect) {
-        newBudget = Math.min(100, prev.budget + 5); // +5% reward for correct diagnostic test
+        newBudget = Math.min(200, prev.budget + 5); // +5% reward for correct diagnostic test
       } else {
         newBudget = Math.max(0, prev.budget - 15); // -15% penalty for wrong diagnostic order
       }
+      budgetAfter = newBudget;
 
       // Update system stats
       const sys = activeCase.system;
@@ -371,7 +380,7 @@ export default function App() {
         ...prev,
         score: newScore,
         xp: newXP,
-        lives: newLives,
+        lives: prev.lives,
         budget: newBudget,
         casesAttempted: newAttempted,
         casesCorrect: newCorrect,
@@ -405,8 +414,8 @@ export default function App() {
       dailyTimerIntervalRef.current = null;
     }
 
-    // Check if Guardia is Over (0 lives)
-    if (!isCorrect && livesAfter <= 0) {
+    // Check if Guardia is Over (0 budget / fondos agotados)
+    if (!isCorrect && budgetAfter <= 0) {
       setIsGuardiaOver(true);
     } else {
       // Trigger immediate feedback modal
@@ -464,7 +473,7 @@ export default function App() {
       earned -= 10;
     }
 
-    let livesAfter = userProgress.lives;
+    let budgetAfter = userProgress.budget;
     let newlyEarnedBadge: SystemBadge | null = null;
 
     setUserProgress((prev) => {
@@ -479,15 +488,9 @@ export default function App() {
       // Deduct order cost from budget, but reward correct diagnostic performance
       let newBudget = Math.max(0, prev.budget - evalResult.totalBudgetCost);
       if (isFullyCorrect) {
-        newBudget = Math.min(100, newBudget + 10); // Refund bonus for accurate protocol
+        newBudget = Math.min(200, newBudget + 10); // Refund bonus for accurate protocol
       }
-
-      // Lives handling
-      let newLives = prev.lives;
-      if (!isFullyCorrect && !isPartiallyCorrect) {
-        newLives = Math.max(0, prev.lives - 1);
-      }
-      livesAfter = newLives;
+      budgetAfter = newBudget;
 
       // Update system stats
       const sys = activeCase.system;
@@ -516,7 +519,7 @@ export default function App() {
         ...prev,
         score: newScore,
         xp: newXP,
-        lives: newLives,
+        lives: prev.lives,
         budget: newBudget,
         casesAttempted: newAttempted,
         casesCorrect: newCorrect,
@@ -549,7 +552,7 @@ export default function App() {
       dailyTimerIntervalRef.current = null;
     }
 
-    if (!isFullyCorrect && !isPartiallyCorrect && livesAfter <= 0) {
+    if (budgetAfter <= 0) {
       setIsGuardiaOver(true);
     } else {
       const nextStreak = isFullyCorrect ? userProgress.streak + 1 : 0;
@@ -686,6 +689,7 @@ export default function App() {
             isDailyTimerExpired={isDailyTimerExpired}
             onDailyTimerExpire={() => setIsDailyTimerExpired(true)}
             onOpenLibraryModal={handleOpenLibraryInChallenge}
+            onDeductBudget={handleDeductBudget}
             onSubmitAnswer={handleSubmitAnswer}
             onSubmitLabOrder={handleSubmitLabOrder}
             consultedLibrary={consultedLibraryInCurrentChallenge}
@@ -708,6 +712,7 @@ export default function App() {
           <InteractiveLabsContainer
             initialLab={activeModule === 'juegos' ? 'juegos' : selectedInitialLab}
             userProgress={userProgress}
+            onEarnBudget={handleEarnBudget}
             onRechargeLife={handleRechargeLife}
             onAddBonusXP={handleAddBonusXP}
             onNavigate={(mod) => setActiveModule(mod)}

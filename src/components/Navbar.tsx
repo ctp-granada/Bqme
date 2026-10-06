@@ -23,7 +23,9 @@ import {
   ArrowLeft,
   Trees,
   Gamepad2,
-  Trophy
+  Trophy,
+  Coins,
+  Wallet
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -281,9 +283,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }`}
                   >
                     <Gamepad2 className="w-3.5 h-3.5" />
-                    <span>Minijuegos & Vidas</span>
+                    <span>Minijuegos & Dinero</span>
                     <span className="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-white text-emerald-700 border border-emerald-300">
-                      +1 ❤️
+                      +💰 Dinero
                     </span>
                   </button>
 
@@ -350,26 +352,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Right: Gamification Status */}
             <div className="flex items-center justify-end gap-2 sm:gap-2.5 shrink-0">
-              {/* Challenge Mode Live Status: Hearts & Streak */}
+              {/* Challenge Mode Live Status: Budget Funds & Streak */}
               {activeModule === 'desafio' && (
                 <>
                   <div 
-                    className="bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs" 
-                    title="Vidas del Paciente (3 vidas por guardia médica)"
+                    className={`border px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs ${
+                      userProgress.budget < 30
+                        ? 'bg-rose-50 border-rose-200 text-rose-800'
+                        : 'bg-amber-50/80 border-amber-200 text-amber-900'
+                    }`} 
+                    title="Fondos y Presupuesto de Guardia (Gana más dinero jugando en el Parque)"
                   >
-                    <span className="text-[10px] font-bold text-slate-600 uppercase tracking-tight hidden sm:inline">Vidas:</span>
-                    <div className="flex items-center gap-0.5">
-                      {[1, 2, 3].map((h) => (
-                        <Heart
-                          key={h}
-                          className={`w-3.5 h-3.5 transition-all ${
-                            h <= userProgress.lives
-                              ? 'text-rose-500 fill-rose-500'
-                              : 'text-slate-300 fill-slate-200 opacity-50'
-                          }`}
-                        />
-                      ))}
-                    </div>
+                    <Coins className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="text-[10px] font-bold uppercase tracking-tight hidden sm:inline">Fondos:</span>
+                    <span className="text-xs font-black font-mono">{userProgress.budget}%</span>
                   </div>
 
                   {userProgress.streak > 0 && (

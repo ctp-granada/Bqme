@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ClinicalCase } from '../../types';
-import { X, User, Activity, FileText, Heart, AlertCircle, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { X, User, Activity, FileText, Heart, AlertCircle, Sparkles, ArrowRight, CheckCircle2, GraduationCap, ChevronDown, ChevronUp, BookOpen } from 'lucide-react';
 
 interface CaseDetailModalProps {
   caseData: ClinicalCase | null;
@@ -13,6 +13,8 @@ export const CaseDetailModal: React.FC<CaseDetailModalProps> = ({
   onClose,
   onStartChallenge
 }) => {
+  const [showGlossary, setShowGlossary] = useState(true);
+
   if (!caseData) return null;
 
   return (
@@ -55,6 +57,69 @@ export const CaseDetailModal: React.FC<CaseDetailModalProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Student Guidance & Clinical Glossary Card */}
+          {(caseData.studentSummary || caseData.clinicalGlossary || caseData.biochemicalConceptSimple) && (
+            <div className="bg-emerald-50/60 border border-emerald-200/90 rounded-xl p-4.5 space-y-3.5 shadow-2xs">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-900 border border-emerald-300 flex items-center gap-1.5">
+                  <GraduationCap className="w-4 h-4 text-emerald-700" />
+                  Guía Didáctica y Glosario Clínico
+                </span>
+              </div>
+
+              {caseData.studentSummary && (
+                <div className="bg-white/90 rounded-lg p-3 border border-emerald-100/90">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-900 block mb-1">
+                    Orientación Clínica del Caso
+                  </span>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                    {caseData.studentSummary}
+                  </p>
+                </div>
+              )}
+
+              {caseData.biochemicalConceptSimple && (
+                <div className="bg-white/90 rounded-lg p-3 border border-emerald-100/90">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-900 block mb-1">
+                    Mecanismo Bioquímico y Fisiopatológico:
+                  </span>
+                  <p className="text-xs text-slate-700 font-mono leading-relaxed bg-emerald-50/40 p-2.5 rounded border border-emerald-100">
+                    {caseData.biochemicalConceptSimple}
+                  </p>
+                </div>
+              )}
+
+              {caseData.clinicalGlossary && caseData.clinicalGlossary.length > 0 && (
+                <div className="space-y-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowGlossary(!showGlossary)}
+                    className="w-full flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-emerald-900 hover:text-emerald-950 cursor-pointer"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-emerald-700" />
+                      Glosario de Términos Médicos del Caso ({caseData.clinicalGlossary.length})
+                    </span>
+                    <span className="text-xs text-emerald-700 flex items-center gap-0.5">
+                      {showGlossary ? <>Ocultar <ChevronUp className="w-3.5 h-3.5" /></> : <>Ver definiciones <ChevronDown className="w-3.5 h-3.5" /></>}
+                    </span>
+                  </button>
+
+                  {showGlossary && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                      {caseData.clinicalGlossary.map((item, idx) => (
+                        <div key={idx} className="bg-white p-2.5 rounded-lg border border-emerald-200/70 shadow-2xs text-xs">
+                          <span className="font-bold text-emerald-950 block mb-0.5">{item.term}</span>
+                          <span className="text-slate-600 text-[11px] leading-snug block">{item.simpleDefinition}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Molecular Signaling Pathway Section (Docencia Departamental) */}
           {caseData.molecularPathway && (

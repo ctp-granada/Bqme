@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshCw, Heart, AlertTriangle, ShieldAlert, Gamepad2 } from 'lucide-react';
+import { RefreshCw, Wallet, AlertTriangle, ShieldAlert, Gamepad2, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface GuardiaOverModalProps {
@@ -23,24 +23,24 @@ export const GuardiaOverModal: React.FC<GuardiaOverModalProps> = ({
         className="bg-white max-w-md w-full rounded-2xl shadow-2xl border border-red-200 overflow-hidden text-center p-6 sm:p-8"
       >
         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto text-red-600 mb-4 animate-bounce">
-          <ShieldAlert className="w-9 h-9 text-red-600" />
+          <Wallet className="w-9 h-9 text-red-600" />
         </div>
 
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">
-          ¡Guardia Médica Finalizada!
+          ¡Presupuesto de Guardia Agotado!
         </h2>
 
         <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-          Has agotado las <strong className="text-red-600">3 Vidas del Paciente</strong> debido a decisiones diagnósticas subóptimas o sobrecostes en el presupuesto de pruebas.
+          Has consumido los <strong className="text-red-600">Fondos Sanitarios (0% restante)</strong> debido al coste acumulado de determinaciones analíticas o penalizaciones por pruebas redundantes.
         </p>
 
-        <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-left">
-          <div className="flex items-center gap-2 text-red-800 font-bold text-xs uppercase mb-2">
-            <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
-            <span>Recuperación o Reinicio Clínico</span>
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-left">
+          <div className="flex items-center gap-2 text-amber-900 font-bold text-xs uppercase mb-1.5">
+            <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+            <span>Refinanciación Asistencial en el Parque</span>
           </div>
-          <p className="text-xs text-red-700 leading-normal">
-            Puedes <strong className="font-semibold">recargar vidas jugando</strong> en el Parque Biomédico (+1 Vida ❤️ por minijuego) o reiniciar directamente la guardia restableciendo tus 3 vidas.
+          <p className="text-xs text-amber-800 leading-normal">
+            Puedes <strong className="font-semibold text-amber-950">ganar más dinero y presupuesto jugando</strong> en el Parque Biomédico (+15% a +30% de fondos por cada minijuego resuelto) o reiniciar directamente tu presupuesto al 100%.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export const GuardiaOverModal: React.FC<GuardiaOverModalProps> = ({
               className="w-full py-3.5 px-6 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold rounded-xl shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm"
             >
               <Gamepad2 className="w-4 h-4 text-white" />
-              <span>Recargar Vidas en el Parque (Minijuegos)</span>
+              <span>Ganar Dinero en el Parque (Minijuegos)</span>
             </button>
           )}
 
@@ -60,7 +60,7 @@ export const GuardiaOverModal: React.FC<GuardiaOverModalProps> = ({
             className="w-full py-3 px-6 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-xs"
           >
             <RefreshCw className="w-3.5 h-3.5 text-slate-600" />
-            <span>Reiniciar Guardia Inmediatamente (3 Vidas)</span>
+            <span>Restablecer Presupuesto Inicial (100% Fondos)</span>
           </button>
         </div>
       </motion.div>

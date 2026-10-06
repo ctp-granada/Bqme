@@ -4,12 +4,13 @@ import { JaundiceSimulatorLab } from './JaundiceSimulatorLab';
 import { HemostasisLab } from './HemostasisLab';
 import { GamesHub } from './GamesHub';
 import { UserProgress, ActiveModule } from '../../types';
-import { RefreshCw, Droplets, FlaskConical, Layers, ArrowLeft, Gamepad2, Heart, Sparkles } from 'lucide-react';
+import { RefreshCw, Droplets, FlaskConical, Layers, ArrowLeft, Gamepad2, Coins, Sparkles } from 'lucide-react';
 
 interface InteractiveLabsContainerProps {
   initialLab?: 'randle' | 'ictericias' | 'hemostasia' | 'juegos';
   onBackToPortal?: () => void;
   userProgress?: UserProgress;
+  onEarnBudget?: (amount?: number) => void;
   onRechargeLife?: (amount?: number) => void;
   onAddBonusXP?: (amount: number, reason: string) => void;
   onNavigate?: (module: ActiveModule) => void;
@@ -19,6 +20,7 @@ export const InteractiveLabsContainer: React.FC<InteractiveLabsContainerProps> =
   initialLab = 'randle',
   onBackToPortal,
   userProgress,
+  onEarnBudget,
   onRechargeLife,
   onAddBonusXP,
   onNavigate = () => {}
@@ -31,7 +33,7 @@ export const InteractiveLabsContainer: React.FC<InteractiveLabsContainerProps> =
     }
   }, [initialLab]);
 
-  const hasLostLives = userProgress ? userProgress.lives < (userProgress.maxLives || 3) : false;
+  const hasLowBudget = userProgress ? userProgress.budget < 30 : false;
 
   return (
     <div className="space-y-6">
@@ -53,7 +55,7 @@ export const InteractiveLabsContainer: React.FC<InteractiveLabsContainerProps> =
             </span>
             <h2 className="text-base font-bold text-slate-900">
               {selectedLab === 'juegos'
-                ? 'Kiosco Lúdico: Minijuegos, Recarga de Vidas y Bonificación'
+                ? 'Kiosco Lúdico: Minijuegos, Ganancia de Dinero y Puntos Extra'
                 : 'Modelos Moleculares y Simuladores Fisiopatológicos'}
             </h2>
           </div>
@@ -70,14 +72,14 @@ export const InteractiveLabsContainer: React.FC<InteractiveLabsContainerProps> =
             }`}
           >
             <Gamepad2 className={`w-3.5 h-3.5 ${selectedLab === 'juegos' ? 'text-white' : 'text-emerald-600'}`} />
-            <span>Minijuegos & Vidas</span>
-            {hasLostLives && (
-              <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+            <span>Minijuegos & Dinero</span>
+            {hasLowBudget && (
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
             )}
-            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-              selectedLab === 'juegos' ? 'bg-emerald-700 text-emerald-100' : 'bg-emerald-100 text-emerald-800'
+            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold flex items-center gap-0.5 ${
+              selectedLab === 'juegos' ? 'bg-emerald-700 text-emerald-100' : 'bg-amber-100 text-amber-800'
             }`}>
-              +1 ❤️
+              +💰 Dinero
             </span>
           </button>
 
@@ -136,6 +138,7 @@ export const InteractiveLabsContainer: React.FC<InteractiveLabsContainerProps> =
             systemStats: { cardiac: { attempted: 0, correct: 0 }, hepatic: { attempted: 0, correct: 0 }, metabolic: { attempted: 0, correct: 0 }, renal: { attempted: 0, correct: 0 }, pancreatic: { attempted: 0, correct: 0 }, neuromuscular: { attempted: 0, correct: 0 } },
             history: []
           }}
+          onEarnBudget={onEarnBudget}
           onRechargeLife={onRechargeLife || (() => {})}
           onAddBonusXP={onAddBonusXP || (() => {})}
           onNavigate={onNavigate}
