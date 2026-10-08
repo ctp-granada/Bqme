@@ -28,14 +28,14 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({ run, onFinishTou
       target: '#tour-gamification-hud',
       placement: 'bottom',
       skipBeacon: true,
-      title: '❤️ Vidas, Presupuesto Sanitario y Racha',
+      title: '💰 Presupuesto Sanitario, Ganancias en el Parque y Racha',
       content: (
         <div className="space-y-2 text-left text-xs leading-relaxed">
           <p>
-            En cada guardia dispones de <strong>3 Vidas del Paciente</strong> y un <strong>100% de Presupuesto Sanitario</strong>.
+            En cada guardia dispones de un <strong>100% de Presupuesto Sanitario (Dinero)</strong> para costear tus determinaciones analíticas y pruebas de urgencia.
           </p>
           <p>
-            Las decisiones acertadas y costo-efectivas incrementan tu racha y bonificación de XP ⚡. Si agotas las vidas por diagnósticos erróneos o sobrecostes innecesarios, deberás reiniciar la guardia médica.
+            Las decisiones acertadas y costo-efectivas optimizan tus fondos y disparan tu racha ⚡. Si necesitas reabastecerte o ganar más dinero, visita el <strong>Parque Lúdico</strong> para jugar al <strong>Rosco Metabólico (Pasapalabra)</strong> y a los minijuegos bioquímicos.
           </p>
         </div>
       )

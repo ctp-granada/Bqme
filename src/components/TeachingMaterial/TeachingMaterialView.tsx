@@ -13,8 +13,14 @@ import {
   Award,
   Layers,
   Search,
-  BookMarked
+  BookMarked,
+  FlaskConical,
+  RefreshCw,
+  Droplets
 } from 'lucide-react';
+import { RandleCycleLab } from '../InteractiveLabs/RandleCycleLab';
+import { JaundiceSimulatorLab } from '../InteractiveLabs/JaundiceSimulatorLab';
+import { HemostasisLab } from '../InteractiveLabs/HemostasisLab';
 
 interface ModuleUnit {
   number: string;
@@ -148,7 +154,8 @@ const QUIZ_QUESTIONS: QuizItem[] = [
 ];
 
 export const TeachingMaterialView: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'temario' | 'seminarios' | 'autoevaluacion' | 'bibliografia' | 'guia'>('temario');
+  const [activeTab, setActiveTab] = useState<'temario' | 'simuladores' | 'seminarios' | 'autoevaluacion' | 'bibliografia' | 'guia'>('temario');
+  const [selectedSimulator, setSelectedSimulator] = useState<'randle' | 'ictericias' | 'hemostasia'>('randle');
   const [selectedModule, setSelectedModule] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
   const [showExplanations, setShowExplanations] = useState<Record<number, boolean>>({});
@@ -194,6 +201,7 @@ export const TeachingMaterialView: React.FC = () => {
       <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 overflow-x-auto">
         {[
           { id: 'temario', label: 'Temario por Módulos', icon: BookOpen },
+          { id: 'simuladores', label: 'Simuladores (Apoyo al Aprendizaje)', icon: FlaskConical },
           { id: 'seminarios', label: 'Seminarios Departamentales', icon: Layers },
           { id: 'autoevaluacion', label: 'Autoevaluación Test (MIR)', icon: HelpCircle },
           { id: 'bibliografia', label: 'Bibliografía Recomendada', icon: BookMarked },
@@ -347,6 +355,77 @@ export const TeachingMaterialView: React.FC = () => {
               )}
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* TAB: SIMULADORES DE APOYO AL APRENDIZAJE (BIBLIOTECA) */}
+      {activeTab === 'simuladores' && (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Header Card */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-900 border border-blue-200 flex items-center gap-1">
+                  <FlaskConical className="w-3 h-3 text-blue-600" />
+                  Biblioteca Médica · Apoyo al Aprendizaje
+                </span>
+                <span className="text-[11px] text-slate-500 font-medium">3 Modelos Fisiopatológicos</span>
+              </div>
+              <h2 className="text-lg font-bold text-slate-900">
+                Simuladores Interactivos de Fisiopatología Molecular
+              </h2>
+              <p className="text-xs text-slate-600 max-w-3xl leading-relaxed">
+                Herramientas docentes dinámicas integradas en la Biblioteca para afianzar el temario oficial del Departamento: 
+                el Ciclo de Randle (competencia de sustratos), el diagnóstico diferencial de Ictericias y la Cascada de Coagulación.
+              </p>
+            </div>
+
+            {/* Selector Buttons */}
+            <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 shrink-0 gap-1">
+              <button
+                onClick={() => setSelectedSimulator('randle')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                  selectedSimulator === 'randle'
+                    ? 'bg-blue-600 text-white shadow-xs font-bold'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-blue-50'
+                }`}
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Ciclo de Randle</span>
+              </button>
+
+              <button
+                onClick={() => setSelectedSimulator('ictericias')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                  selectedSimulator === 'ictericias'
+                    ? 'bg-blue-600 text-white shadow-xs font-bold'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-blue-50'
+                }`}
+              >
+                <FlaskConical className="w-3.5 h-3.5" />
+                <span>Simulador Ictericias</span>
+              </button>
+
+              <button
+                onClick={() => setSelectedSimulator('hemostasia')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                  selectedSimulator === 'hemostasia'
+                    ? 'bg-blue-600 text-white shadow-xs font-bold'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-blue-50'
+                }`}
+              >
+                <Droplets className="w-3.5 h-3.5" />
+                <span>Hemostasia</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Render Active Simulator Component */}
+          <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white p-4 sm:p-6 shadow-xs">
+            {selectedSimulator === 'randle' && <RandleCycleLab />}
+            {selectedSimulator === 'ictericias' && <JaundiceSimulatorLab />}
+            {selectedSimulator === 'hemostasia' && <HemostasisLab />}
           </div>
         </div>
       )}
@@ -549,7 +628,7 @@ export const TeachingMaterialView: React.FC = () => {
               Bioquímica Médica • Grado en Medicina (Universidad de Granada)
             </h2>
             <p className="text-slate-500 text-[11px] mt-1">
-              Código de Asignatura: 2271112 • Carácter: Formación Básica Obligatoria • 6 ECTS • Curso Académico 2025/2026
+              Código de Asignatura: 2271112 • Carácter: Formación Básica Obligatoria • 6 ECTS • Curso Académico 2026/2027 (26-27)
             </p>
           </div>
 

@@ -178,7 +178,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
               </span>
               <span className="text-slate-300">·</span>
               <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
-                Curso 2025/2026
+                Curso 2026/2027 (26-27)
               </span>
             </div>
             

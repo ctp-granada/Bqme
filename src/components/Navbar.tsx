@@ -57,8 +57,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   // Check if user has entered one of the 3 key districts or stats
   const isHospital = activeModule === 'casos' || activeModule === 'desafio';
-  const isLibrary = activeModule === 'docencia' || activeModule === 'biblioteca';
-  const isPark = activeModule === 'laboratorios' || activeModule === 'reto-diario' || activeModule === 'juegos';
+  const isLibrary = activeModule === 'docencia' || activeModule === 'biblioteca' || activeModule === 'laboratorios';
+  const isPark = activeModule === 'reto-diario' || activeModule === 'juegos';
   const isStats = activeModule === 'estadisticas' || activeModule === 'ranking';
   const isInsideKeyPlace = isHospital || isLibrary || isPark || isStats;
 
@@ -263,6 +263,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <BookOpen className="w-3.5 h-3.5" />
                     <span>Vademécum de Biomarcadores</span>
                   </button>
+
+                  <button
+                    onClick={() => setActiveModule('laboratorios')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      activeModule === 'laboratorios'
+                        ? 'bg-blue-600 text-white font-bold shadow-xs'
+                        : 'bg-blue-50/80 text-blue-800 border border-blue-200 hover:bg-blue-100'
+                    }`}
+                  >
+                    <FlaskConical className="w-3.5 h-3.5 text-blue-600" />
+                    <span>Simuladores de Aprendizaje</span>
+                  </button>
                 </div>
               )}
 
@@ -283,22 +295,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }`}
                   >
                     <Gamepad2 className="w-3.5 h-3.5" />
-                    <span>Minijuegos & Dinero</span>
+                    <span>El Rosco & Minijuegos</span>
                     <span className="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-white text-emerald-700 border border-emerald-300">
                       +💰 Dinero
                     </span>
-                  </button>
-
-                  <button
-                    onClick={() => setActiveModule('laboratorios')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                      activeModule === 'laboratorios'
-                        ? 'bg-emerald-600 text-white font-bold shadow-xs'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
-                  >
-                    <FlaskConical className="w-3.5 h-3.5" />
-                    <span>Laboratorios Virtuales</span>
                   </button>
 
                   <button
@@ -458,6 +458,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <BookOpen className="w-4 h-4" />
                 <span className="text-[9px]">Biomarcadores</span>
               </button>
+              <button
+                onClick={() => setActiveModule('laboratorios')}
+                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
+                  activeModule === 'laboratorios' ? 'text-blue-400 font-bold' : 'text-slate-400'
+                }`}
+              >
+                <FlaskConical className="w-4 h-4" />
+                <span className="text-[9px]">Simuladores</span>
+              </button>
             </>
           )}
           {isPark && (
@@ -469,16 +478,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }`}
               >
                 <Gamepad2 className="w-4 h-4" />
-                <span className="text-[9px]">Juegos & ❤️</span>
-              </button>
-              <button
-                onClick={() => setActiveModule('laboratorios')}
-                className={`px-2 py-1 rounded-lg flex flex-col items-center gap-0.5 ${
-                  activeModule === 'laboratorios' ? 'text-emerald-400 font-bold' : 'text-slate-400'
-                }`}
-              >
-                <FlaskConical className="w-4 h-4" />
-                <span className="text-[9px]">Labs</span>
+                <span className="text-[9px]">Rosco & Dinero</span>
               </button>
               <button
                 onClick={() => setActiveModule('reto-diario')}
@@ -487,7 +487,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }`}
               >
                 <Zap className="w-4 h-4" />
-                <span className="text-[9px]">Reto</span>
+                <span className="text-[9px]">Reto 2x</span>
               </button>
             </>
           )}

@@ -127,8 +127,8 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
                   <Stethoscope className="w-3.5 h-3.5 text-rose-400" />
                   <span>Hospital Clínico • Casos de Pacientes</span>
                 </div>
-                <span className="text-[10px] bg-rose-600 px-2 py-0.5 rounded font-black text-white flex items-center gap-0.5">
-                  ENTRAR <ArrowRight className="w-2.5 h-2.5" />
+                <span className="text-[10px] bg-rose-600 px-2.5 py-1 rounded-lg font-black text-white flex items-center gap-1 shadow-xs">
+                  VISITAR HOSPITAL <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
             </div>
@@ -174,8 +174,8 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
                   <BookOpen className="w-3.5 h-3.5 text-blue-400" />
                   <span>Biblioteca Pública • Vademécum & MIR</span>
                 </div>
-                <span className="text-[10px] bg-blue-600 px-2 py-0.5 rounded font-black text-white flex items-center gap-0.5">
-                  CONSULTAR <ArrowRight className="w-2.5 h-2.5" />
+                <span className="text-[10px] bg-blue-600 px-2.5 py-1 rounded-lg font-black text-white flex items-center gap-1 shadow-xs">
+                  VISITAR BIBLIOTECA <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
             </div>
@@ -219,10 +219,10 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
               <div className="flex items-center justify-between">
                 <div className="font-bold text-emerald-300 flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Zona Lúdica • Trivia, Retos & Labs</span>
+                  <span>Zona Lúdica • El Rosco & Minijuegos</span>
                 </div>
-                <span className="text-[10px] bg-emerald-600 px-2 py-0.5 rounded font-black text-white flex items-center gap-0.5">
-                  JUGAR <ArrowRight className="w-2.5 h-2.5" />
+                <span className="text-[10px] bg-emerald-600 px-2.5 py-1 rounded-lg font-black text-white flex items-center gap-1 shadow-xs">
+                  VISITAR PARQUE <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
             </div>
@@ -295,7 +295,7 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
           </div>
 
           <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-rose-600 group-hover:text-rose-700">
-            <span>Acceder a Casos Clínicos</span>
+            <span>Visitar Hospital</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>
@@ -319,7 +319,7 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
                 <BookOpen className="w-6 h-6" />
               </div>
               <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-200">
-                Estudio & Guías MIR
+                Estudio & Simuladores de Apoyo
               </span>
             </div>
 
@@ -331,17 +331,20 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
                 La Biblioteca Médica
               </h3>
               <p className="text-xs font-semibold text-slate-500 mt-0.5">
-                Donde se encuentra el material de apoyo
+                Donde se encuentra el material de apoyo al aprendizaje
               </p>
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
-              Consulta los temarios oficiales del Departamento de Bioquímica y Biología Molecular III e Inmunología (UGR), seminarios, vademécum detallado de biomarcadores con valores de referencia y preguntas tipo test MIR razonadas.
+              Consulta los temarios oficiales del Departamento de Bioquímica y Biología Molecular III e Inmunología (UGR), simuladores cinéticos de apoyo (Ciclo de Randle, Ictericias, Hemostasia), vademécum analítico y preguntas test MIR.
             </p>
 
             <div className="flex items-center gap-2 flex-wrap pt-1">
               <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">
                 Temario Oficial
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">
+                Simuladores (Randle, Ictericia, Sangre)
               </span>
               <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">
                 Vademécum Analítico
@@ -350,7 +353,7 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
           </div>
 
           <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600 group-hover:text-blue-700">
-            <span>Entrar a la Biblioteca</span>
+            <span>Visitar Biblioteca</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>
@@ -374,7 +377,7 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
                 <Trees className="w-6 h-6" />
               </div>
               <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-200">
-                Gamificación & Retos
+                Gamificación & Ganar Dinero 💰
               </span>
             </div>
 
@@ -386,29 +389,29 @@ export const InteractiveCityEntrance: React.FC<InteractiveCityEntranceProps> = (
                 El Parque Lúdico
               </h3>
               <p className="text-xs font-semibold text-slate-500 mt-0.5">
-                Donde poner actividades y juegos
+                Donde jugar al Rosco, ganar dinero y superar retos
               </p>
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
-              Practica con actividades de gamificación: minijuego de trivia bioquímica rápida, Reto Diario contrarreloj de 2 minutos para ganar 2.0x XP, laboratorios interactivos (Ciclo de Randle, Ictericias) y ranking.
+              Practica con actividades de gamificación: El Rosco Metabólico tipo Pasapalabra con 2 niveles (aciertos dan dinero), minijuegos analíticos (+💰 Fondos), Reto Diario contrarreloj 2.0x XP y trivia médica flash.
             </p>
 
             <div className="flex items-center gap-2 flex-wrap pt-1">
               <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">
-                Trivia Médica
+                ⭕ El Rosco Metabólico
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">
+                💰 Minijuegos Dinero
               </span>
               <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">
                 Reto Diario 2x XP
-              </span>
-              <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">
-                3 Labs Virtuales
               </span>
             </div>
           </div>
 
           <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600 group-hover:text-emerald-700">
-            <span>Ir a Juegos y Gamificación</span>
+            <span>Visitar Parque</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { UserProgress, OrganSystem, ActiveModule } from '../../types';
+import { RoscoGame } from './RoscoGame';
 import {
   Heart,
   Zap,
@@ -28,13 +29,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface GamesHubProps {
   userProgress: UserProgress;
+  initialTab?: MinigameTab;
   onEarnBudget?: (amount?: number) => void;
   onRechargeLife?: (amount?: number) => void;
   onAddBonusXP: (amount: number, reason: string) => void;
   onNavigate: (module: ActiveModule) => void;
 }
 
-type MinigameTab = 'trivia' | 'clasificador' | 'memoria';
+type MinigameTab = 'trivia' | 'memoria' | 'rosco';
 
 // 1. DATA: Emergency Quick Questions
 interface EmergencyQuestion {
@@ -230,12 +232,13 @@ const MEMORY_PAIRS: MemoryPair[] = [
 
 export const GamesHub: React.FC<GamesHubProps> = ({
   userProgress,
+  initialTab,
   onEarnBudget,
   onRechargeLife,
   onAddBonusXP,
   onNavigate
 }) => {
-  const [activeTab, setActiveTab] = useState<MinigameTab>('trivia');
+  const [activeTab, setActiveTab] = useState<MinigameTab>(initialTab || 'rosco');
   const [celebrationToast, setCelebrationToast] = useState<{
     show: boolean;
     title: string;
@@ -656,8 +659,9 @@ export const GamesHub: React.FC<GamesHubProps> = ({
         </div>
       </div>
 
-      {/* MINIGAME TABS NAVIGATION */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {/* MINIGAME TABS NAVIGATION: PREGUNTAS, PAREJAS, PASAPALABRA */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+        {/* Tab 1: PREGUNTAS */}
         <button
           onClick={() => setActiveTab('trivia')}
           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden ${
@@ -674,40 +678,16 @@ export const GamesHub: React.FC<GamesHubProps> = ({
               +20% Dinero 💰 • +60 XP
             </span>
           </div>
-          <h3 className="font-bold text-sm text-slate-900">1. Reanimador Bioquímico</h3>
+          <h3 className="font-bold text-sm text-slate-900">1. Preguntas (Reanimador)</h3>
           <p className="text-xs text-slate-500 mt-1 line-clamp-2">
-            Ronda de 3 casos de urgencia con razonamiento fisiopatológico inmediato.
+            Ronda de preguntas de urgencia con razonamiento fisiopatológico inmediato.
           </p>
           {activeTab === 'trivia' && (
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-600" />
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-rose-600" />
           )}
         </button>
 
-        <button
-          onClick={() => setActiveTab('clasificador')}
-          className={`p-4 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden ${
-            activeTab === 'clasificador'
-              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20 shadow-md'
-              : 'bg-white border-slate-200 hover:border-slate-300'
-          }`}
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
-              ⏱️
-            </span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +25% Dinero 💰 • +100 XP
-            </span>
-          </div>
-          <h3 className="font-bold text-sm text-slate-900">2. Clasificador Flash 30s</h3>
-          <p className="text-xs text-slate-500 mt-1 line-clamp-2">
-            Triage analítico contrarreloj: asigna biomarcadores a su sistema orgánico.
-          </p>
-          {activeTab === 'clasificador' && (
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-600" />
-          )}
-        </button>
-
+        {/* Tab 2: PAREJAS */}
         <button
           onClick={() => setActiveTab('memoria')}
           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden ${
@@ -724,15 +704,56 @@ export const GamesHub: React.FC<GamesHubProps> = ({
               +25% Dinero 💰 • +80 XP
             </span>
           </div>
-          <h3 className="font-bold text-sm text-slate-900">3. Parejas Diagnósticas</h3>
+          <h3 className="font-bold text-sm text-slate-900">2. Parejas (Memoria Clínica)</h3>
           <p className="text-xs text-slate-500 mt-1 line-clamp-2">
-            Memoria visual: empareja analíticas clave con sus patologías y mecanismos.
+            Juego de parejas: empareja biomarcadores clave con sus patologías y dianas clínicas.
           </p>
           {activeTab === 'memoria' && (
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600" />
           )}
         </button>
+
+        {/* Tab 3: PASAPALABRA */}
+        <button
+          onClick={() => setActiveTab('rosco')}
+          className={`p-4 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden ${
+            activeTab === 'rosco'
+              ? 'bg-white border-emerald-600 ring-2 ring-emerald-500/20 shadow-md'
+              : 'bg-white border-slate-200 hover:border-slate-300'
+          }`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-sm">
+              ⭕
+            </span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+              +50% Dinero 💰 • +250 XP
+            </span>
+          </div>
+          <h3 className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+            <span>3. Pasapalabra (El Rosco)</span>
+            <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 font-extrabold uppercase">
+              ¡Top!
+            </span>
+          </h3>
+          <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+            Rosco de 25 letras tipo Pasapalabra: escribe el concepto de cada definición y gana dinero.
+          </p>
+          {activeTab === 'rosco' && (
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-600" />
+          )}
+        </button>
       </div>
+
+      {/* ========================================================= */}
+      {/* 0. EL ROSCO METABÓLICO (PASAPALABRA) */}
+      {/* ========================================================= */}
+      {activeTab === 'rosco' && (
+        <RoscoGame
+          onEarnBudget={onEarnBudget}
+          onAddBonusXP={onAddBonusXP}
+        />
+      )}
 
       {/* ========================================================= */}
       {/* 1. TRIVIA REANIMADOR */}

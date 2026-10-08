@@ -35,7 +35,7 @@ import {
 
 interface BiomedicalCityProps {
   onNavigate: (module: ActiveModule) => void;
-  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia' | 'juegos') => void;
+  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia' | 'juegos' | 'rosco') => void;
   onStartChallenge?: (caseData: ClinicalCase) => void;
   onStartDailyChallenge?: () => void;
   userProgress: UserProgress;
@@ -140,8 +140,10 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
       if (onAddXP) {
         onAddXP(25); // Bonus for completion
       }
-      if (onRechargeLife) {
-        onRechargeLife(1); // Recharge life on completing park activities
+      if (onEarnBudget) {
+        onEarnBudget(20); // Earn money in the park
+      } else if (onRechargeLife) {
+        onRechargeLife(1);
       }
     }
   };
@@ -307,6 +309,21 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                 <span className="text-[10px] text-slate-300 font-normal">({cases.length} Casos)</span>
               </span>
             </div>
+
+            {/* Hover Floating Action */}
+            <div className={`absolute bottom-2 left-2 right-2 p-2 rounded-xl bg-slate-950/95 border border-rose-500 text-white text-xs transition-all duration-200 shadow-xl backdrop-blur-md ${
+              hoveredBuilding === 'hospital' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'
+            }`}>
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-rose-300 text-[11px] truncate">Casos Clínicos</span>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onNavigate('casos'); }}
+                  className="text-[10px] bg-rose-600 hover:bg-rose-500 px-2.5 py-1 rounded-lg font-black text-white flex items-center gap-1 shrink-0 cursor-pointer shadow-xs"
+                >
+                  VISITAR HOSPITAL <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Biblioteca Pin */}
@@ -330,8 +347,23 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
               </span>
               <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-white text-xs font-black border border-blue-500/60 backdrop-blur-md">
                 <span className="text-blue-400">BIBLIOTECA</span>
-                <span className="text-[10px] text-slate-300 font-normal">(Materiales)</span>
+                <span className="text-[10px] text-slate-300 font-normal">(Materiales & Labs)</span>
               </span>
+            </div>
+
+            {/* Hover Floating Action */}
+            <div className={`absolute bottom-2 left-2 right-2 p-2 rounded-xl bg-slate-950/95 border border-blue-500 text-white text-xs transition-all duration-200 shadow-xl backdrop-blur-md ${
+              hoveredBuilding === 'biblioteca' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'
+            }`}>
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-blue-300 text-[11px] truncate">Materiales & Labs</span>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onNavigate('docencia'); }}
+                  className="text-[10px] bg-blue-600 hover:bg-blue-500 px-2.5 py-1 rounded-lg font-black text-white flex items-center gap-1 shrink-0 cursor-pointer shadow-xs"
+                >
+                  VISITAR BIBLIOTECA <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -356,8 +388,23 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
               </span>
               <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 text-white text-xs font-black border border-emerald-500/60 backdrop-blur-md">
                 <span className="text-emerald-400">PARQUE</span>
-                <span className="text-[10px] text-slate-300 font-normal">(Juegos)</span>
+                <span className="text-[10px] text-slate-300 font-normal">(Rosco & Dinero 💰)</span>
               </span>
+            </div>
+
+            {/* Hover Floating Action */}
+            <div className={`absolute bottom-2 left-2 right-2 p-2 rounded-xl bg-slate-950/95 border border-emerald-500 text-white text-xs transition-all duration-200 shadow-xl backdrop-blur-md ${
+              hoveredBuilding === 'parque' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'
+            }`}>
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-emerald-300 text-[11px] truncate">Rosco & Dinero 💰</span>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onNavigate('juegos'); }}
+                  className="text-[10px] bg-emerald-600 hover:bg-emerald-500 px-2.5 py-1 rounded-lg font-black text-white flex items-center gap-1 shrink-0 cursor-pointer shadow-xs"
+                >
+                  VISITAR PARQUE <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -469,7 +516,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                 className="flex-1 py-2.5 px-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Stethoscope className="w-3.5 h-3.5" />
-                <span>Entrar al Hospital</span>
+                <span>Visitar Hospital</span>
               </button>
               <button
                 onClick={(e) => {
@@ -532,14 +579,14 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                     <span>Biblioteca Biomédica Central</span>
                   </div>
                   <p className="text-[11px] text-slate-400">
-                    Material de Apoyo, Temario Oficial & Fichas
+                    Material de Apoyo, Temario Oficial & Simuladores
                   </p>
                 </div>
 
                 {/* Status Indicator */}
                 <div className="absolute bottom-2 left-3 flex items-center gap-1.5 text-[10px] text-slate-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                  <span>4 Módulos Oficiales + Vademécum</span>
+                  <span>Temario + 3 Simuladores de Apoyo + Vademécum</span>
                 </div>
               </div>
 
@@ -550,21 +597,21 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                   <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-transform" />
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Espacio académico donde encontrarás el material de apoyo y de estudio: el temario oficial de Bioquímica Médica UGR, banco de preguntas MIR, guías de seminarios y el compendio analítico.
+                  Espacio académico donde encontrarás el material de apoyo al aprendizaje: el temario oficial de Bioquímica Médica UGR, simuladores interactivos (Ciclo de Randle, Ictericias, Hemostasia), vademécum analítico y banco MIR.
                 </p>
               </div>
 
               {/* Facilities / Sub-zones */}
               <div className="space-y-1.5 pt-2 border-t border-slate-800">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                  Salas de Estudio
+                  Materiales de Apoyo al Aprendizaje
                 </span>
                 <div className="grid grid-cols-2 gap-2 text-[11px]">
                   <div className="bg-slate-950 p-2 rounded-xl border border-slate-800/80 text-slate-300">
                     📖 <strong>Temario & Guías:</strong> Docencia
                   </div>
                   <div className="bg-slate-950 p-2 rounded-xl border border-slate-800/80 text-slate-300">
-                    🧬 <strong>Vademécum:</strong> Biomarcadores
+                    ⚗️ <strong>Simuladores:</strong> Randle, Ictericia, Sangre
                   </div>
                 </div>
               </div>
@@ -580,7 +627,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                 className="flex-1 py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <GraduationCap className="w-3.5 h-3.5" />
-                <span>Entrar a la Biblioteca</span>
+                <span>Visitar Biblioteca</span>
               </button>
               <button
                 onClick={(e) => {
@@ -625,7 +672,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
               {/* Landmark Graphic Illustration Box */}
               <div className="relative h-44 rounded-2xl bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-800/80 overflow-hidden flex flex-col items-center justify-center p-4 group-hover:scale-[1.01] transition-transform">
                 <div className="absolute top-3 right-3 flex items-center gap-1 text-[10px] text-emerald-300 font-mono bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50">
-                  <span>PABELLÓN INTERACTIVO</span>
+                  <span>PABELLÓN LÚDICO</span>
                 </div>
 
                 {/* Big Park Visual Symbol */}
@@ -633,9 +680,9 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                   <div className="w-16 h-16 rounded-2xl bg-emerald-950/80 border-2 border-emerald-500/60 flex items-center justify-center text-emerald-400 shadow-lg group-hover:shadow-emerald-500/20 group-hover:border-emerald-400 transition-all">
                     <Trees className="w-9 h-9" />
                   </div>
-                  {/* Beaker / Interactive Labs */}
+                  {/* Gamepad / Games & Rosco */}
                   <div className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-black text-xs shadow-md">
-                    <FlaskConical className="w-4 h-4" />
+                    <Gamepad2 className="w-4 h-4" />
                   </div>
                 </div>
 
@@ -644,14 +691,14 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                     <span>Parque Biomédico & Gamificación</span>
                   </div>
                   <p className="text-[11px] text-slate-400">
-                    Laboratorios Virtuales, Reto Diario & Minijuegos
+                    El Rosco Metabólico, Minijuegos & Ganar Dinero 💰
                   </p>
                 </div>
 
                 {/* Status Indicator */}
                 <div className="absolute bottom-2 left-3 flex items-center gap-1.5 text-[10px] text-slate-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>3 Simuladores Fisiopatológicos</span>
+                  <span>El Rosco (25 Letras) + Minijuegos (+💰 Fondos)</span>
                 </div>
               </div>
 
@@ -662,7 +709,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                   <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition-transform" />
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Zona lúdica donde poner actividades de gamificación: los simuladores cinéticos del Ciclo de Randle, Ictericias y Hemostasia, retos diarios contrarreloj y minijuegos de trivia flash.
+                  Zona lúdica donde poner actividades de gamificación: El Rosco Metabólico tipo Pasapalabra (2 opciones de dificultad para ganar dinero), minijuegos analíticos (+💰 Dinero), el Reto Diario y trivia flash.
                 </p>
               </div>
 
@@ -673,10 +720,10 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                 </span>
                 <div className="grid grid-cols-2 gap-2 text-[11px]">
                   <div className="bg-slate-950 p-2 rounded-xl border border-slate-800/80 text-slate-300">
-                    ⚗️ <strong>Laboratorios:</strong> Randle, Ictericia, Sangre
+                    ⭕ <strong>El Rosco Metabólico:</strong> Pasapalabra 25 letras
                   </div>
                   <div className="bg-slate-950 p-2 rounded-xl border border-slate-800/80 text-slate-300">
-                    ⚡ <strong>Reto Diario & Trivia:</strong> Bonos XP
+                    💰 <strong>Kiosco de Dinero:</strong> Minijuegos analíticos
                   </div>
                 </div>
               </div>
@@ -687,12 +734,12 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onNavigate('laboratorios');
+                  onNavigate('juegos');
                 }}
                 className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <FlaskConical className="w-3.5 h-3.5" />
-                <span>Pabellón de Laboratorios</span>
+                <Trees className="w-3.5 h-3.5" />
+                <span>Visitar Parque</span>
               </button>
               <button
                 onClick={(e) => {
@@ -814,7 +861,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                     Guardia Médica 24h (Desafío)
                   </h4>
                   <p className="text-xs text-slate-400">
-                    Resuelve pacientes consecutivos manteniendo tus 3 vidas y un presupuesto analítico estricto. Obtén multiplicadores por racha continua.
+                    Resuelve pacientes consecutivos administrando tu presupuesto analítico hospitalario y acumulando ganancias en el Parque. Obtén multiplicadores por racha continua.
                   </p>
                   <div className="text-xs font-bold text-rose-400 flex items-center gap-1 pt-1">
                     <span>Iniciar Guardia</span>
@@ -943,6 +990,94 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                   </div>
                 </div>
               </div>
+
+              {/* Materiales de Apoyo al Aprendizaje: Simuladores Interactivos */}
+              <div className="space-y-3 pt-3 border-t border-slate-800/80">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 block">
+                      Materiales de Apoyo al Aprendizaje
+                    </span>
+                    <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
+                      <span>Simuladores Bioquímicos y Modelos Moleculares</span>
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-mono text-slate-400 bg-slate-900 px-2.5 py-0.5 rounded-lg border border-slate-800">
+                    3 Simuladores Oficiales
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Simulator 1: Randle */}
+                  <div 
+                    onClick={() => {
+                      if (onOpenLab) onOpenLab('randle');
+                      onNavigate('laboratorios');
+                    }}
+                    className="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-blue-500/60 transition-all cursor-pointer space-y-2 group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl">🔄</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        Metabolismo
+                      </span>
+                    </div>
+                    <h5 className="text-sm font-bold text-white group-hover:text-blue-400">
+                      El Ciclo de Randle
+                    </h5>
+                    <p className="text-xs text-slate-400">
+                      Competencia glucosa vs ácidos grasos, Malonil-CoA y regulación de la CPT-1 en miocito y adipocito.
+                    </p>
+                    <span className="text-xs font-bold text-blue-400 block pt-1">Abrir Simulador ➔</span>
+                  </div>
+
+                  {/* Simulator 2: Ictericias */}
+                  <div 
+                    onClick={() => {
+                      if (onOpenLab) onOpenLab('ictericias');
+                      onNavigate('laboratorios');
+                    }}
+                    className="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-blue-500/60 transition-all cursor-pointer space-y-2 group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl">🧪</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        Hepatobiliar
+                      </span>
+                    </div>
+                    <h5 className="text-sm font-bold text-white group-hover:text-blue-400">
+                      Simulador de Ictericias
+                    </h5>
+                    <p className="text-xs text-slate-400">
+                      Diagnóstico prehepático, hepático y posthepático con bilirrubina total, directa y enzimas colestásicas.
+                    </p>
+                    <span className="text-xs font-bold text-blue-400 block pt-1">Abrir Simulador ➔</span>
+                  </div>
+
+                  {/* Simulator 3: Hemostasia */}
+                  <div 
+                    onClick={() => {
+                      if (onOpenLab) onOpenLab('hemostasia');
+                      onNavigate('laboratorios');
+                    }}
+                    className="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-blue-500/60 transition-all cursor-pointer space-y-2 group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl">🩸</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                        Hematología
+                      </span>
+                    </div>
+                    <h5 className="text-sm font-bold text-white group-hover:text-blue-400">
+                      Cascada de Hemostasia
+                    </h5>
+                    <p className="text-xs text-slate-400">
+                      Simulación interactiva de TP, TTPa, Fibrinógeno y Dímero D en trastornos protrombóticos y diátesis hemorrágicas.
+                    </p>
+                    <span className="text-xs font-bold text-blue-400 block pt-1">Abrir Simulador ➔</span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -959,124 +1094,45 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
                 <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs sm:text-sm font-bold text-emerald-300">Parque Biomédico & Laboratorios Virtuales</span>
+                    <span className="text-xs sm:text-sm font-bold text-emerald-300">Parque Biomédico & Zona Lúdica</span>
                   </div>
                   <span className="text-[11px] font-mono bg-slate-900/90 text-emerald-200 px-2.5 py-1 rounded-lg border border-emerald-500/40">
-                    3 Simuladores Cinéticos
+                    El Rosco Metabólico, Minijuegos (+💰 Fondos) & Reto
                   </span>
                 </div>
               </div>
 
               <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
-                El Parque Biomédico es la zona lúdica y de gamificación del campus. Aquí aprenderás jugando mediante modelos metabólicos interactivos, desafíos diarios con recompensas de XP dobles y la trivia rápida de enzimas.
+                El Parque Biomédico es la zona lúdica y de gamificación del campus. Aquí ganarás dinero para tus guardias hospitalarias jugando a «El Rosco Metabólico» tipo Pasapalabra, resolviendo minijuegos analíticos rápidos y superando el Reto Diario con bonificador de experiencia.
               </p>
 
-              {/* The 3 Core Interactive Labs from Last Year */}
-              <div className="space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 block">
-                  Pabellón de Laboratorios Virtuales Interactivos
-                </span>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Lab 1: Randle */}
-                  <div 
-                    onClick={() => {
-                      onNavigate('laboratorios');
-                      if (onOpenLab) onOpenLab('randle');
-                    }}
-                    className="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-emerald-500/60 transition-all cursor-pointer space-y-2 group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl">🔄</span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                        Metabolismo
-                      </span>
-                    </div>
-                    <h5 className="text-sm font-bold text-white group-hover:text-emerald-400">
-                      El Ciclo de Randle
-                    </h5>
-                    <p className="text-xs text-slate-400">
-                      Competencia glucosa vs ácidos grasos, Malonil-CoA y regulación de la CPT-1 en miocito y adipocito.
-                    </p>
-                    <span className="text-xs font-bold text-emerald-400 block pt-1">Experimentar en Simulador ➔</span>
-                  </div>
-
-                  {/* Lab 2: Ictericias */}
-                  <div 
-                    onClick={() => {
-                      onNavigate('laboratorios');
-                      if (onOpenLab) onOpenLab('ictericias');
-                    }}
-                    className="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-emerald-500/60 transition-all cursor-pointer space-y-2 group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl">🧪</span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                        Hepatobiliar
-                      </span>
-                    </div>
-                    <h5 className="text-sm font-bold text-white group-hover:text-emerald-400">
-                      Simulador de Ictericias
-                    </h5>
-                    <p className="text-xs text-slate-400">
-                      Diagnóstico prehepático, hepático y posthepático con bilirrubina total, directa, urobilinógeno y enzimas colestásicas.
-                    </p>
-                    <span className="text-xs font-bold text-emerald-400 block pt-1">Experimentar en Simulador ➔</span>
-                  </div>
-
-                  {/* Lab 3: Hemostasia */}
-                  <div 
-                    onClick={() => {
-                      onNavigate('laboratorios');
-                      if (onOpenLab) onOpenLab('hemostasia');
-                    }}
-                    className="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-emerald-500/60 transition-all cursor-pointer space-y-2 group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl">🩸</span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                        Hematología
-                      </span>
-                    </div>
-                    <h5 className="text-sm font-bold text-white group-hover:text-emerald-400">
-                      Cascada de Hemostasia
-                    </h5>
-                    <p className="text-xs text-slate-400">
-                      Simulación interactiva de TP, TTPa, Fibrinógeno y Dímero D en trastornos protrombóticos y diátesis hemorrágicas.
-                    </p>
-                    <span className="text-xs font-bold text-emerald-400 block pt-1">Experimentar en Simulador ➔</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Park Gamification: Daily Challenge, Minijuegos & Trivia Flash Game */}
+              {/* Park Gamification: Rosco, Daily Challenge, Minijuegos & Trivia Flash Game */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                {/* Activity 0: Kiosco de Minijuegos & Recarga de Vidas */}
+                {/* Activity 0: El Rosco Metabólico & Kiosco de Minijuegos */}
                 <div 
                   onClick={() => {
-                    if (onOpenLab) onOpenLab('juegos');
-                    onNavigate('laboratorios');
+                    onNavigate('juegos');
                   }}
-                  className="bg-gradient-to-r from-emerald-900/60 to-slate-950 p-5 rounded-2xl border border-emerald-500/40 hover:border-emerald-400 transition-all cursor-pointer flex flex-col justify-between group shadow-sm"
+                  className="bg-gradient-to-r from-blue-950/70 via-indigo-950/50 to-slate-950 p-5 rounded-2xl border border-blue-500/40 hover:border-blue-400 transition-all cursor-pointer flex flex-col justify-between group shadow-sm ring-1 ring-blue-500/20"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1">
-                        <Heart className="w-3 h-3 text-rose-400 fill-rose-400 animate-pulse" />
-                        Recarga Vidas ❤️
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1">
+                        <Coins className="w-3 h-3 text-amber-400" />
+                        Gana Dinero 💰
                       </span>
-                      <span className="text-xs text-emerald-400 font-mono font-bold">+100 XP Extra</span>
+                      <span className="text-xs text-blue-400 font-mono font-bold">+250 XP Extra</span>
                     </div>
-                    <h4 className="text-base font-bold text-white group-hover:text-emerald-300 flex items-center gap-1.5">
-                      <Gamepad2 className="w-4 h-4 text-emerald-400" />
-                      <span>Minijuegos & Vidas</span>
+                    <h4 className="text-base font-bold text-white group-hover:text-blue-300 flex items-center gap-1.5">
+                      <span className="text-base">⭕</span>
+                      <span>El Rosco Metabólico (Pasapalabra)</span>
                     </h4>
                     <p className="text-xs text-slate-300">
-                      Supera retos rápidos (Reanimador, Clasificador 30s, Parejas) para recuperar corazones de guardia y sumar puntos extra.
+                      Juego de 25 letras tipo Pasapalabra con definición central. 2 opciones de dificultad para ganar fondos de guardia (aciertos suman dinero, fallos 0€).
                     </p>
                   </div>
-                  <div className="pt-4 flex items-center justify-between text-xs font-bold text-emerald-400">
-                    <span>Abrir Minijuegos</span>
+                  <div className="pt-4 flex items-center justify-between text-xs font-bold text-blue-400">
+                    <span>Jugar al Rosco</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
@@ -1232,7 +1288,7 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
           </div>
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-rose-700 block">
-              1. Hospital
+              1. Visitar Hospital
             </span>
             <h4 className="text-sm font-bold text-slate-900 group-hover:text-rose-700">
               Casos Clínicos & Urgencias
@@ -1252,13 +1308,13 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
           </div>
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 block">
-              2. Biblioteca
+              2. Visitar Biblioteca
             </span>
             <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-700">
               Material de Apoyo & Estudio
             </h4>
             <p className="text-xs text-slate-500 line-clamp-1">
-              Temario UGR, guías, seminarios y biomarcadores
+              Temario UGR, Simuladores (Randle, Ictericia, Sangre) y Biomarcadores
             </p>
           </div>
         </div>
@@ -1272,13 +1328,13 @@ export const BiomedicalCity: React.FC<BiomedicalCityProps> = ({
           </div>
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block">
-              3. Parque Lúdico
+              3. Visitar Parque
             </span>
             <h4 className="text-sm font-bold text-slate-900 group-hover:text-emerald-700">
-              Gamificación & Laboratorios
+              El Rosco & Minijuegos de Dinero
             </h4>
             <p className="text-xs text-slate-500 line-clamp-1">
-              Randle, Ictericias, Hemostasia y Reto Diario
+              El Rosco (Pasapalabra 25 letras), Minijuegos (+💰 Fondos) y Reto Diario
             </p>
           </div>
         </div>

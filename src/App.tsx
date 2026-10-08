@@ -37,6 +37,7 @@ import { CourseHome } from './components/Portal/CourseHome';
 import { LandingPage } from './components/LandingPage';
 import { BiomedicalCity } from './components/City/BiomedicalCity';
 import { InteractiveLabsContainer } from './components/InteractiveLabs/InteractiveLabsContainer';
+import { GamesHub } from './components/InteractiveLabs/GamesHub';
 import { TeachingMaterialView } from './components/TeachingMaterial/TeachingMaterialView';
 import { FirebaseHubModal } from './components/Firebase/FirebaseHubModal';
 import { useSupabaseAuth } from './hooks/useSupabaseAuth';
@@ -70,7 +71,7 @@ const DAILY_CHALLENGE_MULTIPLIER = 2.0;    // 2.0x XP
 
 export default function App() {
   const [activeModule, setActiveModule] = useState<ActiveModule>('inicio');
-  const [selectedInitialLab, setSelectedInitialLab] = useState<'randle' | 'ictericias' | 'hemostasia' | 'juegos'>('randle');
+  const [selectedInitialLab, setSelectedInitialLab] = useState<'randle' | 'ictericias' | 'hemostasia'>('randle');
   const [cases, setCases] = useState<ClinicalCase[]>(CLINICAL_CASES_DATABASE);
   const [activeCase, setActiveCase] = useState<ClinicalCase>(CLINICAL_CASES_DATABASE[0]);
 
@@ -630,8 +631,7 @@ export default function App() {
               onOpenStats={() => setActiveModule('estadisticas')}
               onOpenRanking={() => setActiveModule('ranking')}
               onGoToGames={() => {
-                setSelectedInitialLab('juegos');
-                setActiveModule('laboratorios');
+                setActiveModule('juegos');
               }}
             />
             <AdaptiveProgressBanner userProgress={userProgress} />
@@ -643,8 +643,12 @@ export default function App() {
           <LandingPage
             onNavigate={(mod) => setActiveModule(mod)}
             onOpenLab={(lab) => {
-              setSelectedInitialLab(lab);
-              setActiveModule('laboratorios');
+              if (lab === 'randle' || lab === 'ictericias' || lab === 'hemostasia') {
+                setSelectedInitialLab(lab);
+                setActiveModule('laboratorios');
+              } else {
+                setActiveModule('juegos');
+              }
             }}
             userXP={userProgress.xp || userProgress.score}
             completedCasesCount={userProgress.casesCorrect}
@@ -656,14 +660,19 @@ export default function App() {
           <BiomedicalCity
             onNavigate={(mod) => setActiveModule(mod)}
             onOpenLab={(lab) => {
-              setSelectedInitialLab(lab);
-              setActiveModule('laboratorios');
+              if (lab === 'randle' || lab === 'ictericias' || lab === 'hemostasia') {
+                setSelectedInitialLab(lab);
+                setActiveModule('laboratorios');
+              } else {
+                setActiveModule('juegos');
+              }
             }}
             onStartChallenge={handleStartChallenge}
             onStartDailyChallenge={() => handleStartDailyChallenge(dailyCase)}
             userProgress={userProgress}
             cases={cases}
             onAddXP={handleAddBonusXP}
+            onEarnBudget={handleEarnBudget}
             onRechargeLife={handleRechargeLife}
           />
         )}
@@ -707,16 +716,27 @@ export default function App() {
           />
         )}
 
-        {/* Module 4: Interactive Virtual Labs & Minigames Hub */}
-        {(activeModule === 'laboratorios' || activeModule === 'juegos') && (
+        {/* Module 4: Biblioteca - Simuladores de Apoyo al Aprendizaje (Randle, Ictericias, Hemostasia) */}
+        {activeModule === 'laboratorios' && (
           <InteractiveLabsContainer
-            initialLab={activeModule === 'juegos' ? 'juegos' : selectedInitialLab}
+            initialLab={selectedInitialLab}
             userProgress={userProgress}
             onEarnBudget={handleEarnBudget}
             onRechargeLife={handleRechargeLife}
             onAddBonusXP={handleAddBonusXP}
             onNavigate={(mod) => setActiveModule(mod)}
-            onBackToPortal={() => setActiveModule('inicio')}
+            onBackToPortal={() => setActiveModule('docencia')}
+          />
+        )}
+
+        {/* Module Parque: Zona Lúdica & Minijuegos (Preguntas, Parejas, Pasapalabra) */}
+        {activeModule === 'juegos' && (
+          <GamesHub
+            userProgress={userProgress}
+            onEarnBudget={handleEarnBudget}
+            onRechargeLife={handleRechargeLife}
+            onAddBonusXP={handleAddBonusXP}
+            onNavigate={(mod) => setActiveModule(mod)}
           />
         )}
 
@@ -764,7 +784,7 @@ export default function App() {
         <div className="flex items-center gap-4 text-[10px] text-slate-500">
           <span>Departamento de Bioquímica y Biología Molecular III e Inmunología</span>
           <span>•</span>
-          <span>Curso 2025/2026</span>
+          <span>Curso 2026/2027 (26-27)</span>
         </div>
       </footer>
 

@@ -29,13 +29,14 @@ import {
   Gamepad2,
   Heart,
   Trophy,
-  Dices
+  Dices,
+  Coins
 } from 'lucide-react';
 import { CLINICAL_CASES_DATABASE } from '../data/clinicalCases';
 
 interface LandingPageProps {
   onNavigate: (module: ActiveModule) => void;
-  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia' | 'juegos') => void;
+  onOpenLab?: (lab: 'randle' | 'ictericias' | 'hemostasia' | 'juegos' | 'rosco') => void;
   userXP?: number;
   completedCasesCount?: number;
 }
@@ -58,7 +59,7 @@ interface DistrictInfo {
     label: string;
     sublabel: string;
     target: ActiveModule;
-    labType?: 'randle' | 'ictericias' | 'hemostasia' | 'juegos';
+    labType?: 'randle' | 'ictericias' | 'hemostasia' | 'juegos' | 'rosco';
     icon: typeof Stethoscope;
   }>;
   facilities: string[];
@@ -82,7 +83,7 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
     description:
       'Instalación hospitalaria donde atenderás pacientes virtuales con patologías de alta relevancia diagnóstica (síndrome coronario, hepatopatías, cetoacidosis diabética, fracaso renal, pancreatitis). Interpreta anamnesis, solicita biomarcadores específicos gestionando el coste y confirma diagnósticos con retroalimentación inmediata.',
     primaryAction: {
-      label: 'Entrar al Hospital (Ir a Casos Clínicos)',
+      label: 'Visitar Hospital',
       target: 'casos',
       icon: Stethoscope
     },
@@ -131,7 +132,7 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
     description:
       'Centro neurálgico de documentación y consulta. Contiene las guías académicas oficiales del Grado en Medicina (UGR), esquemas de integración metabólica, algoritmos diagnósticos acreditados y el vademécum con más de 40 fichas analíticas con sus rangos de referencia, sensibilidad y especificidad.',
     primaryAction: {
-      label: 'Entrar a la Biblioteca (Ir a Materiales)',
+      label: 'Visitar Biblioteca',
       target: 'docencia',
       icon: BookOpen
     },
@@ -149,14 +150,21 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
         icon: FileText
       },
       {
+        label: 'Simuladores y Apoyo al Aprendizaje',
+        sublabel: 'Ciclo de Randle, Simulador de Ictericias y Hemostasia',
+        target: 'laboratorios',
+        labType: 'randle',
+        icon: FlaskConical
+      },
+      {
         label: 'Banco de Preguntas MIR',
         sublabel: 'Preguntas tipo test de autoevaluación con explicación',
         target: 'docencia',
         icon: GraduationCap
       }
     ],
-    facilities: ['Sala de Lectura e Investigación', 'Hemeroteca de Guías Clínicas', 'Archivo de Biomarcadores', 'Autoevaluación MIR'],
-    stats: '4 Módulos Teóricos • 40+ Biomarcadores',
+    facilities: ['Sala de Lectura e Investigación', 'Simuladores de Apoyo al Aprendizaje', 'Archivo de Biomarcadores', 'Autoevaluación MIR'],
+    stats: '4 Módulos • 3 Simuladores • 40+ Biomarcadores',
     themeColor: {
       accent: 'blue-500',
       border: 'border-blue-500/50',
@@ -167,38 +175,29 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
   },
   parque: {
     id: 'parque',
-    name: 'Parque Biomédico & Laboratorios Virtuales',
-    tagline: 'Espacio lúdico de gamificación, simuladores metabólicos y minijuegos para ganar dinero',
-    badge: 'ZONA LÚDICA • JUEGOS Y SIMULADORES',
+    name: 'Parque Biomédico & Gamificación',
+    tagline: 'Espacio lúdico de gamificación, El Rosco Metabólico y minijuegos para ganar dinero',
+    badge: 'ZONA LÚDICA • JUEGOS Y GANAR DINERO',
     image: '/park_section.jpg',
     description:
-      'Área lúdica interactiva orientada al aprendizaje dinámico. Juega a minijuegos clínicos (Reanimador Bioquímico, Clasificador Flash 30s y Parejas Diagnósticas) para ganar más dinero y presupuesto de guardia (+15% a +30% Fondos 💰) y conseguir puntos extra (+50 a +120 XP). Experimenta además con los simuladores del Ciclo de Randle, Ictericias y Hemostasia, o compite en el Reto Diario con bonificador 2.0x XP.',
+      'Área lúdica interactiva orientada al aprendizaje dinámico y la economía de guardia. Juega a «El Rosco Metabólico» tipo Pasapalabra (25 letras con dos niveles de dificultad) donde los aciertos suman dinero de guardia y los fallos 0€. Supera además los minijuegos de Preguntas Rápidas y Parejas Diagnósticas para acumular fondos hospitalarios (+20% a +50% Fondos 💰) o compite en el Reto Diario con bonificador 2.0x XP.',
     primaryAction: {
-      label: 'Entrar al Parque (Ir a Actividades y Juegos)',
-      target: 'laboratorios',
-      icon: FlaskConical
+      label: 'Visitar Parque',
+      target: 'juegos',
+      icon: Gamepad2
     },
     secondaryActions: [
       {
-        label: 'Minijuegos & Ganancia de Dinero (+💰 Fondos / Extra XP)',
-        sublabel: 'Supera retos rápidos para ganar más dinero y sumar puntos extra',
-        target: 'laboratorios',
-        labType: 'juegos',
+        label: 'El Rosco Metabólico (Tipo Pasapalabra ⭕)',
+        sublabel: '25 letras con definición central: aciertos suman dinero (+2% cada uno)',
+        target: 'juegos',
         icon: Gamepad2
       },
       {
-        label: 'Ciclo de Randle (Glucosa vs Ácidos Grasos)',
-        sublabel: 'Inhibición de CPT-1 por Malonil-CoA y balance energético',
-        target: 'laboratorios',
-        labType: 'randle',
-        icon: FlaskConical
-      },
-      {
-        label: 'Simulador de Ictericias y Bilirrubinas',
-        sublabel: 'Perfil prehepático, hepático y posthepático con coluria',
-        target: 'laboratorios',
-        labType: 'ictericias',
-        icon: FlaskConical
+        label: 'Kiosco de Minijuegos & Ganancia de Dinero (+💰 Fondos)',
+        sublabel: 'Preguntas de urgencia y parejas diagnósticas para ganar fondos',
+        target: 'juegos',
+        icon: Coins
       },
       {
         label: 'Reto Diario Contrarreloj (2 min)',
@@ -207,7 +206,7 @@ const DISTRICT_DETAILS: Record<DistrictId, DistrictInfo> = {
         icon: Zap
       }
     ],
-    facilities: ['Kiosco de Minijuegos & Fondos', 'Pabellón de Laboratorios Virtuales', 'Glorieta del Reto Diario', 'Simulador Fisiopatológico'],
+    facilities: ['El Rosco Metabólico', 'Kiosco de Minijuegos & Fondos', 'Plaza del Reto Diario', 'Trivia de Enzimas'],
     stats: 'Minijuegos (+💰 Fondos) • 3 Labs • 2.0x XP',
     themeColor: {
       accent: 'emerald-500',
@@ -346,7 +345,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 Facultad de Medicina • Universidad de Granada
               </span>
               <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-amber-900 bg-amber-100/70 border border-amber-200/80">
-                Campus de la Salud (PTS) • Curso 2025/2026
+                Campus de la Salud (PTS) • Curso Académico 2026/2027 (26-27)
               </span>
             </div>
 
@@ -422,10 +421,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               }`}
               onMouseEnter={() => setHoveredSpot('hospital')}
               onMouseLeave={() => setHoveredSpot(null)}
-              onClick={() => setSelectedDistrictModal('hospital')}
+              onClick={() => onNavigate('casos')}
               role="button"
               tabIndex={0}
-              aria-label="Elegir en el mapa el Hospital"
+              aria-label="Visitar el Hospital"
             >
               {/* Beacon Pin */}
               <div className="absolute top-4 left-6 flex items-center gap-2 animate-bounce duration-1000">
@@ -460,7 +459,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
                   </div>
                   <span className="text-[10px] bg-rose-600 px-2.5 py-1 rounded-lg font-black text-white shrink-0 flex items-center gap-1">
-                    VER ILUSTRACIÓN <ArrowRight className="w-3 h-3" />
+                    VISITAR HOSPITAL <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
               </div>
@@ -478,10 +477,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               }`}
               onMouseEnter={() => setHoveredSpot('biblioteca')}
               onMouseLeave={() => setHoveredSpot(null)}
-              onClick={() => setSelectedDistrictModal('biblioteca')}
+              onClick={() => onNavigate('docencia')}
               role="button"
               tabIndex={0}
-              aria-label="Elegir en el mapa la Biblioteca"
+              aria-label="Visitar la Biblioteca"
             >
               {/* Beacon Pin */}
               <div className="absolute top-4 left-6 flex items-center gap-2 animate-bounce duration-1000">
@@ -516,7 +515,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
                   </div>
                   <span className="text-[10px] bg-blue-600 px-2.5 py-1 rounded-lg font-black text-white shrink-0 flex items-center gap-1">
-                    VER ILUSTRACIÓN <ArrowRight className="w-3 h-3" />
+                    VISITAR BIBLIOTECA <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
               </div>
@@ -534,10 +533,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               }`}
               onMouseEnter={() => setHoveredSpot('parque')}
               onMouseLeave={() => setHoveredSpot(null)}
-              onClick={() => setSelectedDistrictModal('parque')}
+              onClick={() => onNavigate('juegos')}
               role="button"
               tabIndex={0}
-              aria-label="Elegir en el mapa el Parque"
+              aria-label="Visitar el Parque"
             >
               {/* Beacon Pin */}
               <div className="absolute top-4 left-6 flex items-center gap-2 animate-bounce duration-1000">
@@ -549,7 +548,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
                 <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/90 text-white text-xs font-black shadow-lg border border-emerald-500/60 backdrop-blur-md">
                   <span className="text-emerald-400 font-extrabold">PARQUE</span>
-                  <span className="text-[10px] text-slate-300 font-medium">(Juegos, Dinero 💰 & Labs)</span>
+                  <span className="text-[10px] text-slate-300 font-medium">(Minijuegos & Dinero 💰)</span>
                 </span>
               </div>
 
@@ -568,11 +567,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     />
                     <div className="truncate">
                       <div className="font-bold text-emerald-300 truncate">Parque Lúdico</div>
-                      <div className="text-[10px] text-slate-300">Minijuegos (+Dinero 💰), Labs y Reto</div>
+                      <div className="text-[10px] text-slate-300">Minijuegos (Preguntas, Parejas, Pasapalabra) 💰</div>
                     </div>
                   </div>
                   <span className="text-[10px] bg-emerald-600 px-2.5 py-1 rounded-lg font-black text-white shrink-0 flex items-center gap-1">
-                    VER ILUSTRACIÓN <ArrowRight className="w-3 h-3" />
+                    VISITAR PARQUE <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
               </div>

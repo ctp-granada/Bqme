@@ -57,7 +57,7 @@ export const CourseHome: React.FC<CourseHomeProps> = ({
               Facultad de Medicina • Universidad de Granada (UGR)
             </span>
             <span className="px-3 py-1 rounded-full text-xs font-semibold text-amber-100 bg-amber-900/40 border border-amber-500/30">
-              Campus de la Salud (PTS) • Curso 2025/2026
+              Campus de la Salud (PTS) • Curso Académico 2026/2027 (26-27)
             </span>
           </div>
 
@@ -209,11 +209,11 @@ export const CourseHome: React.FC<CourseHomeProps> = ({
       <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block">
-              Recursos de Éxito • Recomendados por Alumnos UGR
+            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 block">
+              Biblioteca Biomédica • Materiales de Apoyo al Aprendizaje
             </span>
             <h2 className="text-lg sm:text-xl font-bold text-white mt-0.5">
-              Laboratorios Interactivos de Bioquímica Fisiopatológica
+              Simuladores Interactivos de Fisiopatología Molecular (Biblioteca)
             </h2>
           </div>
           <button

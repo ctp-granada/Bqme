@@ -105,7 +105,6 @@ export const ChallengeMode: React.FC<ChallengeModeProps> = ({
     return true;
   };
 
-  const health = getPatientHealth(userProgress.lives);
   const budgetInfo = getBudgetInfo(userProgress.budget);
   const streakInfo = getStreakMultiplier(userProgress.streak);
 
